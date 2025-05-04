@@ -1,14 +1,22 @@
-package game;
+package game.utils;
 
 /**
- * Fancy messages used to print the game title
- * Font obtained from: <a href="https://patorjk.com/software/taag/#p=display&f=Georgia11&t=">link</a>
+ * Fancy ASCII art messages used to display game title and game over screens.
+ * These large text banners provide visual enhancement to the game interface.
+ *
+ * Font obtained from: <a href="https://patorjk.com/software/taag/#p=display&f=Georgia11&t=">patorjk.com Text to ASCII Art Generator</a>
  * Font: Georgia11
+ *
  * @author Adrian Kristanto
  */
 public class FancyMessage {
+
+    /**
+     * ASCII art for the game title "ELDEN THING".
+     * Displayed at the start of the game.
+     */
     public static String TITLE =
-                    "`7MM\"\"\"YMM  `7MMF'      `7MM\"\"\"Yb. `7MM\"\"\"YMM  `7MN.   `7MF'    MMP\"\"MM\"\"YMM `7MMF'  `7MMF'`7MMF'`7MN.   `7MF' .g8\"\"\"bgd  \n" +
+            "`7MM\"\"\"YMM  `7MMF'      `7MM\"\"\"Yb. `7MM\"\"\"YMM  `7MN.   `7MF'    MMP\"\"MM\"\"YMM `7MMF'  `7MMF'`7MMF'`7MN.   `7MF' .g8\"\"\"bgd  \n" +
                     "  MM    `7    MM          MM    `Yb. MM    `7    MMN.    M      P'   MM   `7   MM      MM    MM    MMN.    M .dP'     `M  \n" +
                     "  MM   d      MM          MM     `Mb MM   d      M YMb   M           MM        MM      MM    MM    M YMb   M dM'       `  \n" +
                     "  MMmmMM      MM          MM      MM MMmmMM      M  `MN. M           MM        MMmmmmmmMM    MM    M  `MN. M MM           \n" +
@@ -16,8 +24,12 @@ public class FancyMessage {
                     "  MM     ,M   MM     ,M   MM    ,dP' MM     ,M   M     YMM           MM        MM      MM    MM    M     YMM `Mb.     MM  \n" +
                     ".JMMmmmmMMM .JMMmmmmMMM .JMMmmmdP' .JMMmmmmMMM .JML.    YM         .JMML.    .JMML.  .JMML..JMML..JML.    YM   `\"bmmmdPY  \n";
 
+    /**
+     * ASCII art for the "YOU DIED" message.
+     * Displayed when the game ends.
+     */
     public static String YOU_DIED =
-                    "`YMM'   `MM' .g8\"\"8q. `7MMF'   `7MF'    `7MM\"\"\"Yb. `7MMF'`7MM\"\"\"YMM  `7MM\"\"\"Yb.   \n" +
+            "`YMM'   `MM' .g8\"\"8q. `7MMF'   `7MF'    `7MM\"\"\"Yb. `7MMF'`7MM\"\"\"YMM  `7MM\"\"\"Yb.   \n" +
                     "  VMA   ,V .dP'    `YM. MM       M        MM    `Yb. MM    MM    `7    MM    `Yb. \n" +
                     "   VMA ,V  dM'      `MM MM       M        MM     `Mb MM    MM   d      MM     `Mb \n" +
                     "    VMMP   MM        MM MM       M        MM      MM MM    MMmmMM      MM      MM \n" +
