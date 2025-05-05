@@ -19,5 +19,6 @@ public enum Ability {
      * Represents the ability to cure or heal other entities.
      * This ability is typically given to items that can be used for healing purposes.
      */
-    CURE
+    CURE,
+    EAT_EGG
 }
