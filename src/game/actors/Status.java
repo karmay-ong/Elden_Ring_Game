@@ -33,5 +33,10 @@ public enum Status {
      * Indicates an entity that is under a curse effect.
      * May have various negative effects depending on implementation.
      */
-    CURSED
+    CURSED,
+    /**
+     * Indicates an entity that is under a bless effect.
+     * May have various positive  effects depending on implementation.
+     */
+    BLESSED
 }
