@@ -25,6 +25,7 @@ import java.util.List;
  *
  * @author Adrian Kristanto
  * @author Kian Lok Chin
+ * @author Youssef Ahmed Adel Attia Hassanein
  */
 public class Application {
 
@@ -54,8 +55,8 @@ public class Application {
                 "....xxxxxxxxxxx.........xxx....xxxx.....",
                 "....xxxxxxxxxxx................xxxx.....",
                 "...xxxx...xxxxxx.....#####.....xxx......",
-                "...xxx....xxxxxxx....#___#.....xx.......",
-                "..xxxx...xxxxxxxxx...#___#....xx........",
+                "...xxx....xxxxxxx....#...#.....xx.......",
+                "..xxxx...xxxxxxxxx...#...#....xx........",
                 "xxxxx...xxxxxxxxxx...##_##...xxx.......x",
                 "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
                 "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
@@ -76,14 +77,13 @@ public class Application {
 
         // Create and position the player
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
-        world.addPlayer(player, gameMap.at(23, 10));
+        world.addPlayer(player, gameMap.at(23, 11));
 
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat();
         OmenSheep omenSheep = new OmenSheep();
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
-        gameMap.addActor(omenSheep, gameMap.at(23, 11));
-
+        gameMap.addActor(omenSheep, gameMap.at(23, 10));
         // Add starting items to player's inventory
         player.addItemToInventory(new InheritreeSeed());
         player.addItemToInventory(new BloodroseSeed());

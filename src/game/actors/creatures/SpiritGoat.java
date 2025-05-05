@@ -4,6 +4,7 @@ import edu.monash.fit2099.demo.huntsman.WanderBehaviour;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.behaviours.ReproduceBehaviour;
 import game.behaviours.RottingBehaviour;
 
 /**
@@ -25,6 +26,7 @@ public class SpiritGoat extends Creature{
      */
     public SpiritGoat() {
         super("Spirit Goat\uD83D\uDC10", 'y', 50);
+        this.behaviours.put(0, new ReproduceBehaviour());
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new WanderBehaviour());
     }
