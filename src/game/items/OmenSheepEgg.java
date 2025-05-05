@@ -1,9 +1,4 @@
 package game.items;
-
-import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.creatures.Creature;
 import game.actors.creatures.OmenSheep;
@@ -14,7 +9,6 @@ import game.actors.creatures.OmenSheep;
 public class OmenSheepEgg extends Egg {
 
     private int groundAge = 0;
-    public static final int HEALTH_MAX_INCREASE = 10;
     public static final int MATURITY_AGE_THRESHOLD = 10;
 
     /**
@@ -31,21 +25,8 @@ public class OmenSheepEgg extends Egg {
      */
     @Override
     protected Creature createHatchling() {
+
         return new OmenSheep();
-    }
-
-    /**
-     * Consumes the egg and increases the actor's maximum health.
-     *
-     * @param actor the actor eating the egg
-     * @param map   the game map where the action occurs
-     */
-
-    @Override
-    public void eat(Actor actor, GameMap map) {
-        super.eat(actor, map);
-        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, HEALTH_MAX_INCREASE);
-        System.out.println("Farmer's health is increased by " + HEALTH_MAX_INCREASE);
     }
 
     /**
