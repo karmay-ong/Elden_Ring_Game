@@ -13,6 +13,7 @@ import game.actors.Producible;
 import game.behaviours.ProduceBehaviour;
 import game.behaviours.RottingBehaviour;
 import game.grounds.Inheritree;
+import game.items.OmenSheepEgg;
 
 
 /**
