@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.behaviours.ProduceEggBehaviour;
 import game.behaviours.RottingBehaviour;
 import game.grounds.Inheritree;
 
@@ -27,6 +28,7 @@ public class OmenSheep extends Creature {
      */
     public OmenSheep() {
         super("Omen Sheep\uD83D\uDC11", 'm', 75);
+        this.behaviours.put(0, new ProduceEggBehaviour());
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new WanderBehaviour());
     }

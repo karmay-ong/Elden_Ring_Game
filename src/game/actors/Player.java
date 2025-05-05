@@ -3,6 +3,7 @@ package game.actors;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
@@ -33,7 +34,11 @@ public class Player extends Actor {
         super(name, displayChar, hitPoints);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
+        this.addCapability(Ability.EAT_EGG);
         this.setIntrinsicWeapon(new BareFist());
+    }
+    public void increaseMaxHp (int amount){
+        modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE,amount);
     }
 
     /**
