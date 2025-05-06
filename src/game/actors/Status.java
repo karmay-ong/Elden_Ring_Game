@@ -38,5 +38,6 @@ public enum Status {
      * Indicates an entity that is under a bless effect.
      * May have various positive  effects depending on implementation.
      */
-    BLESSED
+    BLESSED,
+    FOLLOWABLE
 }
