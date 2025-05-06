@@ -6,12 +6,8 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
-import game.actions.CureAction;
-import game.actors.Ability;
-import game.actors.Curable;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,8 +18,7 @@ import java.util.TreeMap;
  *
  * @author Kian Lok Chin
  */
-public abstract class Creature extends Actor implements Curable {
-
+public abstract class Creature extends Actor{
     /**
      * Map of behaviors that determine the creature's actions during its turn
      * The integer key represents the priority of the behavior
@@ -78,14 +73,6 @@ public abstract class Creature extends Actor implements Curable {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
         actions.add(new AttackAction(this, otherActor.getIntrinsicWeapon()));
-
-        Item cureItem;
-        for(Item item : otherActor.getItemInventory()){
-            if (item.hasCapability(Ability.CURE)){
-                cureItem = item;
-                actions.add(new CureAction(this, cureItem, 0));
-            }
-        }
         return actions;
     }
 }
