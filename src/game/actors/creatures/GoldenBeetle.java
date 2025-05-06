@@ -1,11 +1,13 @@
 package game.actors.creatures;
 
 import edu.monash.fit2099.demo.huntsman.WanderBehaviour;
+import edu.monash.fit2099.demo.mars.behaviours.FollowBehaviour;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.Producible;
+import game.actors.Status;
 import game.behaviours.ProduceBehaviour;
 import game.items.Eatable;
 import game.items.GoldenEgg;
@@ -20,6 +22,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     public static final int GOLDEN_BEETLE_HITPOINTS = 25;
     public static final int HEALTH_INCREASE_AFTER_EATEN = 50;
     public static final int BALANCE_INCREASE_AFTER_EATEN = 1000;
+    private Actor followedActor;
     private int eggTimer = 0;
     public static final int EGG_TIMER_THRESHOLD = 5;
 
@@ -28,6 +31,13 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         behaviours = new TreeMap<>();
         behaviours.put(1, new ProduceBehaviour(this));
         behaviours.put(999, new WanderBehaviour());
+    }
+
+    private void startFollowing(Actor toFollow) {
+        if (toFollow != null && toFollow.hasCapability(Status.FOLLOWABLE)) {
+            followedActor = toFollow;
+            behaviours.put(2, new FollowBehaviour(toFollow));
+        }
     }
 
     @Override
