@@ -2,10 +2,12 @@ package game.actors.creatures;
 
 import edu.monash.fit2099.demo.huntsman.WanderBehaviour;
 import edu.monash.fit2099.demo.mars.behaviours.FollowBehaviour;
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.EatAction;
 import game.actors.Producible;
 import game.actors.Status;
 import game.behaviours.ProduceBehaviour;
@@ -62,4 +64,13 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         unconscious(map);
     }
 
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = super.allowableActions(otherActor, direction, map);
+        if (followedActor == null && otherActor.hasCapability(Status.FOLLOWABLE)) {
+            startFollowing(otherActor);
+        }
+        actions.add(new EatAction(otherActor, this));
+        return actions;
+    }
 }
