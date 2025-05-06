@@ -30,7 +30,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
         behaviours = new TreeMap<>();
         behaviours.put(1, new ProduceBehaviour(this));
-        behaviours.put(999, new WanderBehaviour());
+        behaviours.put(3, new WanderBehaviour());
     }
 
     private void startFollowing(Actor toFollow) {
