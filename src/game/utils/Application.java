@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
+import game.actors.conversationalActors.Guts;
+import game.actors.conversationalActors.MerchantKale;
+import game.actors.conversationalActors.Sellen;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
 import game.grounds.Blight;
@@ -83,6 +86,10 @@ public class Application {
         OmenSheep omenSheep = new OmenSheep();
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
         gameMap.addActor(omenSheep, gameMap.at(23, 11));
+
+        gameMap.addActor(new Sellen(), gameMap.at(21, 4));
+        gameMap.addActor(new MerchantKale(), gameMap.at(30, 6));
+        gameMap.addActor(new Guts(), gameMap.at(12, 12));
 
         // Add starting items to player's inventory
         player.addItemToInventory(new InheritreeSeed());
