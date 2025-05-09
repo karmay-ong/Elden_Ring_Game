@@ -1,7 +1,7 @@
 package game.actors.creatures;
 
-import edu.monash.fit2099.demo.huntsman.WanderBehaviour;
-import edu.monash.fit2099.demo.mars.behaviours.FollowBehaviour;
+import game.behaviours.WanderBehaviour;
+import game.behaviours.FollowBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
