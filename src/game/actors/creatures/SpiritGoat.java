@@ -1,6 +1,6 @@
 package game.actors.creatures;
 
-import edu.monash.fit2099.demo.huntsman.WanderBehaviour;
+import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
