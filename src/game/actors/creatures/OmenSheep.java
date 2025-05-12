@@ -21,6 +21,7 @@ import game.items.OmenSheepEgg;
  * The Omen Sheep is represented by 'm' on the game map.
  *
  * @author Kian Lok Chin
+ * Modified By Pemudi Hiruni Halgahawatta Liyanaarachchi
  */
 public class OmenSheep extends Creature implements Producible, Curable {
 

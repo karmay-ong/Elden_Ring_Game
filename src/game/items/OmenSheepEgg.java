@@ -9,6 +9,7 @@ import game.actors.creatures.OmenSheep;
 
 /**
  * OmenSheepEgg: hatches into an OmenSheep after 3 ground-ticks.
+ * @author Pemudi Hiruni Halgahawatta Liyanaarachchi
  */
 public class OmenSheepEgg extends Egg {
 
