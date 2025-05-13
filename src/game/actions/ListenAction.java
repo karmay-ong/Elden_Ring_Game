@@ -38,7 +38,7 @@ public class ListenAction extends Action {
         boxedMonologue.append(border);
         System.out.println(color + boxedMonologue + reset);
 
-        return actor + " listens to " + speaker + ".";
+        return color + boxedMonologue + reset;
     }
 
 

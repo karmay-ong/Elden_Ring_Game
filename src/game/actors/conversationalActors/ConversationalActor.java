@@ -51,8 +51,8 @@ public abstract class ConversationalActor extends Actor {
             }
         }
         if (eligible.isEmpty()) {
-            return "The actor is speechless. Just like how I am suffering from Monash";
-        }
+            return "The actor has nothing to say.";
+        }        
         return eligible.get(rand.nextInt(eligible.size())).getText();
     }
 

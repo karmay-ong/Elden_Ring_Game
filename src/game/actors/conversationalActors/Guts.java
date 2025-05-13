@@ -15,7 +15,7 @@ public class Guts extends ConversationalActor {
         setIntrinsicWeapon(new BareFist());
         behaviours = new TreeMap<>();
         behaviours.put(1, new AttackBehaviour());
-        behaviours.put(3, new WanderBehaviour());
+        behaviours.put(999, new WanderBehaviour());
     }
     @Override
     protected void initMonologues() {
