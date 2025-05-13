@@ -2,6 +2,7 @@ package game.items;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.creatures.Creature;
@@ -45,7 +46,7 @@ public class OmenSheepEgg extends Egg {
     public void eat(Actor actor, GameMap map) {
         super.eat(actor, map);
         actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, HEALTH_MAX_INCREASE);
-        System.out.println("Farmer's health is increased by " + HEALTH_MAX_INCREASE);
+        new Display().println("Farmer's health is increased by " + HEALTH_MAX_INCREASE);
     }
 
     /**
