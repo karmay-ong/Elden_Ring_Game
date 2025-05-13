@@ -7,6 +7,7 @@ import game.actors.Producible;
 
 /**
  * An action that allows a Producible actor to produce offspring or items.
+ * @author YOUSSEF HASSANEIN
  */
 public class ProduceAction extends Action {
 

@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.Location;
 /**
  * Utility class to check if any adjacent square to a Location contains
  * a ground, actor, or item that has a specific capability.
+ * @author YOUSSEF HASSANEIN
  */
 public class AdjacentCapabilityChecker {
 

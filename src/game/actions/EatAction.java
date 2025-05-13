@@ -5,6 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.Eatable;
 
+/**
+ * Action that allows an Actor to consume an eatable item
+ * @author YOUSSEF HASSANEIN
+ */
 
 public class EatAction extends Action {
 

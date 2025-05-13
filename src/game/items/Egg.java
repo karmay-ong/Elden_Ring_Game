@@ -13,6 +13,7 @@ import game.actors.creatures.Creature;
  * Abstract base for all eggs that can hatch into different creatures
  * under customizable conditions.  Eggs are EATABLE and pause hatching
  * while carried.
+ * @author YOUSSEF HASSANEIN
  */
 public abstract class Egg extends Item implements Eatable {
 

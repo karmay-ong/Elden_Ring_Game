@@ -16,6 +16,7 @@ package game.actors;
  * @author Riordan D. Alfredo
  * @author Kian Lok Chin
  * Modified by: Kar May Ong
+ * Modified by: YOUSSEF HASSANEIN
  */
 public enum Status {
     /**

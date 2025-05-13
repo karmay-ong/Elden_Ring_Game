@@ -24,6 +24,7 @@ import game.utils.AdjacentCapabilityChecker;
  * The Spirit Goat is represented by 'y' on the game map.
  *
  * @author Kian Lok Chin
+ * @author YOUSSEF HASSANEIN
  */
 public class SpiritGoat extends Creature implements Producible, Curable {
 
@@ -45,7 +46,14 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     public void cure(Actor actor, GameMap map, Item cureItem) {
         countdownTimer = 10;
     }
-
+    /**
+     * Determines whether the Spirit Goat can produce offspring,
+     * which is true if there is a BLESSED Status capability nearby.
+     *
+     * @param producer the actor attempting to produce
+     * @param map      the game map
+     * @return true if the goat is adjacent to a blessed tile or entity
+     */
     @Override
     public boolean canProduce(Actor producer, GameMap map) {
         Location here = map.locationOf(this);
@@ -64,7 +72,12 @@ public class SpiritGoat extends Creature implements Producible, Curable {
         }
         return actions;
     }
-
+    /**
+     * Spawns a new Spirit Goat in a random adjacent, unoccupied, and accessible tile.
+     *
+     * @param producer the actor initiating the production
+     * @param map      the game map
+     */
     @Override
     public void produce(Actor producer, GameMap map) {
         Location here = map.locationOf(this);
