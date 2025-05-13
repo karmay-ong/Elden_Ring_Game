@@ -18,11 +18,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
+/**
+ * A ConversationalActor implementing Merchant, with a variety of unique offers that grant effects
+ * such as healing or spawning creatures. Provides lore-focused monologues.
+ *
+ * @author Lim Chi Jian
+ * @version ver1.0.0
+ */
 public class Sellen extends ConversationalActor implements Merchant {
     public final static int SELLEN_HITPOINTS = 150;
     private List<Offer> offers;
 
-
+    /**
+     * Constructs a new Sellen with predefined offers and wandering behaviour.
+     */
     public Sellen() {
         super("Sellen\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDE92", 's', SELLEN_HITPOINTS);
         behaviours = new TreeMap<>();
@@ -36,12 +45,23 @@ public class Sellen extends ConversationalActor implements Merchant {
                             new MaxStaminaEffect(20, ActorAttributeOperations.INCREASE))));
     }
 
+    /**
+     * Initializes merchant-specific monologues with lore hints about glintstones and exile.
+     */
     @Override
     protected void initMonologues() {
         addMonologue("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
         addMonologue("You sense it too, don’t you? The Glintstone hums, even now.");
     }
 
+    /**
+     * Returns allowable actions including purchasing available offers.
+     *
+     * @param otherActor the actor interacting with this merchant
+     * @param direction  the direction of the other actor
+     * @param map        the game map
+     * @return the ActionList including purchase options
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor ,direction, map);
@@ -51,6 +71,11 @@ public class Sellen extends ConversationalActor implements Merchant {
         return actions;
     }
 
+    /**
+     * Adds a new trade offer to this merchant's list.
+     *
+     * @param offer the Offer to be added
+     */
     @Override
     public void addOffer(Offer offer) {
         offers.add(offer);
