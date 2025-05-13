@@ -18,7 +18,14 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * An Actor that can be listened to by other Actors.
+ * An abstract Actor that can engage in conversation by providing monologues.
+
+ * Stores a list of Monologue objects, each with an associated Condition that
+ * determines its eligibility. Allows other actors to listen and initiates
+ * behaviours when not engaged in conversation.
+ *
+ * @author Lim Chi Jian
+ * @version ver1.0.0
  */
 public abstract class ConversationalActor extends Actor {
     private List<Monologue> monologues = new ArrayList<>();
@@ -26,23 +33,52 @@ public abstract class ConversationalActor extends Actor {
 
     protected Map<Integer, Behaviour> behaviours;
 
-
+    /**
+     * Constructs a new ConversationalActor with the specified name, display character,
+     * and hit points, then initializes its monologues.
+     *
+     * @param name        the name of this actor
+     * @param displayChar the character representing this actor in the display
+     * @param hitPoints   the starting hit points of this actor
+     */
     public ConversationalActor(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
         initMonologues();
     }
 
+    /**
+     * Abstract method for initializing this actor's monologues.
+     * Implementations should use addMonologue(String) or
+     * addMonologue(String, Condition) to populate the monologues list.
+     */
     protected abstract void initMonologues();
 
+    /**
+     * Adds a monologue with no condition (always eligible).
+     *
+     * @param text the text of the monologue
+     */
     protected void addMonologue(String text) {
         monologues.add(new Monologue(text, Condition.ALWAYS));
     }
 
-
+    /**
+     * Adds a monologue that is only eligible when the specified condition holds.
+     *
+     * @param text      the text of the monologue
+     * @param condition the condition under which this monologue is eligible
+     */
     protected void addMonologue(String text, Condition condition) {
         monologues.add(new Monologue(text, condition));
     }
 
+    /**
+     * Selects a random eligible monologue based on the listener and game map context.
+     *
+     * @param listener the actor listening to this conversational actor
+     * @param map      the game map where the conversation occurs
+     * @return a random eligible monologue text, or a default message if none are available
+     */
     public String getRandomMonologue(Actor listener, GameMap map) {
         List<Monologue> eligible = new ArrayList<>();
         for (Monologue m : monologues) {
@@ -56,7 +92,15 @@ public abstract class ConversationalActor extends Actor {
         return eligible.get(rand.nextInt(eligible.size())).getText();
     }
 
-
+    /**
+     * Returns the list of actions that another actor can perform on this conversational actor,
+     * including listening and attacking.
+     *
+     * @param otherActor the actor interacting with this conversational actor
+     * @param direction  the direction of the other actor relative to this actor
+     * @param map        the game map
+     * @return the ActionList of allowable actions
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor, direction, map);
@@ -65,6 +109,16 @@ public abstract class ConversationalActor extends Actor {
         return actions;
     }
 
+    /**
+     * Chooses and returns the next action for this actor, based on its behaviours.
+     * Defaults to doing nothing if no behaviour returns a non-null action.
+     *
+     * @param actions    the list of actions currently available (ignored)
+     * @param lastAction the last action performed by this actor (ignored)
+     * @param map        the game map
+     * @param display    the display interface
+     * @return the chosen Action, or a DoNothingAction if no behaviours apply
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         for (Behaviour behaviour : behaviours.values()) {
