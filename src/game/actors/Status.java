@@ -15,6 +15,7 @@ package game.actors;
  *
  * @author Riordan D. Alfredo
  * @author Kian Lok Chin
+ * Modified by: Kar May Ong
  */
 public enum Status {
     /**
@@ -36,8 +37,12 @@ public enum Status {
     CURSED,
     /**
      * Indicates an entity that is under a bless effect.
-     * May have various positive  effects depending on implementation.
+     * May have various positive effects depending on implementation.
      */
     BLESSED,
+    /**
+     * Indicates an entity that can be followed by other actors.
+     * Typically applied on the player.
+     */
     FOLLOWABLE
 }
