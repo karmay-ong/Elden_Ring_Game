@@ -19,6 +19,9 @@ import game.actors.Status;
  */
 public class Inheritree extends Ground implements Plantable {
 
+    /**
+     * The minimum energy required to plant an Inheritree
+     */
     public final static int MIN_ENERGY_TO_PLANT = 25;
 
     /**
@@ -62,11 +65,27 @@ public class Inheritree extends Ground implements Plantable {
             }
         }
     }
+
+    /**
+     * Returns the energy required to plant an Inheritree
+     *
+     * @return The minimum energy required to plant an Inheritree
+     */
     @Override
     public int getEnergyToPlant() {
         return MIN_ENERGY_TO_PLANT;
     }
 
+    /**
+     * Plants an Inheritree at the specified location
+     * When planted, the Inheritree also purifies any adjacent cursed ground,
+     * turning it into soil
+     *
+     * @param actor The actor planting the Inheritree
+     * @param location The location where the Inheritree will be planted
+     * @param map The game map
+     * @return A string describing the planting action
+     */
     @Override
     public String plant(Actor actor, Location location, GameMap map) {
         location.setGround(this);

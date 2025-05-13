@@ -16,6 +16,9 @@ import edu.monash.fit2099.engine.positions.Location;
  */
 public class Bloodrose extends Ground implements Plantable {
 
+    /**
+     * The minimum energy required to plant a Bloodrose
+     */
     public final static int MIN_ENERGY_TO_PLANT = 25;
 
     /**
@@ -53,11 +56,25 @@ public class Bloodrose extends Ground implements Plantable {
         }
     }
 
+    /**
+     * Returns the energy required to plant a Bloodrose
+     *
+     * @return The minimum energy required to plant a Bloodrose
+     */
     @Override
     public int getEnergyToPlant() {
         return MIN_ENERGY_TO_PLANT;
     }
 
+    /**
+     * Plants a Bloodrose at the specified location
+     * The actor planting the Bloodrose takes 5 damage
+     *
+     * @param actor The actor planting the Bloodrose
+     * @param location The location where the Bloodrose will be planted
+     * @param map The game map
+     * @return A string describing the planting action
+     */
     @Override
     public String plant(Actor actor, Location location, GameMap map) {
         location.setGround(this);

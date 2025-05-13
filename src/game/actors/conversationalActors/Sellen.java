@@ -23,7 +23,7 @@ import java.util.TreeMap;
  * such as healing or spawning creatures. Provides lore-focused monologues.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
+ * @author Kian Lok Chin
  */
 public class Sellen extends ConversationalActor implements Merchant {
     public final static int SELLEN_HITPOINTS = 150;

@@ -1,4 +1,3 @@
-// game/trading/Offer.java
 package game.trading;
 
 import edu.monash.fit2099.engine.actors.Actor;
@@ -11,11 +10,34 @@ import game.items.Sellable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an offer that can be made by a merchant to sell items
+ *
+ * @author Kian Lok Chin
+ */
 public class Offer {
+    /**
+     * The prototype of the item being offered for sale
+     */
     private Sellable prototype;
+
+    /**
+     * The price of the offer in gold/runes
+     */
     private int price;
+
+    /**
+     * List of effects to apply when the offer is purchased
+     */
     private List<PurchaseEffect> effects;
 
+    /**
+     * Constructor for the Offer
+     *
+     * @param prototype The item prototype being offered for sale
+     * @param price The price of the offer in gold/runes
+     * @param effects Additional effects to apply when the offer is purchased
+     */
     public Offer(Sellable prototype, int price, List<PurchaseEffect> effects) {
         this.prototype = prototype;
         this.price     = price;
@@ -26,20 +48,42 @@ public class Offer {
         this.effects.addAll(prototype.soldEffects());
     }
 
+    /**
+     * Returns the price of the offer
+     *
+     * @return The price in gold/runes
+     */
     public int getPrice() {
         return price;
     }
 
+    /**
+     * Returns the item prototype being offered
+     *
+     * @return The item prototype as an Item
+     */
     public Item getPrototype() {
         return (Item) prototype;
     }
 
+    /**
+     * Applies all purchase effects associated with this offer
+     *
+     * @param buyer The actor who purchased the offer
+     * @param merchant The merchant who sold the offer
+     * @param map The game map where the transaction occurred
+     */
     public void applyEffect(Actor buyer, Merchant merchant, GameMap map) {
         for (PurchaseEffect e : effects) {
             e.apply(buyer, merchant ,map);
         }
     }
 
+    /**
+     * Returns a string representation of the offer with color formatting
+     *
+     * @return A formatted string describing the offer with its name and price
+     */
     @Override
     public String toString() {
         // Define ANSI color codes locally within the method

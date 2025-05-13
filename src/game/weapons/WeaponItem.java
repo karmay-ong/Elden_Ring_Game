@@ -13,12 +13,32 @@ import java.util.Random;
 /**
  * Class representing items that can be used as a weapon.
  * @author Adrian Kristanto
+ * Modified by: Kian Lok Chin
  */
 public class WeaponItem extends Item implements Weapon {
+    /**
+     * The default damage multiplier applied to weapons
+     */
     private static final float DEFAULT_DAMAGE_MULTIPLIER = 1.0f;
+
+    /**
+     * The base damage this weapon does
+     */
     private int damage;
+
+    /**
+     * The probability/chance to hit the target (0-100)
+     */
     private int hitRate;
+
+    /**
+     * The verb used to describe the attack, e.g. "hits", "slashes"
+     */
     private final String verb;
+
+    /**
+     * The multiplier applied to the base damage
+     */
     private float damageMultiplier;
 
     /**
@@ -38,6 +58,14 @@ public class WeaponItem extends Item implements Weapon {
         this.damageMultiplier = DEFAULT_DAMAGE_MULTIPLIER;
     }
 
+    /**
+     * Performs an attack with this weapon
+     *
+     * @param attacker the actor performing the attack
+     * @param target the actor being attacked
+     * @param map the game map where the attack occurs
+     * @return a string describing the attack
+     */
     @Override
     public String attack(Actor attacker, Actor target, GameMap map) {
         Random rand = new Random();
@@ -50,6 +78,13 @@ public class WeaponItem extends Item implements Weapon {
         return String.format("%s %s %s for %d damage", attacker, verb, target, damage);
     }
 
+    /**
+     * Returns allowable actions for this weapon when it's on the ground
+     *
+     * @param otherActor the actor performing the actions
+     * @param location the location of the weapon
+     * @return a list of actions that can be performed with this weapon
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
@@ -57,3 +92,4 @@ public class WeaponItem extends Item implements Weapon {
         return actions;
     }
 }
+

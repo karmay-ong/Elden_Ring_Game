@@ -22,6 +22,8 @@ import game.utils.AdjacentCapabilityChecker;
 /**
  * A special creature that rots over time and can be cured to reset its timer.
  * The Spirit Goat is represented by 'y' on the game map.
+ *
+ * @author Kian Lok Chin
  */
 public class SpiritGoat extends Creature implements Producible, Curable {
 

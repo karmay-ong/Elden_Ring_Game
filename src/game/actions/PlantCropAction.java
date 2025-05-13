@@ -18,17 +18,8 @@ import game.items.Seed;
  * @author Kian Lok Chin
  */
 public class PlantCropAction extends Action {
-
-    /**
-     * The seed to be planted
-     */
     private Plantable plant;
-
     private Seed seed;
-
-    /**
-     * The amount of energy required to plant the seed
-     */
     private int energyToPlant;
 
     /**

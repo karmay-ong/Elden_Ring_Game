@@ -23,7 +23,7 @@ import java.util.TreeMap;
  * based on the farmer's state or surroundings. Can perform purchase actions.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
+ * @author Kian Lok Chin
  */
 public class MerchantKale extends ConversationalActor implements Merchant {
     public static final int MERCHANT_KALE_HITPOINTS =  200;
@@ -86,6 +86,5 @@ public class MerchantKale extends ConversationalActor implements Merchant {
     public void addOffer(Offer offer) {
         offers.add(offer);
     }
-
 
 }
