@@ -20,40 +20,20 @@ import java.util.TreeMap;
 
 public class Sellen extends ConversationalActor implements Merchant {
     public final static int SELLEN_HITPOINTS = 150;
-    private List<Offer> offers = new ArrayList<>(Arrays.asList(
-            new Offer(
-                    new BroadSword(),
-                    100,
-                    Arrays.asList(
-                            new HealEffect(10),
-                            new MaxHealthEffect(20, ActorAttributeOperations.INCREASE)
-                    )
-            ),
-            new Offer(
-                    new DragonSlayerGreatSword(),
-                    1500,
-                    Arrays.asList(
-                            new MaxHealthEffect(15, ActorAttributeOperations.INCREASE),
-                            new SpawnGoldenBeetleEffect()
-                    )
-            ),
-            new Offer(
-                    new Katana(),
-                    500,
-                    Arrays.asList(
-                            new HurtEffect(25),
-                            new SpawnOmenSheepEffect(this),
-                            new HealEffect(10),
-                            new MaxStaminaEffect(20, ActorAttributeOperations.INCREASE)
-                    )
-            )
-    ));
+    private List<Offer> offers;
 
 
     public Sellen() {
         super("Sellen\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDE92", 's', SELLEN_HITPOINTS);
         behaviours = new TreeMap<>();
-        behaviours.put(1, new WanderBehaviour());
+        behaviours.put(999, new WanderBehaviour());
+        offers = new ArrayList<>();
+        addOffer(new Offer( new BroadSword(),100, List.of(new MaxHealthEffect(20,
+                ActorAttributeOperations.INCREASE))));
+        addOffer(new Offer( new DragonSlayerGreatSword(),1500, List.of(new SpawnGoldenBeetleEffect())));
+        addOffer(new Offer( new Katana(), 500, Arrays.asList( new SpawnOmenSheepEffect(this),
+                            new HealEffect(10),
+                            new MaxStaminaEffect(20, ActorAttributeOperations.INCREASE))));
     }
 
     @Override
@@ -63,16 +43,16 @@ public class Sellen extends ConversationalActor implements Merchant {
     }
 
     @Override
-    public void removeOffer(Offer offer) {
-        offers.remove(offer);
-    }
-
-    @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor ,direction, map);
         for (Offer offer : offers) {
             actions.add(new PurchaseAction(this, offer));
         }
         return actions;
+    }
+
+    @Override
+    public void addOffer(Offer offer) {
+        offers.add(offer);
     }
 }

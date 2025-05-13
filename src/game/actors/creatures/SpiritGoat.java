@@ -36,7 +36,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
         super("Spirit Goat\uD83D\uDC10", 'y', SPIRIT_GOAT_HITPOINTS);
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new ProduceBehaviour(this));
-        this.behaviours.put(3, new WanderBehaviour());
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     @Override

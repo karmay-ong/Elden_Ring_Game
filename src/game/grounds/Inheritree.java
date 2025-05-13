@@ -3,9 +3,12 @@ package game.grounds;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Status;
 
 /**
  * A beneficial tree that heals actors in adjacent locations.
@@ -14,7 +17,9 @@ import edu.monash.fit2099.engine.positions.Location;
  *
  * @author Kian Lok Chin
  */
-public class Inheritree extends Ground {
+public class Inheritree extends Ground implements Plantable {
+
+    public final static int MIN_ENERGY_TO_PLANT = 25;
 
     /**
      * Constructor for the Inheritree class.
@@ -46,15 +51,32 @@ public class Inheritree extends Ground {
             Actor actor = surroundings.getActor();
             if(actor != null) {
                 // Heal the actor
-                System.out.println("❤️\u200D\uD83E\uDE79"+ actor + " health is increased by 5❤\uFE0F\u200D\uD83E\uDE79");
+                new Display().println("❤️\u200D\uD83E\uDE79"+ actor + " health is increased by 5❤\uFE0F\u200D\uD83E\uDE79");
                 actor.heal(5);
 
                 // Restore stamina if the actor has stamina attribute
                 if (actor.hasAttribute(BaseActorAttributes.STAMINA)) {
-                    System.out.println("\uD83D\uDD0B"+ actor + " stamina is increased by 5\uD83D\uDD0B");
+                    new Display().println("\uD83D\uDD0B"+ actor + " stamina is increased by 5\uD83D\uDD0B");
                     actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 5);
                 }
             }
         }
+    }
+    @Override
+    public int getEnergyToPlant() {
+        return MIN_ENERGY_TO_PLANT;
+    }
+
+    @Override
+    public String plant(Actor actor, Location location, GameMap map) {
+        location.setGround(this);
+        // Purify adjacent cursed ground by turning it into soil
+        for (Exit exit : location.getExits()) {
+            if(exit.getDestination().getGround().hasCapability(Status.CURSED)){
+                exit.getDestination().setGround(new Soil());
+            }
+        }
+
+        return actor + " planted a " + this;
     }
 }

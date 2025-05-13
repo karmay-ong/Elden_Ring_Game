@@ -44,21 +44,20 @@ public class Player extends Actor {
      * @param display the display where attributes will be rendered
      */
     private void displayAttributes(Display display) {
-        String reset = "\u001B[0m";
-        String red = "\u001B[31m";
-        String green = "\u001B[32m";
-        String blue = "\u001B[34m";
-        String yellow = "\u001B[33m";
+        String reset   = "\u001B[0m";
+        String red     = "\u001B[31m";
+        String green   = "\u001B[32m";
+        String yellow  = "\u001B[33m";
         String magenta = "\u001B[35m";
 
-        // Create a single line with all attributes
+        // Build the attributes line, now including wallet balance
         String singleLine = magenta + "===" + reset + " " +
                 "✨ " + magenta + "Attributes" + reset + " ✨" + " " +
-                red + "❤ HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + reset + " | " +
-                green + "⚡ Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + reset + " | " +
+                red     + "❤ HP: "       + this.getAttribute(BaseActorAttributes.HEALTH)  + reset + " | " +
+                green   + "⚡ Stamina: "  + this.getAttribute(BaseActorAttributes.STAMINA) + reset + " | " +
+                yellow  + "💰 Gold: "     + this.getBalance()                            + reset + " " +
                 magenta + "===" + reset;
 
-        // Print as a single line
         display.println(singleLine);
     }
 

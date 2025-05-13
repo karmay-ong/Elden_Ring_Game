@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.Merchant;
 import game.actors.creatures.OmenSheep;
-import game.trading.PurchaseEffect;
 
 public class SpawnOmenSheepEffect implements PurchaseEffect {
 

@@ -1,7 +1,9 @@
 package game.grounds;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 
@@ -12,7 +14,9 @@ import edu.monash.fit2099.engine.positions.Location;
  *
  * @author Kian Lok Chin
  */
-public class Bloodrose extends Ground {
+public class Bloodrose extends Ground implements Plantable {
+
+    public final static int MIN_ENERGY_TO_PLANT = 25;
 
     /**
      * Constructor for the Bloodrose class.
@@ -39,13 +43,29 @@ public class Bloodrose extends Ground {
             Location surroundings = exit.getDestination();
             Actor actor = surroundings.getActor();
             if (actor != null) {
-                System.out.println("\uD83D\uDC94" + actor + " health is deducted by 10\uD83D\uDC94");
+                new Display().println("\uD83D\uDC94" + actor + " health is deducted by 10\uD83D\uDC94");
                 actor.hurt(10);
                 //check death of surrounding actors
                 if(!actor.isConscious()){
-                    System.out.println(actor.unconscious(location.map()));
+                    new Display().println(actor.unconscious(location.map()));
                 }
             }
         }
+    }
+
+    @Override
+    public int getEnergyToPlant() {
+        return MIN_ENERGY_TO_PLANT;
+    }
+
+    @Override
+    public String plant(Actor actor, Location location, GameMap map) {
+        location.setGround(this);
+        actor.hurt(5);
+        //check death of surrounding actors
+        if(!actor.isConscious()) {
+            new Display().println(actor.unconscious(location.map()));
+        }
+        return actor + " planted a " + this;
     }
 }

@@ -42,7 +42,7 @@ public class OmenSheep extends Creature implements Producible, Curable {
         super("Omen Sheep\uD83D\uDC11", 'm', OMEN_SHEEP_HITPOINTS);
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new ProduceBehaviour(this));
-        this.behaviours.put(3, new WanderBehaviour());
+        this.behaviours.put(999, new WanderBehaviour());
 
     }
 

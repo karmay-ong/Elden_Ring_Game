@@ -25,7 +25,6 @@ public class PurchaseAction extends Action {
         farmer.deductBalance(offer.getPrice());
         Item weapon = offer.getPrototype();
         farmer.addItemToInventory(weapon);
-        merchant.removeOffer(offer);
         offer.applyEffect(farmer, merchant, map);
         return farmer + " bought a " + offer + " from " + merchant + ".";
     }

@@ -5,18 +5,25 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.Merchant;
+import game.effects.PurchaseEffect;
+import game.items.Sellable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Offer {
-    private Item prototype;
+    private Sellable prototype;
     private int price;
     private List<PurchaseEffect> effects;
 
-    public Offer(Item prototype, int price, List<PurchaseEffect> effects) {
+    public Offer(Sellable prototype, int price, List<PurchaseEffect> effects) {
         this.prototype = prototype;
         this.price     = price;
-        this.effects   = effects;
+        this.effects = new ArrayList<>();
+        if (effects != null) {
+            this.effects.addAll(effects);
+        }
+        this.effects.addAll(prototype.soldEffects());
     }
 
     public int getPrice() {
@@ -24,7 +31,7 @@ public class Offer {
     }
 
     public Item getPrototype() {
-        return prototype;
+        return (Item) prototype;
     }
 
     public void applyEffect(Actor buyer, Merchant merchant, GameMap map) {

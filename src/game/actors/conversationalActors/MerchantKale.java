@@ -8,8 +8,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.PurchaseAction;
 import game.actors.Merchant;
 import game.actors.Status;
-import game.effects.HealEffect;
-import game.effects.MaxHealthEffect;
 import game.effects.MaxStaminaEffect;
 import game.trading.Offer;
 import game.utils.AdjacentCapabilityChecker;
@@ -17,36 +15,21 @@ import game.weapons.BroadSword;
 import game.weapons.DragonSlayerGreatSword;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
 public class MerchantKale extends ConversationalActor implements Merchant {
     public static final int MERCHANT_KALE_HITPOINTS =  200;
     public static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
+    private List<Offer> offers;
 
-    private final List<Offer> offers = new ArrayList<>(Arrays.asList(
-            new Offer(
-                    new BroadSword(),
-                    150,
-                    Arrays.asList(
-                            new HealEffect(10),
-                            new MaxStaminaEffect(30, ActorAttributeOperations.INCREASE)
-                    )
-            ),
-            new Offer(
-                    new DragonSlayerGreatSword(),
-                    1700,
-                    Arrays.asList(
-                            new MaxHealthEffect(15, ActorAttributeOperations.INCREASE),
-                            new MaxStaminaEffect(20, ActorAttributeOperations.INCREASE)
-                    )
-            )
-    ));
     public MerchantKale() {
         super("Kale\uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDFED", 'k', MERCHANT_KALE_HITPOINTS);
         behaviours = new TreeMap<>();
-        behaviours.put(1, new WanderBehaviour());
+        behaviours.put(999, new WanderBehaviour());
+        offers = new ArrayList<>();
+        addOffer(new Offer(new BroadSword(),150, List.of(new MaxStaminaEffect(30, ActorAttributeOperations.INCREASE))));
+        addOffer(new Offer(new DragonSlayerGreatSword(),1700, List.of(new MaxStaminaEffect(20, ActorAttributeOperations.INCREASE))));
     }
 
     @Override
@@ -72,8 +55,9 @@ public class MerchantKale extends ConversationalActor implements Merchant {
         }
         return actions;
     }
-    public void removeOffer(Offer offer) {
-        offers.remove(offer);
+    @Override
+    public void addOffer(Offer offer) {
+        offers.add(offer);
     }
 
 

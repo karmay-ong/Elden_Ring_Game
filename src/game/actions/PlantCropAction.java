@@ -7,7 +7,8 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.Status;
-import game.items.PlantSeed;
+import game.grounds.Plantable;
+import game.items.Seed;
 
 /**
  * An action for planting seeds to grow crops.
@@ -21,7 +22,9 @@ public class PlantCropAction extends Action {
     /**
      * The seed to be planted
      */
-    private PlantSeed seed;
+    private Plantable plant;
+
+    private Seed seed;
 
     /**
      * The amount of energy required to plant the seed
@@ -31,12 +34,13 @@ public class PlantCropAction extends Action {
     /**
      * Constructor for the PlantCropAction.
      *
-     * @param seed The seed to be planted
+     * @param plant The seed to be planted
      * @param energyToPlant The amount of energy required to plant the seed
      */
-    public PlantCropAction(PlantSeed seed, int energyToPlant) {
-        this.seed = seed;
+    public PlantCropAction(Seed seed, Plantable plant, int energyToPlant) {
+        this.plant = plant;
         this.energyToPlant = energyToPlant;
+        this.seed = seed;
     }
 
     /**
@@ -52,7 +56,7 @@ public class PlantCropAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         if (actor.getAttribute(BaseActorAttributes.STAMINA) < energyToPlant){
-            return "\uD83D\uDE14Sorry. The farmer does not have energy to plant " + seed;
+            return "\uD83D\uDE14Sorry. The farmer does not have energy to plant " + plant;
         }
         Location here = map.locationOf(actor);
         if (!(here.getGround().hasCapability(Status.PLANTABLE))) {
@@ -60,7 +64,8 @@ public class PlantCropAction extends Action {
         }
 
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, energyToPlant);
-        return seed.plant(actor, here, map);
+        actor.removeItemFromInventory(seed);
+        return plant.plant(actor, here, map);
     }
 
     /**
@@ -71,6 +76,6 @@ public class PlantCropAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " plants " + seed;
+        return actor + " plants " + plant;
     }
 }

@@ -1,7 +1,14 @@
 package game.weapons;
 
 
-public class Katana extends WeaponItem {
+import game.effects.HurtEffect;
+import game.items.Sellable;
+import game.effects.PurchaseEffect;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Katana extends WeaponItem implements Sellable {
     public static final int DAMAGE = 50;
     public static final int HIT_RATE = 60;
 
@@ -13,6 +20,13 @@ public class Katana extends WeaponItem {
      */
     public Katana() {
         super("Katana⚔", 'K', DAMAGE, "cuts", HIT_RATE);
+    }
+
+    @Override
+    public List<PurchaseEffect> soldEffects() {
+        List<PurchaseEffect> effects = new ArrayList<>();
+        effects.add(new HurtEffect(20));
+        return effects;
     }
 
 }

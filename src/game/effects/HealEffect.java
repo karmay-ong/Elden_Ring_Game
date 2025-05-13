@@ -3,7 +3,6 @@ package game.effects;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.Merchant;
-import game.trading.PurchaseEffect;
 
 public class HealEffect implements PurchaseEffect {
     private int healAmount;

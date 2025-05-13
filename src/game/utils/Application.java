@@ -1,22 +1,26 @@
 package game.utils;
 
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.Merchant;
 import game.actors.Player;
+import game.actors.conversationalActors.ConversationalActor;
 import game.actors.conversationalActors.Guts;
 import game.actors.conversationalActors.MerchantKale;
 import game.actors.conversationalActors.Sellen;
+import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
-import game.grounds.Blight;
-import game.grounds.Floor;
-import game.grounds.Soil;
-import game.grounds.Wall;
-import game.items.BloodroseSeed;
-import game.items.InheritreeSeed;
+import game.effects.MaxStaminaEffect;
+import game.grounds.*;
+import game.items.Seed;
 import game.items.Talisman;
+import game.trading.Offer;
+import game.weapons.BroadSword;
+import game.weapons.DragonSlayerGreatSword;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,26 +47,27 @@ public class Application {
 
         // Create a factory with all ground types used in the game
         FancyGroundFactory groundFactory = new FancyGroundFactory(new Blight(),
-                new Wall(), new Floor(), new Soil());
+                new Wall(), new Floor(), new Soil(), new Inheritree());
 
         // Define the game map layout
         List<String> map = Arrays.asList(
-                "xxxx...xxxxxxxxxxxxxxxxxxxxxxx........xx",
-                "xxx.....xxxxxxx..xxxxxxxxxxxxx.........x",
-                "..........xxxx....xxxxxxxxxxxxxx.......x",
-                "....xxx...........xxxxxxxxxxxxxxx.....xx",
-                "...xxxxx...........xxxxxxxxxxxxxx.....xx",
-                "...xxxxxxxxxx.......xxxxxxxx...xx......x",
-                "....xxxxxxxxxx........xxxxxx...xxx......",
-                "....xxxxxxxxxxx.........xxx....xxxx.....",
-                "....xxxxxxxxxxx................xxxx.....",
-                "...xxxx...xxxxxx.....#####.....xxx......",
-                "...xxx....xxxxxxx....#___#.....xx.......",
-                "..xxxx...xxxxxxxxx...#___#....xx........",
-                "xxxxx...xxxxxxxxxx...##_##...xxx.......x",
-                "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
-                "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
-
+                "........................................",
+                "........................................",
+                "........................................",
+                "........................................",
+                "........................................",
+                "..............#######_#######...........",
+                "..............#.x..........t#...........",
+                "..............#.............#...........",
+                "..............#.............#...........",
+                "..............#.........x...#...........",
+                "..............#.............#...........",
+                "..............#..x..........#...........",
+                "..............#.............#...........",
+                "..............#.............#...........",
+                "..............###############...........",
+                "........................................"
+        );
         // Create the game map
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
         world.addGameMap(gameMap);
@@ -80,20 +85,22 @@ public class Application {
         // Create and position the player
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
         world.addPlayer(player, gameMap.at(23, 10));
+        player.addBalance(100012);
 
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat();
         OmenSheep omenSheep = new OmenSheep();
+        GoldenBeetle goldenBeetle = new GoldenBeetle();
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
+        gameMap.addActor(goldenBeetle, gameMap.at(22, 10));
         gameMap.addActor(omenSheep, gameMap.at(23, 11));
-
         gameMap.addActor(new Sellen(), gameMap.at(21, 4));
         gameMap.addActor(new MerchantKale(), gameMap.at(30, 6));
         gameMap.addActor(new Guts(), gameMap.at(12, 12));
 
         // Add starting items to player's inventory
-        player.addItemToInventory(new InheritreeSeed());
-        player.addItemToInventory(new BloodroseSeed());
+        player.addItemToInventory(new Seed(new Inheritree()));
+        player.addItemToInventory(new Seed(new Bloodrose()));
 
         // Add items to the game world
         gameMap.at(24, 11).addItem(new Talisman());
