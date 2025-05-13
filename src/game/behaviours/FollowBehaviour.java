@@ -15,7 +15,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
  *
  * Created by:
  * @author Riordan D. Alfredo
- * Modified by: Kian Lok Chin
+ * Modified by: Kian Lok Chin, Kar May Ong
  *
  */
 public class FollowBehaviour implements Behaviour {
@@ -31,6 +31,14 @@ public class FollowBehaviour implements Behaviour {
         this.target = subject;
     }
 
+    /**
+     * Returns a MoveActorAction to move closer to the target, if possible.
+     * If no movement is possible, returns null
+     *
+     * @param actor the Actor acting
+     * @param map   the GameMap containing the Actor
+     * @return MoveActorAction, or null if no valid move can be made
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
         if(!map.contains(target) || !map.contains(actor))
