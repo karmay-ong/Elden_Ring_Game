@@ -59,7 +59,6 @@ public class ListenAction extends Action {
             boxedMonologue.append(" ".repeat(leftPad) + line + " ".repeat(rightPad) + "\n");
         }
         boxedMonologue.append(border);
-        System.out.println(color + boxedMonologue + reset);
 
         return color + boxedMonologue + reset;
     }
