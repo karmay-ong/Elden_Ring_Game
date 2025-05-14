@@ -16,6 +16,7 @@ import game.actors.Status;
  * healing and stamina restoration to any actor standing next to it.
  *
  * @author Kian Lok Chin
+ * Modified by: YOUSSEF HASSANEIN
  */
 public class Inheritree extends Ground implements Plantable {
 
@@ -30,6 +31,7 @@ public class Inheritree extends Ground implements Plantable {
      */
     public Inheritree() {
         super('t', "Inheritree\uD83C\uDF32");
+        addCapability(Status.BLESSED);
     }
 
     /**
