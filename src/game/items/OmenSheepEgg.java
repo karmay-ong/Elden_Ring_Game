@@ -16,7 +16,7 @@ public class OmenSheepEgg extends Egg {
 
     private int groundAge = 0;
     public static final int HEALTH_MAX_INCREASE = 10;
-    public static final int MATURITY_AGE_THRESHOLD = 10;
+    public static final int MATURITY_AGE_THRESHOLD = 3;
 
     /**
      * Creates an egg that hatches into an OmenSheep after 3 turns on ground.
