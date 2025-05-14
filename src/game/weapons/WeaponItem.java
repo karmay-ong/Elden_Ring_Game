@@ -15,7 +15,7 @@ import java.util.Random;
  * @author Adrian Kristanto
  * Modified by: Kian Lok Chin
  */
-public class WeaponItem extends Item implements Weapon {
+public abstract class WeaponItem extends Item implements Weapon {
     /**
      * The default damage multiplier applied to weapons
      */
