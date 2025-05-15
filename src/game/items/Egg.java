@@ -7,27 +7,52 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
 import game.actors.creatures.Creature;
+import game.conditions.Condition;
+import game.effects.Effect;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract base for all eggs that can hatch into different creatures
- * under customizable conditions.  Eggs are EATABLE and pause hatching
+ * under customizable conditions. Eggs are EATABLE and pause hatching
  * while carried.
  * @author YOUSSEF HASSANEIN
  */
-public abstract class Egg extends Item implements Eatable {
+public class Egg extends Item implements Eatable {
+    protected List<Effect> consumptionEffects;
+    protected Condition condition;
+    protected Creature hatchling;
 
-    public Egg(String name) {
+    /**
+     * Constructor for Egg with condition, hatchling, and consumption effects.
+     *
+     * @param name the name of the egg
+     * @param condition the condition that must be satisfied for the egg to hatch
+     * @param hatchling the creature that will hatch from this egg
+     * @param consumptionEffects list of effects applied when the egg is consumed
+     */
+    public Egg(String name, Condition condition, Creature hatchling, List<Effect> consumptionEffects) {
         super(name, '0', true);
+        this.condition = condition;
+        this.hatchling = hatchling;
+        this.consumptionEffects = new ArrayList<>();
+        if (consumptionEffects != null) {
+            this.consumptionEffects.addAll(consumptionEffects);
+        }
     }
 
     @Override
     public void eat(Actor actor, GameMap map) {
         actor.removeItemFromInventory(this);
+        // Apply all consumption effects
+        for (Effect effect : consumptionEffects) {
+            effect.apply(actor, map);
+        }
     }
 
     /**
-     * Called each turn when on the ground: reset pickedUp and attempt hatch
+     * Called each turn when on the ground: attempt to hatch
      */
     @Override
     public void tick(Location currentLocation) {
@@ -41,20 +66,21 @@ public abstract class Egg extends Item implements Eatable {
      */
     protected void hatch(Location currentLocation) {
         if (!currentLocation.containsAnActor()) {
-            Creature hatchCreature = createHatchling();
-            currentLocation.addActor(hatchCreature);
+            currentLocation.addActor(hatchling);
             currentLocation.removeItem(this);
         }
     }
 
-    protected abstract Creature createHatchling();
-
     /**
-     * Subclasses define their own hatching condition.
+     * Checks if the egg should hatch based on the provided condition.
+     *
      * @param currentLocation current ground Location
-     * @return true to hatch
+     * @return true if the egg should hatch
      */
-    protected abstract boolean shouldHatch(Location currentLocation);
+    protected boolean shouldHatch(Location currentLocation) {
+        return condition.isSatisfied(currentLocation);
+    }
+
 
     @Override
     public ActionList allowableActions(Actor otherActor, GameMap map) {
