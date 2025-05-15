@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.Merchant;
 import game.trading.Offer;
 
 
@@ -17,7 +16,7 @@ public class PurchaseAction extends Action {
     /**
      * The merchant selling the item
      */
-    private Merchant merchant;
+    private Actor merchant;
 
     /**
      * The offer being purchased
@@ -30,7 +29,7 @@ public class PurchaseAction extends Action {
      * @param merchant The merchant selling the item
      * @param offer The offer being purchased
      */
-    public PurchaseAction(Merchant merchant, Offer offer) {
+    public PurchaseAction(Actor merchant, Offer offer) {
         this.merchant = merchant;
         this.offer    = offer;
     }
@@ -51,7 +50,7 @@ public class PurchaseAction extends Action {
         farmer.deductBalance(offer.getPrice());
         Item weapon = offer.getPrototype();
         farmer.addItemToInventory(weapon);
-        offer.applyEffect(farmer, merchant, map);
+        offer.applyEffect(farmer, map);
         return farmer + " bought a " + offer + " from " + merchant + ".";
     }
 

@@ -7,24 +7,39 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
-import game.actors.Condition;
+import game.conditions.Condition;
 
 /**
- * A behaviour that enables an actor to automatically attack any adjacent actor.
- * Scans all exits around the actor's current location; if another actor is present,
- * returns an AttackAction targeting that actor.
+ * A behaviour that enables an actor to automatically attack any adjacent actor
+ * when a specific condition is satisfied.
+ * Scans all exits around the actor's current location; if another actor is present
+ * and the condition is met, returns an AttackAction targeting that actor.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
+ * @author Kian Lok Chin
  */
 public class AttackBehaviour implements Behaviour {
+    /**
+     * The condition that must be satisfied for the attack to occur
+     */
+    private Condition condition;
 
     /**
-     * Returns an AttackAction if there is any actor in an adjacent tile.
+     * Constructor for the AttackBehaviour.
      *
-     * @param actor the actor performing the behaviour
-     * @param map   the game map of the interaction
-     * @return an AttackAction targeting the first adjacent actor found, or null if none
+     * @param condition the condition that must be satisfied for the attack to occur
+     */
+    public AttackBehaviour (Condition condition){
+        this.condition = condition;
+    }
+
+    /**
+     * Returns an AttackAction against the first actor found in adjacent locations
+     * if the specified condition is satisfied. Uses the actor's intrinsic weapon for the attack.
+     *
+     * @param actor the actor performing the attack
+     * @param map the game map where the actor is located
+     * @return an AttackAction if an adjacent actor is found and condition is met, otherwise null
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
@@ -35,8 +50,7 @@ public class AttackBehaviour implements Behaviour {
             Actor target = destination.getActor();
 
             if (target != null) {
-                Condition alwaysCondition = Condition.ALWAYS;
-                if (alwaysCondition.test(actor, map, target)) {
+                if (condition.isSatisfied(here)) {
                     return new AttackAction(target, actor.getIntrinsicWeapon());
                 }
             }
@@ -44,4 +58,3 @@ public class AttackBehaviour implements Behaviour {
         return null;
     }
 }
-

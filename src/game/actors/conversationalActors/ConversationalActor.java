@@ -9,8 +9,8 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.ListenAction;
-import game.actors.Condition;
 import game.actors.Monologue;
+import game.conditions.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public abstract class ConversationalActor extends Actor {
         }
         if (eligible.isEmpty()) {
             return "The actor has nothing to say.";
-        }        
+        }
         return eligible.get(rand.nextInt(eligible.size())).getText();
     }
 

@@ -1,6 +1,7 @@
 package game.items;
 
-import game.effects.PurchaseEffect;
+import game.effects.Effect;
+
 import java.util.List;
 
 /**
@@ -14,5 +15,5 @@ public interface Sellable {
      *
      * @return A list of purchase effects to apply when the item is sold
      */
-    List<PurchaseEffect> soldEffects();
+    List<Effect> soldEffects();
 }

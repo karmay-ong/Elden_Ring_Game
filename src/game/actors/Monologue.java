@@ -1,13 +1,14 @@
 package game.actors;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.conditions.Condition;
 
 /**
  * Encapsulates a single line of dialogue (text) together with a Condition
  * that determines whether it is eligible to be spoken.
 
- *  * @author Lim Chi Jian
- *  * @version ver1.0.0
+ * @author Lim Chi Jian
+ * @author Kian Lok Chin
  */
 public class Monologue {
     private String text;
@@ -33,7 +34,7 @@ public class Monologue {
      * @return true if the underlying condition is met; false otherwise
      */
     public boolean isEligible(Actor listener, GameMap map, Actor speaker) {
-        return condition.test(listener, map, speaker);
+        return condition.isSatisfied(map.locationOf(listener));
     }
 
     /**

@@ -3,8 +3,7 @@ package game.trading;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.Merchant;
-import game.effects.PurchaseEffect;
+import game.effects.Effect;
 import game.items.Sellable;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class Offer {
     /**
      * List of effects to apply when the offer is purchased
      */
-    private List<PurchaseEffect> effects;
+    private List<Effect> effects;
 
     /**
      * Constructor for the Offer
@@ -38,7 +37,7 @@ public class Offer {
      * @param price The price of the offer in gold/runes
      * @param effects Additional effects to apply when the offer is purchased
      */
-    public Offer(Sellable prototype, int price, List<PurchaseEffect> effects) {
+    public Offer(Sellable prototype, int price, List<Effect> effects) {
         this.prototype = prototype;
         this.price     = price;
         this.effects = new ArrayList<>();
@@ -70,12 +69,11 @@ public class Offer {
      * Applies all purchase effects associated with this offer
      *
      * @param buyer The actor who purchased the offer
-     * @param merchant The merchant who sold the offer
-     * @param map The game map where the transaction occurred
+     * @param map   The game map where the transaction occurred
      */
-    public void applyEffect(Actor buyer, Merchant merchant, GameMap map) {
-        for (PurchaseEffect e : effects) {
-            e.apply(buyer, merchant ,map);
+    public void applyEffect(Actor buyer, GameMap map) {
+        for (Effect e : effects) {
+            e.apply(buyer,map);
         }
     }
 

@@ -1,38 +1,42 @@
 package game.effects;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.Merchant;
 
 /**
- * An effect that heals the buyer when a purchase is made
+ * An effect that heals an actor by a specified amount.
+ * This can be used in various contexts such as when consuming items,
+ * completing actions, or as a result of purchases.
  *
  * @author Kian Lok Chin
  */
-public class HealEffect implements PurchaseEffect {
+public class HealEffect implements Effect {
     /**
-     * The amount of health to restore to the buyer
+     * The amount of health to restore to the actor
      */
-    private int healAmount;
+    private final int healAmount;
 
     /**
-     * Constructor for the HealEffect
+     * Creates a new healing effect with the specified heal amount.
      *
-     * @param healAmount The amount of health to restore to the buyer
+     * @param healAmount the amount of health to restore when applied
      */
     public HealEffect(int healAmount) {
         this.healAmount = healAmount;
     }
 
     /**
-     * Applies the heal effect to the buyer
+     * Applies the healing effect to the specified actor.
+     * Increases the actor's health by the heal amount.
      *
-     * @param buyer The actor who made the purchase
-     * @param merchant The merchant who sold the item
-     * @param map The game map where the transaction occurred
+     * @param actor the actor to heal
+     * @param map the game map (not used in this implementation)
      */
     @Override
-    public void apply(Actor buyer, Merchant merchant, GameMap map) {
-        buyer.heal(healAmount);
+    public void apply(Actor actor, GameMap map) {
+        actor.heal(healAmount);
+        new Display().println(actor + "'s health is increased by " + healAmount);
     }
+
 }

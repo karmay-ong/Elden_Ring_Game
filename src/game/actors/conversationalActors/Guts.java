@@ -3,6 +3,9 @@ package game.actors.conversationalActors;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import game.behaviours.AttackBehaviour;
+import game.conditions.ActorAttributeCondition;
+import game.conditions.Condition;
+import game.conditions.Operators;
 import game.weapons.BareFist;
 import java.util.TreeMap;
 
@@ -24,7 +27,7 @@ public class Guts extends ConversationalActor {
         super("Guts\uD83D\uDC7A", 'g',GUTS_HITPOINTS );
         setIntrinsicWeapon(new BareFist());
         behaviours = new TreeMap<>();
-        behaviours.put(1, new AttackBehaviour());
+        behaviours.put(1, new AttackBehaviour(Condition.ALWAYS));
         behaviours.put(999, new WanderBehaviour());
     }
 
@@ -36,7 +39,11 @@ public class Guts extends ConversationalActor {
     protected void initMonologues() {
         addMonologue("RAAAAGH!");
         addMonologue("I’LL CRUSH YOU ALL!");
-        addMonologue("WEAK! TOO WEAK TO FIGHT ME!",
-                (farmer, map, self) -> farmer.getAttribute(BaseActorAttributes.HEALTH) < MONOLOGUE_WEAK_HEALTH_THRESHOLD);
+        Condition lowHealthCondition = new ActorAttributeCondition(
+                BaseActorAttributes.HEALTH,
+                MONOLOGUE_WEAK_HEALTH_THRESHOLD,
+                Operators.LESS_THAN
+        );
+        addMonologue("WEAK! TOO WEAK TO FIGHT ME!", lowHealthCondition);
     }
 }

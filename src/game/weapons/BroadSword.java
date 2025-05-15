@@ -1,8 +1,8 @@
 package game.weapons;
 
+import game.effects.Effect;
 import game.effects.HealEffect;
 import game.items.Sellable;
-import game.effects.PurchaseEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +41,9 @@ public class BroadSword extends WeaponItem implements Sellable {
      * @return A list of purchase effects to apply when the broadsword is sold
      */
     @Override
-    public List<PurchaseEffect> soldEffects() {
-        List<PurchaseEffect> effects = new ArrayList<>();
-        effects.add(new HealEffect(20));
+    public List<Effect> soldEffects() {
+        List<Effect> effects = new ArrayList<>();
+        effects.add(new HealEffect(10));
         return effects;
     }
 }

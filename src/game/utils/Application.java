@@ -1,26 +1,19 @@
 package game.utils;
 
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.Merchant;
 import game.actors.Player;
-import game.actors.conversationalActors.ConversationalActor;
 import game.actors.conversationalActors.Guts;
 import game.actors.conversationalActors.MerchantKale;
 import game.actors.conversationalActors.Sellen;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
-import game.effects.MaxStaminaEffect;
 import game.grounds.*;
 import game.items.Seed;
 import game.items.Talisman;
-import game.trading.Offer;
-import game.weapons.BroadSword;
-import game.weapons.DragonSlayerGreatSword;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,9 +1,9 @@
 package game.weapons;
 
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import game.effects.MaxHealthEffect;
+import game.effects.Effect;
+import game.effects.IncreaseMaxHealthEffect;
 import game.items.Sellable;
-import game.effects.PurchaseEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +42,9 @@ public class DragonSlayerGreatSword extends WeaponItem implements Sellable {
      * @return A list of purchase effects to apply when the dragonslayergreatsword is sold
      */
     @Override
-    public List<PurchaseEffect> soldEffects() {
-        List<PurchaseEffect> effects = new ArrayList<>();
-        effects.add(new MaxHealthEffect(15, ActorAttributeOperations.INCREASE));
+    public List<Effect> soldEffects() {
+        List<Effect> effects = new ArrayList<>();
+        effects.add(new IncreaseMaxHealthEffect(15));
         return effects;
     }
 }
