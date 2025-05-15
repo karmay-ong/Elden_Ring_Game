@@ -1,49 +1,110 @@
 package game.actors.creatures;
 
-import edu.monash.fit2099.engine.displays.Display;
 import game.behaviours.WanderBehaviour;
 import game.behaviours.FollowBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.EatAction;
+import game.conditions.AdjacentCapabilityCondition;
 import game.actors.Producible;
 import game.actors.Status;
 import game.behaviours.ProduceBehaviour;
+import game.conditions.Condition;
+import game.conditions.TurnBasedCondition;
+import game.effects.Effect;
+import game.effects.RestoreStaminaEffect;
 import game.items.Eatable;
-import game.items.GoldenEgg;
+import game.items.Egg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
- * Golden Beetle: 25 HP, every 5 turns lays a GoldenEgg; follows Farmer;
- * immune to Crimson Rot; can be consumed by Farmer in adjacency.
+ * Golden Beetle is a unique creature that produces golden eggs, follows actors with FOLLOWABLE capability,
+ * and can be consumed by other actors to provide health and balance benefits.
+ * It has 25 HP and lays eggs every 5 turns by default.
  *
  * @author Kar May Ong
  */
 public class GoldenBeetle extends Creature implements Eatable, Producible {
+    /**
+     * Default hit points for the Golden Beetle
+     */
     public static final int GOLDEN_BEETLE_HITPOINTS = 25;
+
+    /**
+     * Amount of health to increase when the beetle is eaten
+     */
     public static final int HEALTH_INCREASE_AFTER_EATEN = 50;
+
+    /**
+     * Amount of balance (currency) to increase when the beetle is eaten
+     */
     public static final int BALANCE_INCREASE_AFTER_EATEN = 1000;
+
+    /**
+     * Reference to the actor this beetle is following
+     */
     private Actor followedActor;
-    private int eggTimer = 0;
+
+    /**
+     * Condition that determines when the beetle produces eggs
+     */
+    private Condition produceCondition;
+
+    /**
+     * Number of turns between egg production
+     */
     public static final int EGG_TIMER_THRESHOLD = 5;
 
     /**
-     * Constructor for the Golden Beetle.
-     * Initialise GoldenBeetle with ProduceBehaviour and WanderBehaviour with different priority key.
+     * Effects to apply when the beetle is consumed
+     */
+    private List<Effect> consumptionEffects;
+
+    /**
+     * Default constructor for the Golden Beetle.
+     * Initializes with empty consumption effects and a turn-based production condition (every 5 turns).
+     * Sets up production and wandering behaviors.
      */
     public GoldenBeetle() {
         super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
+        // Initialize consumption effects
+        this.consumptionEffects = new ArrayList<>();
+        // Default to a turn-based production condition
+        this.produceCondition = new TurnBasedCondition(EGG_TIMER_THRESHOLD);
         behaviours = new TreeMap<>();
-        behaviours.put(1, new ProduceBehaviour(this));
+        behaviours.put(1, new ProduceBehaviour(this, produceCondition));
         behaviours.put(999, new WanderBehaviour());
+
     }
 
     /**
-     * Follow the actor if the actor is Followable.
+     * Constructor for the Golden Beetle with custom consumption effects and produce condition.
+     * Sets up production and wandering behaviors with the specified parameters.
+     *
+     * @param consumptionEffects effects to apply when beetle is consumed
+     * @param produceCondition condition that determines when the beetle should produce eggs
+     */
+    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition) {
+        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
+        behaviours = new TreeMap<>();
+        behaviours.put(1, new ProduceBehaviour(this,produceCondition));
+        behaviours.put(999, new WanderBehaviour());
+
+        // Initialize consumption effects
+        this.consumptionEffects = new ArrayList<>();
+        if (consumptionEffects != null) {
+            this.consumptionEffects.addAll(consumptionEffects);
+        }
+        this.produceCondition = produceCondition;
+    }
+
+    /**
+     * Sets up follow behavior if the specified actor has the FOLLOWABLE capability.
+     * Stores reference to the followed actor and adds a FollowBehaviour to the beetle's behaviors.
      *
      * @param toFollow the actor to follow
      */
@@ -55,56 +116,54 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     }
 
     /**
-     * Determines if GoldenBeetle can produce an egg.
+     * Produces a Golden Egg at the beetle's current location on the map.
+     * The egg hatches when adjacent to an entity with the CURSED capability,
+     * provides stamina restoration when consumed, and hatches into a new Golden Beetle.
      *
-     * @param producer  the actor performing the producing behaviour
-     * @param map       the map actor is on
-     * @return          true if GoldenBeetle can produce, false otherwise
-     */
-    @Override
-    public boolean canProduce(Actor producer, GameMap map) {
-        eggTimer += 1;
-        if (eggTimer >= EGG_TIMER_THRESHOLD) {
-            eggTimer = 0;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Produces an egg on the GoldenBeetle is standing.
-     *
-     * @param producer  the actor performing the behaviour
-     * @param map       the map actor is on
+     * @param producer the actor performing the production (the Golden Beetle)
+     * @param map the game map where the beetle is located
      */
     @Override
     public void produce(Actor producer, GameMap map) {
-        map.locationOf(this).addItem(new GoldenEgg());
+        // Create a new golden egg with an AdjacentCapabilityCondition for hatching
+        List<Effect> eggEffects = new ArrayList<>();
+        eggEffects.add(new RestoreStaminaEffect(20));
+        Condition eggHatchCondition = new AdjacentCapabilityCondition(Status.CURSED);
+
+        // Create a new Golden Beetle for the hatchling
+        GoldenBeetle hatchling = new GoldenBeetle(consumptionEffects, produceCondition);
+        Egg goldenEgg = new Egg("Golden Egg\uD83D\uDFE1", eggHatchCondition, hatchling, eggEffects);
+        // Add the egg to the map
+        map.locationOf(this).addItem(goldenEgg);
     }
 
     /**
-     * Increase the actor's runes and health after consuming GoldenBeetle.
+     * Handles what happens when the Golden Beetle is eaten by another actor.
+     * Increases the actor's balance by 1000, health by 50, and applies any custom consumption effects.
+     * The beetle is then removed from the map.
      *
-     * @param actor    the actor eating GoldenBeetle
-     * @param map      the map actor is on
+     * @param actor the actor eating the Golden Beetle
+     * @param map the game map where both actors are located
      */
     @Override
     public void eat(Actor actor, GameMap map) {
-        actor.addBalance(BALANCE_INCREASE_AFTER_EATEN);
-        actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE,HEALTH_INCREASE_AFTER_EATEN);
-        new Display().println("Farmer's health is increased by " + HEALTH_INCREASE_AFTER_EATEN);
+        // Apply all consumption effects
+        for (Effect effect : consumptionEffects) {
+            effect.apply(actor, map);
+        }
         unconscious(map);
     }
 
     /**
-     * Returns a list of allowable actions that can be performed on GoldenBeetle by another actor.
-     * GoldenBeetle can follow an actor if the actor is present and followable.
-     * All GoldenBeetle can be eaten by otherActor.
+     * Returns allowable actions that can be performed on this Golden Beetle.
+     * If not already following someone and the other actor has the FOLLOWABLE capability,
+     * the beetle will start following them.
+     * Always adds an EatAction allowing the other actor to consume this beetle.
      *
      * @param otherActor the actor performing actions on this creature
-     * @param direction  the direction in which the other actor is located
-     * @param map        the game map where both actors are
-     * @return  a list of allowableActions
+     * @param direction the direction in which the other actor is located
+     * @param map the game map where both actors are
+     * @return a list of allowable actions
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
