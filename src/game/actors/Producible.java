@@ -17,12 +17,4 @@ public interface Producible {
      * @param map the game map the actor is located on
      */
     void produce(Actor producer, GameMap map);
-    /**
-     * Check if the actor is currently able to produce.
-     *
-     * @param producer the actor attempting to produce
-     * @param map the game map the actor is located on
-     * @return true if the actor can produce at this moment; false otherwise
-     */
-    boolean canProduce(Actor producer, GameMap map);
 }
