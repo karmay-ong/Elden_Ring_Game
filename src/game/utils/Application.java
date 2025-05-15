@@ -5,16 +5,22 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
+import game.actors.Status;
 import game.actors.conversationalActors.Guts;
 import game.actors.conversationalActors.MerchantKale;
 import game.actors.conversationalActors.Sellen;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
+import game.conditions.AdjacentCapabilityCondition;
+import game.conditions.Condition;
+import game.conditions.TurnBasedCondition;
+import game.effects.*;
 import game.grounds.*;
 import game.items.Seed;
 import game.items.Talisman;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +31,7 @@ import java.util.List;
  *
  * @author Adrian Kristanto
  * @author Kian Lok Chin
+ * Modified by: Kar May Ong
  */
 public class Application {
 
@@ -78,12 +85,20 @@ public class Application {
         // Create and position the player
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
         world.addPlayer(player, gameMap.at(23, 10));
-        player.addBalance(100012);
+        player.addBalance(100000);
+
+        // Create conditions and effects for all NPCs
+        Condition spiritGoatCondition = new AdjacentCapabilityCondition(Status.BLESSED);
+        Condition omenSheepCondition = new TurnBasedCondition(OmenSheep.EGG_TIMER_THRESHOLD);
+        Condition goldenBeetleCondition = new TurnBasedCondition(GoldenBeetle.EGG_TIMER_THRESHOLD);
+        List<Effect> beetleEffects = new ArrayList<>();
+        beetleEffects.add(new HealEffect(15));
+        beetleEffects.add(new IncreaseBalanceEffect(1000));
 
         // Create and position NPCs
-        SpiritGoat spiritGoat = new SpiritGoat();
-        OmenSheep omenSheep = new OmenSheep();
-        GoldenBeetle goldenBeetle = new GoldenBeetle();
+        SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
+        OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
+        GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition);
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
         gameMap.addActor(goldenBeetle, gameMap.at(22, 10));
         gameMap.addActor(omenSheep, gameMap.at(23, 11));
