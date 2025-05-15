@@ -1,5 +1,6 @@
 package game.actors.creatures;
 
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -12,13 +13,19 @@ import game.actors.Curable;
 import game.actors.Producible;
 import game.behaviours.ProduceBehaviour;
 import game.behaviours.RottingBehaviour;
+import game.conditions.Condition;
+import game.conditions.TurnBasedCondition;
+import game.effects.Effect;
+import game.effects.IncreaseMaxHealthEffect;
 import game.grounds.Inheritree;
-import game.items.OmenSheepEgg;
+import game.items.Egg;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A special creature that rots over time and transforms surrounding ground when cured.
- * The Omen Sheep is represented by 'm' on the game map.
+ * A special creature that rots over time, produces eggs, and transforms surrounding ground into Inheritrees when cured.
+ * The Omen Sheep is represented by 'm' on the game map and has rotting, producing, and wandering behaviors.
  *
  * @author Kian Lok Chin
  * Modified By Pemudi Hiruni Halgahawatta Liyanaarachchi
@@ -26,28 +33,54 @@ import game.items.OmenSheepEgg;
 public class OmenSheep extends Creature implements Producible, Curable {
 
     /**
+     * Default hitpoints for Omen Sheep
+     */
+    public static final int OMEN_SHEEP_HITPOINTS = 50;
+
+    /**
      * Countdown timer for the rotting process, measured in turns
      */
-
-    public static final int OMEN_SHEEP_HITPOINTS = 50;
     private int countdownTimer = 15;
-    private int eggTimer = 0;
+
+    /**
+     * Default threshold in turns for egg production and hatching
+     */
     public static final int EGG_TIMER_THRESHOLD = 7;
 
     /**
-     * Constructor for the OmenSheep.
-     * Initializes the sheep with a wander behavior.
+     * Condition that determines when the sheep should produce eggs
+     */
+    private Condition produceCondition;
+
+    /**
+     * Constructor for the OmenSheep with a custom produce condition.
+     * Sets up rotting, production, and wandering behaviors.
+     *
+     * @param produceCondition the condition that determines when the sheep should produce eggs
+     */
+    public OmenSheep(Condition produceCondition) {
+        super("Omen Sheep\uD83D\uDC11", 'm', OMEN_SHEEP_HITPOINTS);
+        this.produceCondition = produceCondition;
+        this.behaviours.put(1, new RottingBehaviour(countdownTimer));
+        this.behaviours.put(2, new ProduceBehaviour(this, produceCondition));
+        this.behaviours.put(999, new WanderBehaviour());
+    }
+
+    /**
+     * Default constructor for OmenSheep.
+     * Sets up a default turn-based production condition and the creature's behaviors.
      */
     public OmenSheep() {
         super("Omen Sheep\uD83D\uDC11", 'm', OMEN_SHEEP_HITPOINTS);
+        this.produceCondition = new TurnBasedCondition(EGG_TIMER_THRESHOLD);
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
-        this.behaviours.put(2, new ProduceBehaviour(this));
+        this.behaviours.put(2, new ProduceBehaviour(this, produceCondition));
         this.behaviours.put(999, new WanderBehaviour());
-
     }
 
     /**
      * Cures the OmenSheep and transforms all adjacent locations into Inheritrees.
+     * Called when the OmenSheep is cured by an item with the CURE capability.
      *
      * @param actor the actor performing the cure
      * @param map the game map where the OmenSheep is located
@@ -71,7 +104,7 @@ public class OmenSheep extends Creature implements Producible, Curable {
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-        ActionList actions =  super.allowableActions(otherActor, direction, map);
+        ActionList actions = super.allowableActions(otherActor, direction, map);
         Item cureItem;
         for(Item item : otherActor.getItemInventory()){
             if (item.hasCapability(Ability.CURE)){
@@ -83,33 +116,19 @@ public class OmenSheep extends Creature implements Producible, Curable {
     }
 
     /**
-     * Checks whether the OmenSheep is ready to produce an egg.
-     * Increments the internal egg timer, and returns true if the threshold is reached.
-     * Resets the timer if production is ready.
-     *
-     * @param producer the actor attempting to produce
-     * @param map      the current game map
-     * @return true if the egg can be produced, false otherwise
-     */
-    @Override
-    public boolean canProduce(Actor producer, GameMap map) {
-        eggTimer+= 1;
-        if (eggTimer >= EGG_TIMER_THRESHOLD) {
-            eggTimer = 0;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Spawns an at the OmenSheep's current location on the map.
+     * Spawns an Omen Sheep Egg at the OmenSheep's current location on the map.
+     * The egg contains health-increasing effects when consumed and will hatch
+     * into another OmenSheep after a set number of turns.
      *
      * @param producer the actor performing the production (usually the OmenSheep itself)
      * @param map      the current game map
      */
     @Override
     public void produce(Actor producer, GameMap map) {
-        map.locationOf(this).addItem(new OmenSheepEgg());
+        List<Effect> eatEggEffects = new ArrayList<>();
+        eatEggEffects.add(new IncreaseMaxHealthEffect(10));
+        OmenSheep hatchling = new OmenSheep(produceCondition);
+        Egg omenSheepEgg = new Egg("Omen Sheep Egg\uD83E\uDD5A", new TurnBasedCondition(3), hatchling, eatEggEffects);
+        map.locationOf(producer).addItem(omenSheepEgg);
     }
-
 }
