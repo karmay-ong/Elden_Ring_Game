@@ -12,45 +12,55 @@ import edu.monash.fit2099.engine.positions.Location;
  * @author Kian Lok Chin
  */
 public class ActorAttributeCondition implements Condition {
+
+    /**
+     * The actor to check
+     */
+    private Actor actor;
     /**
      * The actor attribute to check
      */
-    private final Enum<?> attribute;
+    private  Enum<?> attribute;
 
     /**
      * The threshold value to compare against
      */
-    private final int threshold;
+    private int threshold;
 
     /**
      * The operator to use for comparison (e.g., LESS_THAN, GREATER_THAN)
      */
-    private final Operators comparison;
+    private Operators comparison;
 
     /**
-     * Creates a condition based on an actor attribute comparison.
+     * Creates a condition based on a specific actor's attribute comparison.
      *
-     * @param attribute the attribute to check (e.g., BaseActorAttributes.HEALTH)
-     * @param threshold the threshold value to compare against
+     * @param actor      the specific actor whose attribute will be checked
+     * @param attribute  the attribute to check (e.g., BaseActorAttributes.HEALTH)
+     * @param threshold  the threshold value to compare against
      * @param comparison the type of comparison to perform (from Operators enum)
      */
-    public ActorAttributeCondition(Enum<?> attribute, int threshold, Operators comparison) {
+    public ActorAttributeCondition(Actor actor, Enum<?> attribute, int threshold, Operators comparison) {
+        this.actor = actor;
         this.attribute = attribute;
         this.threshold = threshold;
         this.comparison = comparison;
     }
 
+
     /**
-     * Checks if the actor at the specified location satisfies the attribute condition.
-     * Retrieves the actor at the location, gets their attribute value, and compares it
-     * to the threshold using the specified comparison operator.
+     * Checks if the specified actor satisfies the attribute condition.
+     * Gets the actor's attribute value and compares it to the threshold
+     * using the specified comparison operator.
      *
-     * @param location the location containing the actor to check
+     * Note: This implementation ignores the location parameter as it
+     * operates on a specific actor provided in the constructor.
+     *
+     * @param location the location (not used in this implementation)
      * @return true if the condition is satisfied, false otherwise
      */
     @Override
     public boolean isSatisfied(Location location) {
-        Actor actor = location.getActor();
         int attributeValue = actor.getAttribute(attribute);
 
         return switch (comparison) {

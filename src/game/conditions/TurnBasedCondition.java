@@ -1,7 +1,5 @@
 package game.conditions;
 
-import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
 /**
@@ -21,7 +19,7 @@ public class TurnBasedCondition implements Condition {
     /**
      * The number of turns required before the condition becomes satisfied
      */
-    private final int requiredTurns;
+    private int requiredTurns;
 
     /**
      * Creates a new turn-based condition with a specified cycle length.

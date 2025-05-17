@@ -19,9 +19,8 @@ public interface Condition {
     boolean isSatisfied(Location location);
 
     /**
-     * A constant condition that is always satisfied, regardless of location.
-     * Can be used as a default or fallback condition when a condition is required
-     * but no specific check is needed.
+     * A predefined condition that always returns true regardless of the location.
+     * Can be used as a default condition when an action should always be available.
      */
     Condition ALWAYS = (location) -> true;
 }

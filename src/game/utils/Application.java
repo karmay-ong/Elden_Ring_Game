@@ -54,11 +54,11 @@ public class Application {
                 "........................................",
                 "........................................",
                 "........................................",
-                "........................................",
-                "........................................",
-                "..............#######_#######...........",
-                "..............#.x..........t#...........",
-                "..............#.............#...........",
+                "........................########........",
+                "........................xxxxxx.#........",
+                "..............#######_#######x.#........",
+                "..............#.x..........t#x.#........",
+                "..............#.............####........",
                 "..............#.............#...........",
                 "..............#.........x...#...........",
                 "..............#.............#...........",
@@ -85,7 +85,10 @@ public class Application {
         // Create and position the player
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
         world.addPlayer(player, gameMap.at(23, 10));
-        player.addBalance(100000);
+        //world.addPlayer(player, gameMap.at(21, 5)); //test sellen
+        //world.addPlayer(player, gameMap.at(11, 12)); //test Guts
+        //world.addPlayer(player, gameMap.at(31, 6)); //test Kale
+        player.addBalance(100000000);
 
         // Create conditions and effects for all NPCs
         Condition spiritGoatCondition = new AdjacentCapabilityCondition(Status.BLESSED);
@@ -100,6 +103,8 @@ public class Application {
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
         GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition);
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
+        //gameMap.addActor(spiritGoat, gameMap.at(26, 5)); //test spirit goat reproduction
+
         gameMap.addActor(goldenBeetle, gameMap.at(22, 10));
         gameMap.addActor(omenSheep, gameMap.at(23, 11));
         gameMap.addActor(new Sellen(), gameMap.at(21, 4));
@@ -107,9 +112,8 @@ public class Application {
         gameMap.addActor(new Guts(), gameMap.at(12, 12));
 
         // Add starting items to player's inventory
-        player.addItemToInventory(new Seed(new Inheritree()));
-        player.addItemToInventory(new Seed(new Bloodrose()));
-
+        //player.addItemToInventory(new Seed(new Inheritree()));
+        //player.addItemToInventory(new Seed(new Bloodrose()));
         // Add items to the game world
         gameMap.at(24, 11).addItem(new Talisman());
 

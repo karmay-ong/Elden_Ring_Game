@@ -1,7 +1,6 @@
 package game.conditions;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
 /**
@@ -11,17 +10,31 @@ import edu.monash.fit2099.engine.positions.Location;
  * @author Kian Lok Chin
  */
 public class EmptyInventoryCondition implements Condition {
+    /**
+     * The actor whose inventory will be checked
+     */
+    private Actor actor;
 
     /**
-     * Checks if the actor at the specified location has an empty inventory.
-     * Retrieves the actor at the location and examines their item inventory.
+     * Creates a condition that checks if the specified actor has an empty inventory.
      *
-     * @param location the location containing the actor to check
+     * @param actor the actor whose inventory will be checked
+     */
+    public EmptyInventoryCondition(Actor actor){
+        this.actor = actor;
+    }
+
+    /**
+     * Checks if the specified actor has an empty inventory.
+     *
+     * Note: This implementation ignores the location parameter as it
+     * operates on a specific actor provided in the constructor.
+     *
+     * @param location the location (not used in this implementation)
      * @return true if the actor has no items in their inventory, false otherwise
      */
     @Override
     public boolean isSatisfied(Location location) {
-        Actor actor = location.getActor();
         return actor.getItemInventory().isEmpty();
     }
 }
