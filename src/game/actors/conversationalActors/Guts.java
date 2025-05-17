@@ -1,5 +1,5 @@
-
 package game.actors.conversationalActors;
+import edu.monash.fit2099.engine.actors.Actor;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import game.behaviours.AttackBehaviour;
@@ -32,14 +32,16 @@ public class Guts extends ConversationalActor {
     }
 
     /**
-     * Initializes Guts' monologues, including general battle cries and
-     * a conditional taunt when the listener's health is low.
+     * Initializes Guts' monologues, including two general battle cries and
+     * a conditional taunt that triggers when the listener's health is below 50.
+     *
+     * @param listener the actor that will be listening to Guts
      */
     @Override
-    protected void initMonologues() {
+    protected void initMonologues(Actor listener) {
         addMonologue("RAAAAGH!");
         addMonologue("I’LL CRUSH YOU ALL!");
-        Condition lowHealthCondition = new ActorAttributeCondition(
+        Condition lowHealthCondition = new ActorAttributeCondition(listener,
                 BaseActorAttributes.HEALTH,
                 MONOLOGUE_WEAK_HEALTH_THRESHOLD,
                 Operators.LESS_THAN

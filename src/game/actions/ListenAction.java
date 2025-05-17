@@ -11,7 +11,6 @@ import game.actors.conversationalActors.ConversationalActor;
  * a formatted monologue display. The monologue is rendered in a colored text box.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
  */
 public class ListenAction extends Action {
     private ConversationalActor speaker;

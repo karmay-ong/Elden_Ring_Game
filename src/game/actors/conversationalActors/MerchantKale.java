@@ -39,20 +39,25 @@ public class MerchantKale extends ConversationalActor {
     }
 
     /**
-     * Initializes merchant-specific monologues based on player's balance, inventory,
-     * or proximity to cursed entities.
+     * Initializes merchant-specific monologues based on contextual conditions:
+     * - When player's balance is below 500
+     * - When player has an empty inventory
+     * - When near a cursed entity
+     * - A default monologue with no conditions
+     *
+     * @param listener the actor that will be listening to MerchantKale
      */
     @Override
-    protected void initMonologues() {
+    protected void initMonologues(Actor listener) {
 
         addMonologue("Ah, hard times, I see. Keep your head low and your blade sharp.",
-                new BalanceCondition(MONOLOGUE_LOW_BALANCE_THRESHOLD, Operators.LESS_THAN));
+                new BalanceCondition(listener, MONOLOGUE_LOW_BALANCE_THRESHOLD, Operators.LESS_THAN));
 
         addMonologue("Not a scrap to your name? Even a farmer should carry a trinket or two.",
-                new EmptyInventoryCondition());
+                new EmptyInventoryCondition(listener));
 
         addMonologue("Rest by the flame when you can, friend. These lands will wear you thin.",
-                new AdjacentCapabilityCondition(Status.CURSED));
+                new AdjacentCapabilityCondition(this, Status.CURSED));
 
         addMonologue("A merchant's life is a lonely one. But the roads… they whisper secrets to those who listen.");
     }

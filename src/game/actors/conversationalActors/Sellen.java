@@ -3,7 +3,6 @@ package game.actors.conversationalActors;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.PurchaseAction;
 import game.effects.*;
@@ -39,10 +38,14 @@ public class Sellen extends ConversationalActor {
     }
 
     /**
-     * Initializes merchant-specific monologues with lore hints about the academy and glintstones.
+     * Initializes two merchant-specific monologues with lore hints about the academy
+     * and glintstones. These monologues have no special conditions and will always
+     * be eligible.
+     *
+     * @param Listener the actor that will be listening to Sellen
      */
     @Override
-    protected void initMonologues() {
+    protected void initMonologues(Actor Listener) {
         addMonologue("The academy casts out those it fears. Yet knowledge, like the stars, cannot be bound forever.");
         addMonologue("You sense it too, don't you? The Glintstone hums, even now.");
     }

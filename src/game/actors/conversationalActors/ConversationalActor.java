@@ -43,15 +43,16 @@ public abstract class ConversationalActor extends Actor {
      */
     public ConversationalActor(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        initMonologues();
     }
 
     /**
      * Abstract method for initializing this actor's monologues.
      * Implementations should use addMonologue(String) or
      * addMonologue(String, Condition) to populate the monologues list.
+     *
+     * @param listener the actor that will be listening to this conversational actor
      */
-    protected abstract void initMonologues();
+    protected abstract void initMonologues(Actor listener);
 
     /**
      * Adds a monologue with no condition (always eligible).
@@ -87,7 +88,7 @@ public abstract class ConversationalActor extends Actor {
             }
         }
         if (eligible.isEmpty()) {
-            return "The actor has nothing to say.";
+            return "";
         }
         return eligible.get(rand.nextInt(eligible.size())).getText();
     }
@@ -95,6 +96,7 @@ public abstract class ConversationalActor extends Actor {
     /**
      * Returns the list of actions that another actor can perform on this conversational actor,
      * including listening and attacking.
+     * Initializes monologues if they haven't been initialized yet.
      *
      * @param otherActor the actor interacting with this conversational actor
      * @param direction  the direction of the other actor relative to this actor
@@ -104,6 +106,9 @@ public abstract class ConversationalActor extends Actor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor, direction, map);
+        if (monologues.isEmpty()){
+            initMonologues(otherActor);
+        }
         actions.add(new ListenAction(this, direction));
         actions.add(new AttackAction(this, otherActor.getIntrinsicWeapon()));
         return actions;
@@ -130,4 +135,3 @@ public abstract class ConversationalActor extends Actor {
         return new DoNothingAction();
     }
 }
-
