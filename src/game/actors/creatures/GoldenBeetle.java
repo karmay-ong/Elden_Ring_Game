@@ -35,16 +35,6 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     public static final int GOLDEN_BEETLE_HITPOINTS = 25;
 
     /**
-     * Amount of health to increase when the beetle is eaten
-     */
-    public static final int HEALTH_INCREASE_AFTER_EATEN = 50;
-
-    /**
-     * Amount of balance (currency) to increase when the beetle is eaten
-     */
-    public static final int BALANCE_INCREASE_AFTER_EATEN = 1000;
-
-    /**
      * Reference to the actor this beetle is following
      */
     private Actor followedActor;
