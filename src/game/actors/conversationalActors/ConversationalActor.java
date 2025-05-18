@@ -25,7 +25,6 @@ import java.util.Random;
  * behaviours when not engaged in conversation.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
  */
 public abstract class ConversationalActor extends Actor {
     private List<Monologue> monologues = new ArrayList<>();

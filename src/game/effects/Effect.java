@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
  * Effects can modify actor attributes, provide benefits, apply penalties, or trigger
  * special actions when they are applied. They can be attached to items, locations,
  * or triggered by specific game events.
+ *
+ * @author Kian Lok Chin
  */
 public interface Effect {
     /**

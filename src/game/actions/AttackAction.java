@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.weapons.Weapon;
  * An Action that represents an attack by one Actor on another Actor.
  * This action handles both weapon-based and intrinsic attacks.
  *
+ * @author Lim Chi Jian
  * @author Kian Lok Chin
  * @author FIT2099 teaching team
  */
