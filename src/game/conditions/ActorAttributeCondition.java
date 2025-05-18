@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.positions.Location;
  * against a threshold using operations like less than, greater than, or equal to.
  * Used for conditions like low health, high stamina, etc.
  *
+ * @author Lim Chi Jian
  * @author Kian Lok Chin
  */
 public class ActorAttributeCondition implements Condition {

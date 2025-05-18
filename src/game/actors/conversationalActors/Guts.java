@@ -14,7 +14,6 @@ import java.util.TreeMap;
  * attacking and wandering. Provides themed monologues based on health thresholds.
  *
  * @author Lim Chi Jian
- * @version ver1.0.0
  */
 public class Guts extends ConversationalActor {
     public static final int GUTS_HITPOINTS =  500;
