@@ -85,7 +85,7 @@ public class Egg extends Item implements Eatable {
     @Override
     public ActionList allowableActions(Actor otherActor, GameMap map) {
         ActionList actions = new ActionList();
-        actions.add(new EatAction(otherActor, this));
+        actions.add(new EatAction( this));
         return actions;
     }
 }

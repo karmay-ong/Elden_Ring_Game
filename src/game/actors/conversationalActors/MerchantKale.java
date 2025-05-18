@@ -8,6 +8,7 @@ import game.actions.PurchaseAction;
 import game.actors.Status;
 import game.conditions.*;
 import game.effects.IncreaseMaxStaminaEffect;
+import game.effects.RestoreStaminaEffect;
 import game.trading.Offer;
 import game.weapons.BroadSword;
 import game.weapons.DragonSlayerGreatSword;
@@ -27,6 +28,7 @@ import java.util.TreeMap;
 public class MerchantKale extends ConversationalActor {
     public static final int MERCHANT_KALE_HITPOINTS = 200;
     public static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
+    private List<Offer> kaleOffers;
 
     /**
      * Constructs a new MerchantKale with predefined hitpoints and wandering behaviour.
@@ -36,6 +38,7 @@ public class MerchantKale extends ConversationalActor {
         super("Kale\uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDFED", 'k', MERCHANT_KALE_HITPOINTS);
         behaviours = new TreeMap<>();
         behaviours.put(999, new WanderBehaviour());
+        kaleOffers = new ArrayList<>();
     }
 
     /**
@@ -74,9 +77,10 @@ public class MerchantKale extends ConversationalActor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor, direction, map);
-        List<Offer> kaleOffers = new ArrayList<>();
-        kaleOffers.add(new Offer(new BroadSword(),150, List.of(new IncreaseMaxStaminaEffect(30 ))));
-        kaleOffers.add(new Offer(new DragonSlayerGreatSword(),1700, List.of(new IncreaseMaxStaminaEffect(20))));
+        if(kaleOffers.isEmpty()) {
+            kaleOffers.add(new Offer(new BroadSword(), 150, List.of(new IncreaseMaxStaminaEffect(30))));
+            kaleOffers.add(new Offer(new DragonSlayerGreatSword(), 1700, List.of(new RestoreStaminaEffect(20))));
+        }
         for (Offer offer : kaleOffers) {
             actions.add(new PurchaseAction(this, offer));
         }

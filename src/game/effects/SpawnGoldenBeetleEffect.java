@@ -38,7 +38,7 @@ public class SpawnGoldenBeetleEffect implements Effect {
      */
     @Override
     public void apply(Actor actor, GameMap map) {
-        spawnGoldenBeetleAdjacentTo(actor, map);
+        spawnGoldenBeetleAdjacentTo(target, map);
         new Display().println("A Golden Beetle is spawned near " + actor);
     }
 

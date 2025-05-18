@@ -44,10 +44,11 @@ public class PurchaseAction extends Action {
      */
     @Override
     public String execute(Actor farmer, GameMap map) {
-        if (farmer.getBalance() < offer.getPrice()) {
+        int price = offer.getPrice();
+        if (farmer.getBalance() < price) {
             return farmer + " doesn't have enough Runes to buy " + offer + ".";
         }
-        farmer.deductBalance(offer.getPrice());
+        farmer.deductBalance(price);
         Item weapon = offer.getPrototype();
         farmer.addItemToInventory(weapon);
         offer.applyEffect(farmer, map);

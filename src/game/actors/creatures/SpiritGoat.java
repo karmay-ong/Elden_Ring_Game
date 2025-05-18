@@ -99,7 +99,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     @Override
     public void produce(Actor producer, GameMap map) {
         Location here = map.locationOf(producer);
-        SpiritGoat child = new SpiritGoat(produceCondition);
+        Creature child = new SpiritGoat(produceCondition);
         for (Exit exit : here.getExits()) {
             Location dest = exit.getDestination();
             if (!dest.containsAnActor() && dest.canActorEnter(child)) {

@@ -161,7 +161,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         if (followedActor == null && otherActor.hasCapability(Status.FOLLOWABLE)) {
             startFollowing(otherActor);
         }
-        actions.add(new EatAction(otherActor, this));
+        actions.add(new EatAction(this));
         return actions;
     }
 }

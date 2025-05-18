@@ -11,13 +11,10 @@ import game.items.Eatable;
  */
 
 public class EatAction extends Action {
-
-    private Actor actor;
     private Eatable eatable;
 
-    public EatAction(Actor actor, Eatable eatable) {
+    public EatAction(Eatable eatable) {
         this.eatable = eatable;
-        this.actor = actor;
     }
 
     /**

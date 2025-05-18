@@ -26,6 +26,7 @@ import java.util.TreeMap;
  */
 public class Sellen extends ConversationalActor {
     public final static int SELLEN_HITPOINTS = 150;
+    private List<Offer> sellenOffers;
 
     /**
      * Constructs a new Sellen with predefined hitpoints and wandering behaviour.
@@ -35,6 +36,7 @@ public class Sellen extends ConversationalActor {
         super("Sellen\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDE92", 's', SELLEN_HITPOINTS);
         behaviours = new TreeMap<>();
         behaviours.put(999, new WanderBehaviour());
+        sellenOffers = new ArrayList<>();
     }
 
     /**
@@ -63,12 +65,13 @@ public class Sellen extends ConversationalActor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor ,direction, map);
-        List<Offer> sellenOffers = new ArrayList<>();
-        sellenOffers.add(new Offer( new BroadSword(),100, List.of(new IncreaseMaxHealthEffect(20))));
-        sellenOffers.add(new Offer( new DragonSlayerGreatSword(),1500, List.of(new SpawnGoldenBeetleEffect(otherActor))));
-        sellenOffers.add(new Offer( new Katana(), 500, Arrays.asList( new SpawnOmenSheepEffect(this),
-                new HealEffect(10),
-                new IncreaseMaxStaminaEffect(20))));
+        if(sellenOffers.isEmpty()) {
+            sellenOffers.add(new Offer(new BroadSword(), 100, List.of(new IncreaseMaxHealthEffect(20))));
+            sellenOffers.add(new Offer(new DragonSlayerGreatSword(), 1500, List.of(new SpawnGoldenBeetleEffect(otherActor))));
+            sellenOffers.add(new Offer(new Katana(), 500, Arrays.asList(new SpawnOmenSheepEffect(this),
+                    new HealEffect(10),
+                    new IncreaseMaxStaminaEffect(20))));
+        }
         for (Offer offer : sellenOffers) {
             actions.add(new PurchaseAction(this, offer));
         }
