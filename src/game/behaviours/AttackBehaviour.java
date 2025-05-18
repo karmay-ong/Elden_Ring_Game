@@ -48,9 +48,8 @@ public class AttackBehaviour implements Behaviour {
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
             Actor target = destination.getActor();
-
             if (target != null) {
-                if (condition.isSatisfied(here)) {
+                if (condition.isSatisfied(destination)) {
                     return new AttackAction(target, actor.getIntrinsicWeapon());
                 }
             }

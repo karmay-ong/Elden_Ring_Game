@@ -47,6 +47,21 @@ public class ActorAttributeCondition implements Condition {
         this.comparison = comparison;
     }
 
+    /**
+     * Creates a condition that will check the attribute of any actor at a given location.
+     * This constructor sets the actor field to null, meaning the isSatisfied method will
+     * use the actor at the provided location when evaluating the condition.
+     *
+     * @param attribute  the attribute to check (e.g., BaseActorAttributes.HEALTH)
+     * @param threshold  the threshold value to compare against
+     * @param comparison the type of comparison to perform (from Operators enum)
+     */
+    public ActorAttributeCondition( Enum<?> attribute, int threshold, Operators comparison) {
+        this.attribute = attribute;
+        this.threshold = threshold;
+        this.comparison = comparison;
+    }
+
 
     /**
      * Checks if the specified actor satisfies the attribute condition.
@@ -61,7 +76,14 @@ public class ActorAttributeCondition implements Condition {
      */
     @Override
     public boolean isSatisfied(Location location) {
-        int attributeValue = actor.getAttribute(attribute);
+        Actor target;
+        if(actor == null){
+            target = location.getActor();
+        }
+        else{
+            target = actor;
+        }
+        int attributeValue = target.getAttribute(attribute);
 
         return switch (comparison) {
             case LESS_THAN -> attributeValue < threshold;

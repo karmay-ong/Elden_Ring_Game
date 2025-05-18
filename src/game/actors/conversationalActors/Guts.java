@@ -27,7 +27,7 @@ public class Guts extends ConversationalActor {
         super("Guts\uD83D\uDC7A", 'g',GUTS_HITPOINTS );
         setIntrinsicWeapon(new BareFist());
         behaviours = new TreeMap<>();
-        behaviours.put(1, new AttackBehaviour(Condition.ALWAYS));
+        behaviours.put(1,new AttackBehaviour(new ActorAttributeCondition(BaseActorAttributes.HEALTH,50, Operators.GREATER_THAN)));
         behaviours.put(999, new WanderBehaviour());
     }
 
