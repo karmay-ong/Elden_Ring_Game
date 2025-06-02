@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.time.TimeSystem;
 import game.weapons.BareFist;
 
 /**
@@ -20,6 +21,7 @@ import game.weapons.BareFist;
  * @author Kian Lok Chin
  */
 public class Player extends Actor {
+    private int temperature;
 
     /**
      * Constructor for the Player class.
@@ -29,13 +31,42 @@ public class Player extends Actor {
      * @param hitPoints   Player's starting number of hitpoints
      * @param stamina     Player's starting stamina points
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, int temperature) {
         super(name, displayChar, hitPoints);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.FOLLOWABLE);
         this.setIntrinsicWeapon(new BareFist());
+        this.temperature = temperature;
     }
+
+    /**
+     * Returns the current temperature value.
+     *
+     * @return the current temperature as an integer.
+     */
+    public int getTemperature() {
+        return this.temperature;
+    }
+
+    /**
+     * Decreases the temperature by the specified amount.
+     *
+     * @param temp the amount to decrease the temperature by.
+     */
+    public void cold(int temp) {
+        this.temperature -= temp;
+    }
+
+    /**
+     * Increases the temperature by the specified amount.
+     *
+     * @param temp the amount to increase the temperature by.
+     */
+    public void warm(int temp) {
+        this.temperature += temp;
+    }
+
 
     /**
      * Displays the player's attributes (health and stamina) in a formatted UI.
@@ -114,6 +145,7 @@ public class Player extends Actor {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        TimeSystem.tickAll();
         displayAttributes(display);
         displayInventory(display);
         // Handle multi-turn Actions
