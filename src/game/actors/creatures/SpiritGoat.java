@@ -1,5 +1,6 @@
 package game.actors.creatures;
 
+import game.behaviours.BehaviourSelector;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -23,6 +24,7 @@ import game.items.SpiritGoatMeat;
  *
  * @author Kian Lok Chin
  * @author YOUSSEF HASSANEIN
+ * Modified by Pemudi Hiruni Halgahawatta Liyanaarachchi
  */
 public class SpiritGoat extends Creature implements Producible, Curable {
 
@@ -47,9 +49,10 @@ public class SpiritGoat extends Creature implements Producible, Curable {
      *
      * @param produceCondition the condition that determines when the goat should produce offspring
      */
-    public SpiritGoat(Condition produceCondition) {
+    public SpiritGoat(Condition produceCondition, BehaviourSelector selector) {
         super("Spirit Goat\uD83D\uDC10", 'y', SPIRIT_GOAT_HITPOINTS);
         this.produceCondition = produceCondition;
+        this.selector = selector;
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new ProduceBehaviour(this, produceCondition));
         this.behaviours.put(999, new WanderBehaviour());
@@ -100,7 +103,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     @Override
     public void produce(Actor producer, GameMap map) {
         Location here = map.locationOf(producer);
-        Creature child = new SpiritGoat(produceCondition);
+        Creature child = new SpiritGoat(produceCondition, selector);
         for (Exit exit : here.getExits()) {
             Location dest = exit.getDestination();
             if (!dest.containsAnActor() && dest.canActorEnter(child)) {
