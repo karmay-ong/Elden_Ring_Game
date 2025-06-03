@@ -1,9 +1,10 @@
 package game.grounds;
 
-
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-
+import game.actions.TeleportAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,11 @@ public class TeleportationCircle extends Ground {
         this.currentLocation = location;
     }
 
+
     public Location getLocation() {
         return currentLocation;
     }
+
 
     public void addDestination(TeleportationCircle destinationCircle) {
         if (!destinations.contains(destinationCircle)) {
@@ -31,8 +34,11 @@ public class TeleportationCircle extends Ground {
         }
     }
 
+
     public void addBidirectionalConnection(TeleportationCircle otherCircle) {
+        // Add the other circle as a destination for this circle
         this.addDestination(otherCircle);
+        // Add this circle as a destination for the other circle
         otherCircle.addDestination(this);
     }
 
@@ -40,12 +46,26 @@ public class TeleportationCircle extends Ground {
         destinations.remove(destinationCircle);
     }
 
+
     public void removeBidirectionalConnection(TeleportationCircle otherCircle) {
         this.removeDestination(otherCircle);
         otherCircle.removeDestination(this);
     }
 
+
     public List<TeleportationCircle> getDestinations() {
         return new ArrayList<>(destinations);
+    }
+
+
+    @Override
+    public ActionList allowableActions(Actor actor, Location currentLocation, String direction) {
+        ActionList actions = super.allowableActions(actor, currentLocation, direction);
+        for (TeleportationCircle destinationCircle : destinations) {
+            if (destinationCircle.getLocation() != null) {
+                actions.add(new TeleportAction(destinationCircle));
+            }
+        }
+        return actions;
     }
 }
