@@ -32,7 +32,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     /**
      * Default hit points for the Golden Beetle
      */
-    public static final int GOLDEN_BEETLE_HITPOINTS = 25;
+    private static final int GOLDEN_BEETLE_HITPOINTS = 25;
 
     /**
      * Reference to the actor this beetle is following

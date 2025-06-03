@@ -16,8 +16,8 @@ import java.util.TreeMap;
  * @author Lim Chi Jian
  */
 public class Guts extends ConversationalActor {
-    public static final int GUTS_HITPOINTS =  500;
-    public static final int MONOLOGUE_WEAK_HEALTH_THRESHOLD = 50;
+    private static final int GUTS_HITPOINTS =  500;
+    private static final int MONOLOGUE_WEAK_HEALTH_THRESHOLD = 50;
 
     /**
      * Constructs a new Guts actor with predefined attributes, intrinsic weapon, and behaviours.

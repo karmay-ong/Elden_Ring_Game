@@ -16,12 +16,12 @@ public class Katana extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the katana
      */
-    public static final int DAMAGE = 50;
+    private static final int DAMAGE = 50;
 
     /**
      * The hit rate percentage of the katana
      */
-    public static final int HIT_RATE = 60;
+    private static final int HIT_RATE = 60;
 
     /**
      * Constructor for the Katana

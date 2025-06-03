@@ -35,7 +35,7 @@ public class OmenSheep extends Creature implements Producible, Curable {
     /**
      * Default hitpoints for Omen Sheep
      */
-    public static final int OMEN_SHEEP_HITPOINTS = 50;
+    private static final int OMEN_SHEEP_HITPOINTS = 50;
 
     /**
      * Countdown timer for the rotting process, measured in turns

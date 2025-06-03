@@ -27,7 +27,7 @@ public class Torch extends Item implements Sellable {
     private int count = 0;
     private boolean isOpen = false;
     private static final int MAX_TORCH_USES = 3;
-    public static final int SOLD_HEAL_AMOUNT = 5;
+    private static final int SOLD_HEAL_AMOUNT = 5;
 
     /**
      * Constructs a new Torch item.

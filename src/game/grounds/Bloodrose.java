@@ -19,7 +19,7 @@ public class Bloodrose extends Ground implements Plantable {
     /**
      * The minimum energy required to plant a Bloodrose
      */
-    public final static int MIN_ENERGY_TO_PLANT = 25;
+    private final static int MIN_ENERGY_TO_PLANT = 25;
 
     /**
      * Constructor for the Bloodrose class.

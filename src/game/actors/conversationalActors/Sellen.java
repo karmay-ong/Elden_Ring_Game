@@ -25,7 +25,7 @@ import java.util.TreeMap;
  * @author Kian Lok Chin
  */
 public class Sellen extends ConversationalActor {
-    public final static int SELLEN_HITPOINTS = 150;
+    private final static int SELLEN_HITPOINTS = 150;
     private List<Offer> sellenOffers;
 
     /**

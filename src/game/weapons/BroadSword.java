@@ -16,12 +16,12 @@ public class BroadSword extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the broadsword
      */
-    public static final int DAMAGE = 30;
+    private static final int DAMAGE = 30;
 
     /**
      * The hit rate percentage of the broadsword
      */
-    public static final int HIT_RATE = 50;
+    private static final int HIT_RATE = 50;
 
     /**
      * Constructor for the BroadSword

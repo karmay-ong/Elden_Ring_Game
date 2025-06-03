@@ -33,7 +33,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     /**
      * Default hit points for Spirit Goat
      */
-    public static final int SPIRIT_GOAT_HITPOINTS = 50;
+    private static final int SPIRIT_GOAT_HITPOINTS = 50;
 
     /**
      * Condition that determines when the goat should produce offspring

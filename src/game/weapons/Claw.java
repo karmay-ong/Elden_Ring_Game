@@ -12,7 +12,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 public class Claw extends IntrinsicWeapon {
 
     /** The hit rate percentage of the claw attack. */
-    public static final int HIT_RATE = 75;
+    private static final int HIT_RATE = 75;
 
     /**
      * Constructs a Claw with specified damage.

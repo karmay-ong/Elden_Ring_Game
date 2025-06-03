@@ -26,8 +26,8 @@ import java.util.TreeMap;
  * @author Kian Lok Chin
  */
 public class MerchantKale extends ConversationalActor {
-    public static final int MERCHANT_KALE_HITPOINTS = 200;
-    public static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
+    private static final int MERCHANT_KALE_HITPOINTS = 200;
+    private static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
     private List<Offer> kaleOffers;
 
     /**

@@ -17,12 +17,12 @@ public class DragonSlayerGreatSword extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the dragonslayergreatsword
      */
-    public static final int DAMAGE = 70;
+    private static final int DAMAGE = 70;
 
     /**
      * The hit rate percentage of the dragonslayergreatsword
      */
-    public static final int HIT_RATE = 75;
+    private static final int HIT_RATE = 75;
 
     /**
      * Constructor for the DragonSlayerGreatSword
