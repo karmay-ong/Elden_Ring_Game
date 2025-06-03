@@ -172,111 +172,124 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 ## REQ4: Witch Mayhem of Potions
 
-## 🧪 Potion System Overview
+### 1. Base Classes & Abstractions
 
-🎩 Welcome to the alchemist’s playground—where bubbling cauldrons and shimmering vials hold the power to heal, harm, or unhinge anyone daring enough to sip—or hurl—them. In the world of Elden Thing, potions are more than mere consumables; they’re tactical tools, chaotic gambits, and sometimes the final hope in a desperate skirmish.
+### 🧪 Potion (Abstract)
 
-Behind every flask lies a tale of perilous gathering: sneaking through shadowy groves to pluck Blessed mushrooms under moonlight, or wading into cursed swamps to harvest glowing Cursed blooms🌿. Each ingredient carries danger⚠️—a wrong step might awaken a hidden wraith, or trigger a cloud of hallucinogenic spores. But the thrill of discovery is only rivaled by the joy of returning to your ramshackle guild workshop, ingredients in hand, ready to transmute them into something extraordinary.
+- Base for all potions
+- Manages drinking/throwing mechanics
+- Handles action creation
 
-This is where the true artistry begins. Your Pouch becomes a painter’s palette🎨, blending Blessed, Cursed, and Drinkable components to craft healing draughts, poison bombs, or brews that twist the mind itself. Brewing isn’t a simple button press—it’s a delicate ritual demanding patience and precision. Too much of one herb, and your potion may turn to useless sludge. Too little, and the effects might spiral out of control. Every success is a triumph✨; every failure, a humbling lesson.
+### 🥩 Meat (Abstract)
 
-Once a potion rests in your inventory, new decisions emerge. Will you sip a Healing Potion before the next ambush? Slip a Poison Potion into a rival’s flask? Or lob a Crazy Potion into a crowd and watch chaos unravel🌀? Every choice matters—a mistimed toss could strike an ally, while an empty bottle at a crucial moment could seal your fate💀. In Elden Thing, potions are as much about strategy as they are about risk.
-
-This system was crafted not just to deepen combat, but to intertwine alchemy with exploration and lore. Tome-keepers in hidden libraries whisper of forgotten reagents locked in ancient vaults. Wandering merchants offer recipe fragments for a king’s ransom. As the world of Elden Thing expands—through new biomes, lost ruins, or arcane discoveries—so too will the horizons of potioncraft.
-
-Whether you’re a battlefield tactician, a cunning saboteur, or a mad scientist on the brink, the alchemist’s cauldron🔥 awaits your hand.
-
----
-## UML Diagram
-![Weather Madness UML](diagram_readme_req4.png)
----
-
-## 📚 Core Classes
-
-### 🧪 Potion (Abstract Class)
-
-*Applied to `Item.java`*
-
-- Base class for all potion items
-- Defines shared behaviors for drinking and throwing
-- Applies status effects either directly (on drink) or area-based (on throw)
-- Follows the **Template Method** design pattern to structure effect application
+- Base for all meat items
+- Implements eating mechanics
+- Manages inventory interactions
 
 ---
 
-## 🌟 Potion Types
+### 2. Potion Types
 
-*Each class extends `Potion`, providing unique effects and values.*
+### 💜 HealingPotion
 
-### ❤️ Healing Potion
+- Restores health when consumed or thrown
+- Applies a timed healing effect
 
-- Restores a moderate amount of health when drunk
-- Slight healing effect when thrown, affecting nearby allies
+### 🖤 PoisonPotion
 
-### ☠️ Poison Potion
+- Inflicts damage when consumed or thrown
+- Applies a timed poison effect
 
-- Damages the target when consumed
-- Weaker area damage when thrown at enemies
+### ❤️ CrazyPotion
 
-### 🤪 Crazy Potion
-
-- Applies a disorienting effect for a set number of turns
-- Alters behavior or stats during the effect’s duration
+- Temporarily increases max health or induces unpredictable behavior
+- Applies a timed effect
 
 ---
 
-## ⚔️ Potion Actions
+### 3. Ingredients
 
-### 🎯 ThrowPotionAction
+### 🐑 OmenSheepMeat
 
-*Allows a player to throw a potion onto the map.*
+- Ingredient with the **BLESSED** capability
 
-- Applies the potion’s area effect to surrounding actors
-- Effect strength usually weaker than direct consumption
-- Uses the `throwPotion()` method defined in `Potion`
+### 🐐 SpiritGoatMeat
 
-# 💡 Additional Classes to Support
+- Ingredient with the **BLESSED** capability
+
+### 🪲 GoldenBeetleMeat
+
+- Ingredient with the **CURSED** capability
+
+### 💧 WaterBucket
+
+- Ingredient with the **DRINKABLE** capability
+- Allows for collecting and using water
+
+---
+
+### 4. Effects
+
+### 💚 HealingEffect
+
+- Restores health over time
+
+### 💀 PoisonEffect
+
+- Deals damage over time
+
+### 🌟 CrazyEffect
+
+- Alters actor behavior or stats for a duration
+
+---
+
+### 5. Actions
 
 ### 🥤 DrinkPotionAction
 
-*Allows a player to consume a potion.*
+- Lets actors drink potions
+- Executes healing, poisoning, or crazy effects
 
-- Triggers the potion’s `drink()` method
-- Applies immediate effect (e.g., heal, damage)
+### 🎯 ThrowPotionAction
+
+- Enables potion throwing
+- Affects area or target with potion effect
+
+### 🧪 BrewHealingPotionAction
+
+- Brews a healing potion using specific ingredients
+
+### ☠️ BrewPoisonPotionAction
+
+- Brews a poison potion using specific ingredients
+
+### 🌪️ BrewCrazyPotionAction
+
+- Brews a crazy potion using specific ingredients
+
+### 🪣 CollectWaterAction
+
+- Collects water into a container (e.g., bucket)
+
+### 🌊 CreatePondAction
+
+- Uses water to create a pond in the environment
 
 ---
 
-## ✨ Effects
-
-### 🌈 Status Effects
-
-*Abstracted under a `StatusEffect` class.*
-
-- **HealingEffect**: Gradual or immediate HP recovery
-- **PoisonEffect**: Causes damage over time
-- **CrazyEffect**: Temporarily alters the actor's behavior or stats
-
-Each effect is applied via ticking (`tick()`), influencing the actor over several turns.
-
----
-
-## 🎒 Brewing System
+### 6. Environment & Systems
 
 ### 💼 Pouch
 
-*Acts as a crafting toolkit for the player.*
+- Stores ingredients
+- Verifies ingredient requirements
+- Provides potion brewing actions
 
-- Manages inventory of ingredients (e.g., “Blessed”, “Cursed”, “Drinkable”)
-- Offers valid brewing actions based on available materials
-- Handles consumption of ingredients when a potion is brewed
+### 🌊 Pond
 
-### 🧪 Brewing Actions
-
-- **BrewHealingPotionAction**: Requires 1x Blessed + 1x Drinkable
-- **BrewPoisonPotionAction**: Requires 1x Cursed + 1x Drinkable
-- **BrewCrazyPotionAction**: Requires 3x Blessed + 2x Drinkable
-
-These actions are shown to the player based on inventory contents.
+- A terrain feature for interacting with water
+- Enables water-based actions
 
 ---
 
@@ -300,25 +313,6 @@ These actions are shown to the player based on inventory contents.
 - Effects are instantiated via the potion and applied to the actor
 - Effects run each turn using the `tick()` method
 
----
-
-## 🎯 Design Patterns
-
-### 📐 Template Method
-
-- Used in the `Potion` class to standardize the throw logic while allowing potion-specific effects via overrides
-
-### 🎮 Command Pattern
-
-- Each potion-related action (e.g., Drink, Throw, Brew) is encapsulated as a command object, enabling flexible use and undo potential
-
-### 🔄 Strategy Pattern
-
-- Effects like HealingEffect and PoisonEffect implement their own logic under a shared interface (`tick()`)
-
-### 🏭 Factory Method
-
-- Each potion defines its own way of generating an effect using `createEffect()`
 
 ---
 
@@ -348,33 +342,57 @@ The party of adventurers—Lyria the Ranger, Torvik the Warrior, and Nyssa the M
 
 ---
 
-### 🔄 Turn-by-Turn Progression
+## 🎮 Turn 1: The Tactical Setup
 
-1. **Turn 1 – Scouting the Gorge**
-    - Lyria moves ahead to scout. She spots three rattler-lizards clustered around a rock.
-    - The system displays: “🐍 You sense danger ahead—rattler-lizards patrol this area.”
-    - Torvik and Nyssa hold their position, anticipating an ambush.
-2. **Turn 2 – Enemies Advance**
-    - The rattler-lizards notice movement and slither toward the party’s position.
-    - A warning appears: “The rattler-lizards hiss and bear their fangs!”
-    - Nyssa realizes this is the perfect moment to use the **Poison Potion**—aimed at the grouped enemies.
-3. **Turn 3 – Preparing the Throw**
-    - Nyssa selects **ThrowPotionAction** on her Poison Potion.
-    - She targets the tile directly in front of the three rattler-lizards.
-    - The system readies the action: “🥃 You hurl the Poison Potion in a high arc toward the cluster.”
-4. **Turn 4 – Impact and Area Effect**
-    - The Poison Potion shatters at the targeted tile, releasing a green cloud.
-    - Each rattler-lizard within 1 tile of the impact point is affected by a **PoisonEffect** (weaker than drinking).
-        - Each enemy receives **5 damage per tick** for **3 turns**.
-    - System message: “☠️ A cloud of toxic fumes engulfs the rattler-lizards—venom seeps into their veins!”
-5. **Turn 5 – Enemy Reaction**
-    - Two rattler-lizards stagger, visibly weakened; one collapses immediately (HP reaches zero).
-    - The third, though damaged, retaliates with a quick strike at Lyria—dealing minor bite damage.
-    - Lyria dodges but loses 4 HP.
-6. **Turn 6 – Status Effects Tick**
-    - Remaining rattler-lizard’s **PoisonEffect** ticks: deals another 5 damage, causing it to stagger and retreat.
-    - Torvik rushes forward to finish it off with a sword strike.
-    - The system notes: “🍃 Poison spreads—your enemies falter, giving Torvik an opening!”
+**Player Action:**
+- Throws **Poison Potion** into the narrow corridor
+- Creates a **3x3 toxic barrier** between the party and enemies
+
+**Environment Effect:**
+- **Purple mist** spreads across the corridor
+- Covers the **choke point** where rattler-lizards are clustered
+
+**Enemy Status:**
+- **Three rattler-lizards** caught in the initial poison cloud
+- Each affected enemy takes **5 damage**
+- **Two enemies** begin showing signs of poisoning
+
+---
+
+## 🎮 Turn 2: The Poison Spreads
+
+**Poison Effect:**
+- Poison cloud **remains active** in the corridor
+- Affected enemies take a **second wave of damage** (**10 total**)
+- **Visible weakening** of poisoned rattler-lizards
+
+**Enemy Response:**
+- **Two unaffected** rattler-lizards attempt to **circle around**
+- Poisoned enemies **struggle to maintain formation**
+- **One rattler-lizard retreats** from the poison area
+
+**Party Position:**
+- Maintains **defensive formation** behind the poison cloud
+- Prepares for **potential flanking maneuvers**
+
+---
+
+## 🎮 Turn 3: The Counter Attack
+
+**Combat Situation:**
+- **Flanking rattler-lizards** reach the party’s position
+- **One party member** takes **significant damage**
+- Poison continues affecting trapped enemies (**15 total damage**)
+
+**Player Response:**
+- Uses **Healing Potion** for emergency recovery
+- Gains **20 HP** instantly
+- Repositions for a **stronger defensive stance**
+
+**Battlefield State:**
+- Poison cloud continues to **deny the central corridor**
+- Weakened enemies **split between retreat and advance**
+- Party gains a **healing advantage** for upcoming rounds
 
 ---
 
