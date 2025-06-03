@@ -41,6 +41,8 @@ public abstract class WeaponItem extends Item implements Weapon {
      */
     private float damageMultiplier;
 
+    private static final int HIT_RATE_MAX = 100;
+
     /**
      * Constructor.
      *
@@ -69,7 +71,7 @@ public abstract class WeaponItem extends Item implements Weapon {
     @Override
     public String attack(Actor attacker, Actor target, GameMap map) {
         Random rand = new Random();
-        if (!(rand.nextInt(100) < this.hitRate)) {
+        if (!(rand.nextInt(HIT_RATE_MAX) < this.hitRate)) {
             return attacker + " misses " + target + ".";
         }
 

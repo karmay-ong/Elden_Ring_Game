@@ -17,12 +17,14 @@ public class DragonSlayerGreatSword extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the dragonslayergreatsword
      */
-    private static final int DAMAGE = 70;
+    public static final int DAMAGE = 70;
 
     /**
      * The hit rate percentage of the dragonslayergreatsword
      */
-    private static final int HIT_RATE = 75;
+    public static final int HIT_RATE = 75;
+
+    public static final int MAX_HEALTH_INCREASE = 15;
 
     /**
      * Constructor for the DragonSlayerGreatSword
@@ -44,7 +46,7 @@ public class DragonSlayerGreatSword extends WeaponItem implements Sellable {
     @Override
     public List<Effect> soldEffects() {
         List<Effect> effects = new ArrayList<>();
-        effects.add(new IncreaseMaxHealthEffect(15));
+        effects.add(new IncreaseMaxHealthEffect(MAX_HEALTH_INCREASE));
         return effects;
     }
 }

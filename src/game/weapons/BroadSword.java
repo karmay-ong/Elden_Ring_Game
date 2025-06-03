@@ -16,12 +16,14 @@ public class BroadSword extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the broadsword
      */
-    private static final int DAMAGE = 30;
+    public static final int DAMAGE = 30;
 
     /**
      * The hit rate percentage of the broadsword
      */
-    private static final int HIT_RATE = 50;
+    public static final int HIT_RATE = 50;
+
+    public static final int HEAL_AMOUNT = 10;
 
     /**
      * Constructor for the BroadSword
@@ -43,7 +45,7 @@ public class BroadSword extends WeaponItem implements Sellable {
     @Override
     public List<Effect> soldEffects() {
         List<Effect> effects = new ArrayList<>();
-        effects.add(new HealEffect(10));
+        effects.add(new HealEffect(HEAL_AMOUNT));
         return effects;
     }
 }

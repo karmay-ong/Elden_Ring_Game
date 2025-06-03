@@ -13,13 +13,16 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
  */
 public class BareFist extends IntrinsicWeapon {
 
+    private static final int DAMAGE = 25;
+    private static final int HIT_RATE = 50;
+
     /**
      * Constructor for the BareFist class.
      * Initializes the bare fist with 25 damage, "punches" as the verb,
      * and 50% hit rate.
      */
     public BareFist() {
-        super(25, "punches", 50);
+        super(DAMAGE, "punches", HIT_RATE);
     }
 
     /**

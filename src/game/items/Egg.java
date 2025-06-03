@@ -20,9 +20,9 @@ import java.util.List;
  * @author YOUSSEF HASSANEIN
  */
 public class Egg extends Item implements Eatable {
-    protected List<Effect> consumptionEffects;
-    protected Condition condition;
-    protected Creature hatchling;
+    private List<Effect> consumptionEffects;
+    private Condition condition;
+    private Creature hatchling;
 
     /**
      * Constructor for Egg with condition, hatchling, and consumption effects.
@@ -64,7 +64,7 @@ public class Egg extends Item implements Eatable {
     /**
      * Remove this egg and spawn the creature
      */
-    protected void hatch(Location currentLocation) {
+    private void hatch(Location currentLocation) {
         if (!currentLocation.containsAnActor()) {
             currentLocation.addActor(hatchling);
             currentLocation.removeItem(this);
@@ -77,7 +77,7 @@ public class Egg extends Item implements Eatable {
      * @param currentLocation current ground Location
      * @return true if the egg should hatch
      */
-    protected boolean shouldHatch(Location currentLocation) {
+    private boolean shouldHatch(Location currentLocation) {
         return condition.isSatisfied(currentLocation);
     }
 

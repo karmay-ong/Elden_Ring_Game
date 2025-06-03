@@ -16,12 +16,14 @@ public class Katana extends WeaponItem implements Sellable {
     /**
      * The damage dealt by the katana
      */
-    private static final int DAMAGE = 50;
+    public static final int DAMAGE = 50;
 
     /**
      * The hit rate percentage of the katana
      */
-    private static final int HIT_RATE = 60;
+    public static final int HIT_RATE = 60;
+
+    public static final int SOLD_DAMAGE = 25;
 
     /**
      * Constructor for the Katana
@@ -43,7 +45,7 @@ public class Katana extends WeaponItem implements Sellable {
     @Override
     public List<Effect> soldEffects() {
         List<Effect> effects = new ArrayList<>();
-        effects.add(new HurtEffect(25));
+        effects.add(new HurtEffect(SOLD_DAMAGE));
         return effects;
     }
 }
