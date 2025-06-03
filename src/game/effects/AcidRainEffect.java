@@ -41,6 +41,15 @@ public class AcidRainEffect extends WeatherEffect {
         return emoji;
     }
 
+    /**
+     * Indicates whether this rain instance is acid rain.
+     * Always returns true, as this instance represents acid rain.
+     *
+     * @return true, indicating this is acid rain.
+     */
+    public boolean isAcidRain() {
+        return true;
+    }
 
     /**
      * Applies the acid rain effect to the player.

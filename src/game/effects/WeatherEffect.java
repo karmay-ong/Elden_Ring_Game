@@ -32,6 +32,13 @@ public abstract class WeatherEffect {
     }
 
     /**
+     * Returns true if the rain is considered acid rain, false otherwise.
+     * Acid rain typically has a low pH and results from air pollution
+     * caused by substances like sulfur dioxide and nitrogen oxides.
+     */
+    public abstract boolean isAcidRain();
+
+    /**
      * Returns the color representation of this object.
      *
      * @return a string representing the color, typically used for UI or display purposes.
