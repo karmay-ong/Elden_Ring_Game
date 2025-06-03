@@ -1,6 +1,6 @@
 package game.actors.creatures;
 
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import game.behaviours.BehaviourSelector;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -29,14 +29,14 @@ import java.util.List;
  * The Omen Sheep is represented by 'm' on the game map and has rotting, producing, and wandering behaviors.
  *
  * @author Kian Lok Chin
- * Modified By Pemudi Hiruni Halgahawatta Liyanaarachchi
+ * Modified By Pemudi Hiruni Halgahawatta Liyanaarachchi, Youssef Hassanein
  */
 public class OmenSheep extends Creature implements Producible, Curable {
 
     /**
      * Default hitpoints for Omen Sheep
      */
-    private static final int OMEN_SHEEP_HITPOINTS = 50;
+    public static final int OMEN_SHEEP_HITPOINTS = 50;
 
     /**
      * Countdown timer for the rotting process, measured in turns
@@ -59,9 +59,10 @@ public class OmenSheep extends Creature implements Producible, Curable {
      *
      * @param produceCondition the condition that determines when the sheep should produce eggs
      */
-    public OmenSheep(Condition produceCondition) {
+    public OmenSheep(Condition produceCondition, BehaviourSelector selector) {
         super("Omen Sheep\uD83D\uDC11", 'm', OMEN_SHEEP_HITPOINTS);
         this.produceCondition = produceCondition;
+        this.selector = selector;
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new ProduceBehaviour(this, produceCondition));
         this.behaviours.put(999, new WanderBehaviour());
@@ -128,39 +129,30 @@ public class OmenSheep extends Creature implements Producible, Curable {
     public void produce(Actor producer, GameMap map) {
         List<Effect> eatEggEffects = new ArrayList<>();
         eatEggEffects.add(new IncreaseMaxHealthEffect(10));
-        OmenSheep hatchling = new OmenSheep(produceCondition);
+        OmenSheep hatchling = new OmenSheep(produceCondition, selector);
         Egg omenSheepEgg = new Egg("Omen Sheep Egg\uD83E\uDD5A", new TurnBasedCondition(3), hatchling, eatEggEffects);
         map.locationOf(producer).addItem(omenSheepEgg);
     }
 
+    // Add to OmenSheep class
+
     /**
-     * Handles what happens when the OmenSheep becomes unconscious due to combat.
-     * When the OmenSheep is defeated by another actor, it drops OmenSheepMeat
-     * at its current location before being removed from the game.
+     * Handles what happens when the OmenSheep becomes unconscious.
+     * Drops OmenSheepMeat when killed.
      *
-     * @param actor the actor that caused this OmenSheep to become unconscious
-     * @param map the game map where the OmenSheep is located
-     * @return a string description of what happened when the OmenSheep became unconscious
+     * @param actor the actor that killed this OmenSheep
+     * @param map the map where the OmenSheep is
+     * @return description of what happened
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        // Drop meat when killed by another actor
+        // Drop meat when killed
         map.locationOf(this).addItem(new OmenSheepMeat());
         return super.unconscious(actor, map);
     }
 
-    /**
-     * Handles what happens when the OmenSheep becomes unconscious due to non-combat reasons.
-     * This method is called when the OmenSheep becomes unconscious without being directly
-     * defeated by another actor (e.g., environmental effects, status conditions).
-     * The OmenSheep still drops OmenSheepMeat at its location before being removed.
-     *
-     * @param map the game map where the OmenSheep is located
-     * @return a string description of what happened when the OmenSheep became unconscious
-     */
     @Override
     public String unconscious(GameMap map) {
-        // Drop meat when killed by non-combat means
         map.locationOf(this).addItem(new OmenSheepMeat());
         return super.unconscious(map);
     }
