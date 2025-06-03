@@ -16,6 +16,7 @@ import game.effects.Effect;
 import game.effects.RestoreStaminaEffect;
 import game.items.Eatable;
 import game.items.Egg;
+import game.items.GoldenBeetleMeat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,4 +165,37 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         actions.add(new EatAction(this));
         return actions;
     }
+
+    /**
+     * Handles what happens when the GoldenBeetle becomes unconscious due to combat.
+     * When the GoldenBeetle is defeated by another actor, it drops GoldenBeetleMeat
+     * at its current location before being removed from the game.
+     *
+     * @param actor the actor that caused this GoldenBeetle to become unconscious
+     * @param map the game map where the GoldenBeetle is located
+     * @return a string description of what happened when the GoldenBeetle became unconscious
+     */
+    @Override
+    public String unconscious(Actor actor, GameMap map) {
+        // Drop meat when killed by another actor
+        map.locationOf(this).addItem(new GoldenBeetleMeat());
+        return super.unconscious(actor, map);
+    }
+
+    /**
+     * Handles what happens when the GoldenBeetle becomes unconscious due to non-combat reasons.
+     * This method is called when the GoldenBeetle becomes unconscious without being directly
+     * defeated by another actor (e.g., environmental effects, status conditions).
+     * The GoldenBeetle still drops GoldenBeetleMeat at its location before being removed.
+     *
+     * @param map the game map where the GoldenBeetle is located
+     * @return a string description of what happened when the GoldenBeetle became unconscious
+     */
+    @Override
+    public String unconscious(GameMap map) {
+        // Drop meat when killed by non-combat means
+        map.locationOf(this).addItem(new GoldenBeetleMeat());
+        return super.unconscious(map);
+    }
+
 }

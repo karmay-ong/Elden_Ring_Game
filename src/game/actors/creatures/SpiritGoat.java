@@ -14,6 +14,7 @@ import game.actors.Producible;
 import game.behaviours.ProduceBehaviour;
 import game.behaviours.RottingBehaviour;
 import game.conditions.Condition;
+import game.items.SpiritGoatMeat;
 
 /**
  * A special creature that rots over time, can be cured to reset its rotting timer,
@@ -107,5 +108,37 @@ public class SpiritGoat extends Creature implements Producible, Curable {
                 break;
             }
         }
+    }
+
+    /**
+     * Handles what happens when the SpiritGoat becomes unconscious due to combat.
+     * When the SpiritGoat is defeated by another actor, it drops SpiritGoatMeat
+     * at its current location before being removed from the game.
+     *
+     * @param actor the actor that caused this SpiritGoat to become unconscious
+     * @param map the game map where the SpiritGoat is located
+     * @return a string description of what happened when the SpiritGoat became unconscious
+     */
+    @Override
+    public String unconscious(Actor actor, GameMap map) {
+        // Drop meat when killed by another actor
+        map.locationOf(this).addItem(new SpiritGoatMeat());
+        return super.unconscious(actor, map);
+    }
+
+    /**
+     * Handles what happens when the SpiritGoat becomes unconscious due to non-combat reasons.
+     * This method is called when the SpiritGoat becomes unconscious without being directly
+     * defeated by another actor (e.g., environmental effects, status conditions).
+     * The SpiritGoat still drops SpiritGoatMeat at its location before being removed.
+     *
+     * @param map the game map where the SpiritGoat is located
+     * @return a string description of what happened when the SpiritGoat became unconscious
+     */
+    @Override
+    public String unconscious(GameMap map) {
+        // Drop meat when killed by non-combat means
+        map.locationOf(this).addItem(new SpiritGoatMeat());
+        return super.unconscious(map);
     }
 }

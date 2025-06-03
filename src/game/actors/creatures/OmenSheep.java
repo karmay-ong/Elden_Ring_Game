@@ -19,6 +19,7 @@ import game.effects.Effect;
 import game.effects.IncreaseMaxHealthEffect;
 import game.grounds.Inheritree;
 import game.items.Egg;
+import game.items.OmenSheepMeat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,5 +131,37 @@ public class OmenSheep extends Creature implements Producible, Curable {
         OmenSheep hatchling = new OmenSheep(produceCondition);
         Egg omenSheepEgg = new Egg("Omen Sheep Egg\uD83E\uDD5A", new TurnBasedCondition(3), hatchling, eatEggEffects);
         map.locationOf(producer).addItem(omenSheepEgg);
+    }
+
+    /**
+     * Handles what happens when the OmenSheep becomes unconscious due to combat.
+     * When the OmenSheep is defeated by another actor, it drops OmenSheepMeat
+     * at its current location before being removed from the game.
+     *
+     * @param actor the actor that caused this OmenSheep to become unconscious
+     * @param map the game map where the OmenSheep is located
+     * @return a string description of what happened when the OmenSheep became unconscious
+     */
+    @Override
+    public String unconscious(Actor actor, GameMap map) {
+        // Drop meat when killed by another actor
+        map.locationOf(this).addItem(new OmenSheepMeat());
+        return super.unconscious(actor, map);
+    }
+
+    /**
+     * Handles what happens when the OmenSheep becomes unconscious due to non-combat reasons.
+     * This method is called when the OmenSheep becomes unconscious without being directly
+     * defeated by another actor (e.g., environmental effects, status conditions).
+     * The OmenSheep still drops OmenSheepMeat at its location before being removed.
+     *
+     * @param map the game map where the OmenSheep is located
+     * @return a string description of what happened when the OmenSheep became unconscious
+     */
+    @Override
+    public String unconscious(GameMap map) {
+        // Drop meat when killed by non-combat means
+        map.locationOf(this).addItem(new OmenSheepMeat());
+        return super.unconscious(map);
     }
 }

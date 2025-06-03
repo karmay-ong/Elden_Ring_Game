@@ -17,10 +17,7 @@ import game.conditions.Condition;
 import game.conditions.TurnBasedCondition;
 import game.effects.*;
 import game.grounds.*;
-import game.items.Seed;
-import game.items.Talisman;
-import game.items.Torch;
-import game.items.Umbrella;
+import game.items.*;
 import game.potions.CrazyPotion;
 import game.potions.HealingPotion;
 import game.potions.PoisonPotion;
@@ -113,6 +110,7 @@ public class Application {
 
         player.addItemToInventory(new Torch());
         player.addItemToInventory(new Umbrella());
+        player.addItemToInventory(new WaterBucket());
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
