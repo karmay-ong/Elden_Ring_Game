@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Ability;
 import game.actors.Status;
 
 /**
@@ -58,6 +59,9 @@ public class Inheritree extends Ground implements Plantable {
                 // Heal the actor
                 new Display().println("❤️\u200D\uD83E\uDE79"+ actor + " health is increased by 5❤\uFE0F\u200D\uD83E\uDE79");
                 actor.heal(5);
+
+                actor.addCapability(Ability.BLOCK_ACID_RAIN);
+                new Display().println(actor + " is hiding near the Inheritree, blocking the acid rain.");
 
                 // Restore stamina if the actor has stamina attribute
                 if (actor.hasAttribute(BaseActorAttributes.STAMINA)) {

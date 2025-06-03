@@ -71,6 +71,16 @@ public class SnowEffect extends WeatherEffect {
     }
 
     /**
+     * Indicates whether this snow instance is acid rain.
+     * Always returns false, since snow is not considered acid rain.
+     *
+     * @return false, indicating this snow is not acid rain.
+     */
+    public boolean isAcidRain() {
+        return false;
+    }
+
+    /**
      * Returns a textual representation of the weather condition.
      *
      * @return the string "Snow", indicating snowy weather.

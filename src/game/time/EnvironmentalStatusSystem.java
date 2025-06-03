@@ -75,8 +75,9 @@ public class EnvironmentalStatusSystem {
      */
     public void timeChanged() {
         WeatherEffect currentWeather = getCurrentWeather();
-        new Display().println(currentWeather.getColor() + "Today is a " + currentWeather + " " + currentWeather.getEmoji() + " day." + "\u001B[0m");
-        new Display().println("\u001B[36m" + "═══════════════════════════════════════════" + "\u001B[0m");
+        Display display = new Display();
+        display.println(currentWeather.getColor() + "Today is a " + currentWeather + " " + currentWeather.getEmoji() + " day." + "\u001B[0m");
+        display.println("\u001B[36m" + "═══════════════════════════════════════════" + "\u001B[0m");
         currentWeather.apply(player, map);
     }
 
@@ -96,7 +97,6 @@ public class EnvironmentalStatusSystem {
         if (weatherDuration >= WEATHER_DURATION_THRESHOLD) {
             if (random.nextDouble() < WEATHER_EVENT_PROBABILITY) {
                 currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
-                System.out.println(currentWeather);
                 WeatherEffect newWeather;
                 do {
                     newWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
