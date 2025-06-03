@@ -19,6 +19,9 @@ import game.effects.*;
 import game.grounds.*;
 import game.items.Seed;
 import game.items.Talisman;
+import game.potions.CrazyPotion;
+import game.potions.HealingPotion;
+import game.potions.PoisonPotion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +102,10 @@ public class Application {
         beetleEffects.add(new HealEffect(15));
         beetleEffects.add(new IncreaseBalanceEffect(1000));
 
+
+        player.addItemToInventory(new PoisonPotion());
+        player.addItemToInventory(new HealingPotion());
+        player.addItemToInventory(new CrazyPotion());
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);

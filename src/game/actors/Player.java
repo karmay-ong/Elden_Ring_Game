@@ -9,7 +9,10 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.potions.Pouch;
 import game.weapons.BareFist;
+
+import java.util.List;
 
 /**
  * Class representing the Player.
@@ -20,6 +23,7 @@ import game.weapons.BareFist;
  * @author Kian Lok Chin
  */
 public class Player extends Actor {
+    private Pouch potionPouch;
 
     /**
      * Constructor for the Player class.
@@ -35,6 +39,7 @@ public class Player extends Actor {
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.FOLLOWABLE);
         this.setIntrinsicWeapon(new BareFist());
+        this.potionPouch = new Pouch();
     }
 
     /**
@@ -116,8 +121,12 @@ public class Player extends Actor {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         displayAttributes(display);
         displayInventory(display);
+        List<Action> brewingActions = potionPouch.getBrewingActions(this);
+        for (Action action : brewingActions) {
+            actions.add(action);
+        }
         // Handle multi-turn Actions
-        if (lastAction.getNextAction() != null)
+        if (lastAction.getNextAction() != null && lastAction.getNextAction() != null)
             return lastAction.getNextAction();
 
         // return/print the console menu
