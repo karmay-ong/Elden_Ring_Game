@@ -49,5 +49,6 @@ public enum Status {
     /**
      * Indicates that the item is safe or suitable for drinking.
      */
-    DRINKABLE
+    DRINKABLE,
+    FLAMMABLE
 }

@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.potions.Pouch;
+import game.time.EnvironmentalStatusSystem;
 import game.weapons.BareFist;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 public class Player extends Actor {
     private Pouch potionPouch;
+    private int temperature;
 
     /**
      * Constructor for the Player class.
@@ -33,13 +35,41 @@ public class Player extends Actor {
      * @param hitPoints   Player's starting number of hitpoints
      * @param stamina     Player's starting stamina points
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, int temperature) {
         super(name, displayChar, hitPoints);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.FOLLOWABLE);
         this.setIntrinsicWeapon(new BareFist());
+        this.temperature = temperature;
         this.potionPouch = new Pouch();
+    }
+
+    /**
+     * Returns the current temperature value.
+     *
+     * @return the current temperature as an integer.
+     */
+    public int getTemperature() {
+        return this.temperature;
+    }
+
+    /**
+     * Decreases the temperature by the specified amount.
+     *
+     * @param temp the amount to decrease the temperature by.
+     */
+    public void cold(int temp) {
+        this.temperature -= temp;
+    }
+
+    /**
+     * Increases the temperature by the specified amount.
+     *
+     * @param temp the amount to increase the temperature by.
+     */
+    public void warm(int temp) {
+        this.temperature += temp;
     }
 
     /**
@@ -54,12 +84,14 @@ public class Player extends Actor {
         String green   = "\u001B[32m";
         String yellow  = "\u001B[33m";
         String magenta = "\u001B[35m";
+        String blue = "\u001B[34m";
 
         // Build the attributes line, now including wallet balance
         String singleLine = magenta + "===" + reset + " " +
                 "✨ " + magenta + "Attributes" + reset + " ✨" + " " +
                 red     + "❤ HP: "       + this.getAttribute(BaseActorAttributes.HEALTH)  + reset + " | " +
                 green   + "⚡ Stamina: "  + this.getAttribute(BaseActorAttributes.STAMINA) + reset + " | " +
+                blue   + "🌡️ Temperature: "  + this.temperature + "°C" + reset + " | " +
                 yellow  + "💰 Gold: "     + this.getBalance()                            + reset + " " +
                 magenta + "===" + reset;
 
@@ -119,12 +151,15 @@ public class Player extends Actor {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        displayAttributes(display);
-        displayInventory(display);
+        EnvironmentalStatusSystem system = EnvironmentalStatusSystem.getInstance();
+        system.timeChanged();
+
         List<Action> brewingActions = potionPouch.getBrewingActions(this);
         for (Action action : brewingActions) {
             actions.add(action);
         }
+        displayAttributes(display);
+        displayInventory(display);
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null && lastAction.getNextAction() != null)
             return lastAction.getNextAction();

@@ -22,6 +22,7 @@ import game.items.Talisman;
 import game.potions.CrazyPotion;
 import game.potions.HealingPotion;
 import game.potions.PoisonPotion;
+import game.time.EnvironmentalStatusSystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,27 +52,27 @@ public class Application {
 
         // Create a factory with all ground types used in the game
         FancyGroundFactory groundFactory = new FancyGroundFactory(new Blight(),
-                new Wall(), new Floor(), new Soil(), new Inheritree());
+                new Wall(), new Floor(), new Soil());
 
         // Define the game map layout
         List<String> map = Arrays.asList(
-                "........................................",
-                "........................................",
-                "........................................",
-                "........................########........",
-                "........................xxxxxx.#........",
-                "..............#######_#######x.#........",
-                "..............#.x..........t#x.#........",
-                "..............#.............####........",
-                "..............#.............#...........",
-                "..............#.........x...#...........",
-                "..............#.............#...........",
-                "..............#..x..........#...........",
-                "..............#.............#...........",
-                "..............#.............#...........",
-                "..............###############...........",
-                "........................................"
-        );
+                "xxxx...xxxxxxxxxxxxxxxxxxxxxxx........xx",
+                "xxx.....xxxxxxx..xxxxxxxxxxxxx.........x",
+                "..........xxxx....xxxxxxxxxxxxxx.......x",
+                "....xxx...........xxxxxxxxxxxxxxx.....xx",
+                "...xxxxx...........xxxxxxxxxxxxxx.....xx",
+                "...xxxxxxxxxx.......xxxxxxxx...xx......x",
+                "....xxxxxxxxxx........xxxxxx...xxx......",
+                "....xxxxxxxxxxx.........xxx....xxxx.....",
+                "....xxxxxxxxxxx................xxxx.....",
+                "...xxxx...xxxxxx.....#####.....xxx......",
+                "...xxx....xxxxxxx....#___#.....xx.......",
+                "..xxxx...xxxxxxxxx...#___#....xx........",
+                "xxxxx...xxxxxxxxxx...##_##...xxx.......x",
+                "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
+                "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
+
+
         // Create the game map
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
         world.addGameMap(gameMap);
@@ -87,12 +88,13 @@ public class Application {
         }
 
         // Create and position the player
-        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
+        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
         world.addPlayer(player, gameMap.at(23, 10));
         //world.addPlayer(player, gameMap.at(21, 5)); //test sellen
         //world.addPlayer(player, gameMap.at(11, 12)); //test Guts
         //world.addPlayer(player, gameMap.at(31, 6)); //test Kale
         player.addBalance(100000000);
+        EnvironmentalStatusSystem.initialize(player, gameMap);
 
         // Create conditions and effects for all NPCs
         Condition spiritGoatCondition = new AdjacentCapabilityCondition(Status.BLESSED);
