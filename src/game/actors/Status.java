@@ -46,9 +46,8 @@ public enum Status {
      * Typically applied on the player.
      */
     FOLLOWABLE,
-
     /**
-     * Indicates that the item can catch fire or is combustible.
+     * Indicates that the item is safe or suitable for drinking.
      */
-    FLAMMABLE
+    DRINKABLE
 }

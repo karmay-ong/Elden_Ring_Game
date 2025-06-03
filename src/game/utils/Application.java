@@ -19,7 +19,9 @@ import game.effects.*;
 import game.grounds.*;
 import game.items.Seed;
 import game.items.Talisman;
-import game.time.EnvironmentalStatusSystem;
+import game.potions.CrazyPotion;
+import game.potions.HealingPotion;
+import game.potions.PoisonPotion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,14 +87,12 @@ public class Application {
         }
 
         // Create and position the player
-        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
+        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200);
         world.addPlayer(player, gameMap.at(23, 10));
         //world.addPlayer(player, gameMap.at(21, 5)); //test sellen
         //world.addPlayer(player, gameMap.at(11, 12)); //test Guts
         //world.addPlayer(player, gameMap.at(31, 6)); //test Kale
         player.addBalance(100000000);
-
-        EnvironmentalStatusSystem.initialize(player, gameMap);
 
         // Create conditions and effects for all NPCs
         Condition spiritGoatCondition = new AdjacentCapabilityCondition(Status.BLESSED);
@@ -102,6 +102,10 @@ public class Application {
         beetleEffects.add(new HealEffect(15));
         beetleEffects.add(new IncreaseBalanceEffect(1000));
 
+
+        player.addItemToInventory(new PoisonPotion());
+        player.addItemToInventory(new HealingPotion());
+        player.addItemToInventory(new CrazyPotion());
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
