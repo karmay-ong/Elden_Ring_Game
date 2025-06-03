@@ -26,17 +26,6 @@ public class WarmEffect extends WeatherEffect {
     private static final int MAX_SAFE_TEMPERATURE = 50;
 
     /**
-     * Checks if this effect is applicable based on the current weather.
-     *
-     * @param weather the current weather type
-     * @return true if the weather is CLEAR, false otherwise
-     */
-    @Override
-    public boolean isApplicable(WeatherType weather) {
-        return weather == WeatherType.CLEAR;
-    }
-
-    /**
      * Returns the color associated with this object.
      *
      * @return a string representing the color of the object

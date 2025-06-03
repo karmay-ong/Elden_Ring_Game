@@ -22,17 +22,6 @@ public class AcidRainEffect extends WeatherEffect {
     private static final int HEALTH_REDUCTION_PER_TICK = 5;
 
     /**
-     * Checks if this effect is applicable given the current weather type.
-     *
-     * @param weather the current weather type
-     * @return true if the weather is ACID_RAIN, false otherwise
-     */
-    @Override
-    public boolean isApplicable(WeatherType weather) {
-        return weather == WeatherType.ACID_RAIN;
-    }
-
-    /**
      * Returns the color associated with this object.
      *
      * @return a string representing the color of the object

@@ -14,14 +14,6 @@ import game.actors.Player;
 public abstract class WeatherEffect {
 
     /**
-     * Checks if the weather effect should be applied based on the current weather.
-     *
-     * @param weather the current weather type
-     * @return true if the effect applies to the given weather, false otherwise
-     */
-    public abstract boolean isApplicable(WeatherType weather);
-
-    /**
      * Defines the actual effect to apply to the player.
      *
      * @param player the player affected by the weather
