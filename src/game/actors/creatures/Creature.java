@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
+import game.behaviours.BehaviourSelector;
+import game.behaviours.OrderedSelector;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,6 +19,7 @@ import java.util.TreeMap;
  * Creatures are actors that follow a set of behaviors and can be cured.
  *
  * @author Kian Lok Chin
+ * Eddited by: Youssef Hassanein
  */
 public abstract class Creature extends Actor{
     /**
@@ -24,6 +27,7 @@ public abstract class Creature extends Actor{
      * The integer key represents the priority of the behavior
      */
     protected Map<Integer, Behaviour> behaviours;
+    protected BehaviourSelector selector;
 
     /**
      * Constructor for the Creature class.
@@ -35,6 +39,12 @@ public abstract class Creature extends Actor{
     public Creature(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
         behaviours = new TreeMap<>();
+    }
+
+    public Creature(String name, char displayChar, int hitPoints, BehaviourSelector selector) {
+        super(name, displayChar, hitPoints);
+        behaviours = new TreeMap<>();
+        this.selector = selector;
     }
 
     /**
@@ -50,11 +60,12 @@ public abstract class Creature extends Actor{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if (action != null) {
-                return action;
-            }
+        if (selector == null) {
+            selector = new OrderedSelector();
+        }
+        Action action = selector.selectAction(this, map, behaviours);
+        if (action != null) {
+            return action;
         }
         return new DoNothingAction();
     }
