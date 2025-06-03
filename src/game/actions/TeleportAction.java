@@ -11,7 +11,6 @@ public class TeleportAction extends Action {
 
     private final TeleportationCircle destinationCircle;
 
-
     public TeleportAction(TeleportationCircle destinationCircle) {
         this.destinationCircle = destinationCircle;
     }
@@ -38,4 +37,12 @@ public class TeleportAction extends Action {
     }
 
 
+    @Override
+    public String menuDescription(Actor actor) {
+        Location destination = destinationCircle.getLocation();
+        if (destination != null) {
+            return actor + " teleports to " + destination.map().toString() + " at " + destination;
+        }
+        return actor + " teleports to teleportation circle";
+    }
 }
