@@ -7,6 +7,7 @@ import game.effects.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Singleton system that manages environmental status effects on the player
@@ -20,9 +21,22 @@ import java.util.List;
 public class EnvironmentalStatusSystem {
 
     private static EnvironmentalStatusSystem instance = null;
+    private int weatherDuration;
+    private final Random random = new Random();
     private Player player;
     private final GameMap map;
     private final List<WeatherEffect> weatherEffects = new ArrayList<>();
+    private WeatherEffect currentWeather;
+
+    /**
+     * The number of turns before weather has a chance to change.
+     */
+    private static final int WEATHER_DURATION_THRESHOLD = 5;
+
+    /**
+     * The probability that the weather will change once the threshold is reached.
+     */
+    private static final double WEATHER_EVENT_PROBABILITY = 0.6;
 
     /**
      * Private constructor to enforce singleton pattern.
@@ -34,12 +48,14 @@ public class EnvironmentalStatusSystem {
     private EnvironmentalStatusSystem(Player player, GameMap map) {
         this.player = player;
         this.map = map;
+        this.weatherDuration = 0;
 
         TimeSystem.register(this);
 
         weatherEffects.add(new SnowEffect());
         weatherEffects.add(new AcidRainEffect());
         weatherEffects.add(new WarmEffect());
+        currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
     }
 
     /**
@@ -60,14 +76,42 @@ public class EnvironmentalStatusSystem {
      * Called when the time changes, applies relevant weather effects to the player.
      */
     public void timeChanged() {
-        WeatherType currentWeather = WeatherSystem.getInstance().getCurrentWeather();
-        for (WeatherEffect effect : weatherEffects) {
-            if (effect.isApplicable(currentWeather)) {
-                new Display().println(effect.getColor() + "Today is a " + effect + " " + effect.getEmoji() + " day." + "\u001B[0m");
-                new Display().println("\u001B[36m" + "═══════════════════════════════════════════" + "\u001B[0m");
-                effect.apply(player, map);
+        WeatherEffect currentWeather = getCurrentWeather();
+        new Display().println(currentWeather.getColor() + "Today is a " + currentWeather + " " + currentWeather.getEmoji() + " day." + "\u001B[0m");
+        new Display().println("\u001B[36m" + "═══════════════════════════════════════════" + "\u001B[0m");
+        currentWeather.apply(player, map);
+    }
+
+    public static EnvironmentalStatusSystem getInstance() {
+        return instance;
+    }
+
+    public WeatherEffect getCurrentWeather() {
+        Display display = new Display();
+        String weatherBorder = "═══════════════════════════════════════════";
+        String weatherTitle = "║             WEATHER FORECAST             ║";
+
+        display.println("\u001B[36m" + weatherBorder + "\u001B[0m");
+        display.println("\u001B[36m" + weatherTitle + "\u001B[0m");
+        display.println("\u001B[36m" + weatherBorder + "\u001B[0m");
+
+        if (weatherDuration >= WEATHER_DURATION_THRESHOLD) {
+            if (random.nextDouble() < WEATHER_EVENT_PROBABILITY) {
+                currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
+                System.out.println(currentWeather);
+                WeatherEffect newWeather;
+                do {
+                    newWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
+
+                } while (newWeather == currentWeather);
+
+                currentWeather = newWeather;
+                display.println("\u001B[33m" + "⚠ Weather is changing! ⚠" + "\u001B[0m");
             }
+            weatherDuration = 0;
         }
+        weatherDuration++;
+        return currentWeather;
     }
 }
 

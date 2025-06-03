@@ -8,10 +8,10 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.UseTorchAction;
 import game.actors.Ability;
 import game.actors.Status;
-import game.time.WeatherSystem;
+import game.effects.WeatherEffect;
+import game.time.EnvironmentalStatusSystem;
 import game.effects.Effect;
 import game.effects.HealEffect;
-import game.effects.WeatherType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public class Torch extends Item implements Sellable {
      */
     public void use(Actor actor) {
         Display dp = new Display();
-        WeatherType weather = WeatherSystem.getInstance().getCurrentWeather();
+        WeatherEffect weather = EnvironmentalStatusSystem.getInstance().getCurrentWeather();
 
-        if (weather == WeatherType.ACID_RAIN) {
+        if (weather.toString().equals("Acid Rain")) {
             if (!isOpen) {
                 dp.println("It's raining! " + actor + " can't light the " + this + ".");
                 return;
