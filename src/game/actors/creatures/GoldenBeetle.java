@@ -1,5 +1,6 @@
 package game.actors.creatures;
 
+import game.behaviours.BehaviourSelector;
 import game.behaviours.WanderBehaviour;
 import game.behaviours.FollowBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -28,6 +29,7 @@ import java.util.TreeMap;
  * It has 25 HP and lays eggs every 5 turns by default.
  *
  * @author Kar May Ong
+ * Modified By: Pemudi Hiruni Halgahawatta Liyanaarachchi
  */
 public class GoldenBeetle extends Creature implements Eatable, Producible {
     /**
@@ -79,8 +81,8 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
      * @param consumptionEffects effects to apply when beetle is consumed
      * @param produceCondition condition that determines when the beetle should produce eggs
      */
-    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition) {
-        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
+    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition, BehaviourSelector selector) {
+        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS, selector);
         behaviours = new TreeMap<>();
         behaviours.put(1, new ProduceBehaviour(this,produceCondition));
         behaviours.put(999, new WanderBehaviour());
@@ -122,7 +124,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
         Condition eggHatchCondition = new AdjacentCapabilityCondition(Status.CURSED);
 
         // Create a new Golden Beetle for the hatchling
-        GoldenBeetle hatchling = new GoldenBeetle(consumptionEffects, produceCondition);
+        GoldenBeetle hatchling = new GoldenBeetle(consumptionEffects, produceCondition, selector);
         Egg goldenEgg = new Egg("Golden Egg\uD83D\uDFE1", eggHatchCondition, hatchling, eggEffects);
         // Add the egg to the map
         map.locationOf(this).addItem(goldenEgg);
