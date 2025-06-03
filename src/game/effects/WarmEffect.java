@@ -18,7 +18,7 @@ import game.actors.Player;
  * @author Lim Chi Jian
  */
 public class WarmEffect extends WeatherEffect {
-    private final  String emoji = "🌞";
+    private final  String emoji = "☀\uFE0F";
     private final  String color = "\u001B[33m";
     private static final int STAMINA_REDUCTION_PER_TICK = 25;
     private static final int TEMP_RESTORATION_PER_TICK = 1;
