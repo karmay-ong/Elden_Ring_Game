@@ -1,5 +1,6 @@
 package game.actions;
 
+import java.nio.file.attribute.PosixFileAttributes;
 import java.util.List;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -39,7 +40,8 @@ public class BrewPoisonPotionAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         if (pouch.consumeIngredients(actor, requiredCapabilities)) {
-            actor.addItemToInventory(new PoisonPotion());
+            PoisonPotion poisonPotion = new PoisonPotion();
+            actor.addItemToInventory(poisonPotion);
             return actor + " brewed a Poison Potion\uD83E\uDDEA\uD83D\uDDA4";
         } else {
             return "Failed to brew Poison Potion";
