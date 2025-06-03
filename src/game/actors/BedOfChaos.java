@@ -55,37 +55,61 @@ public class BedOfChaos extends Actor implements Growable {
      */
     private static final int GROW_BEHAVIOUR_PRIORITY = 10;
 
+    /**
+     * Selector to decide which behaviour to perform.
+     */
+    private BehaviourSelector selector;
+
     private Random rand = new Random();
 
     /**
      * Constructs a new Bed of Chaos actor with initial behaviours.
+     * The behaviour selection is by ordered.
      * Sets the name, display character, and hitpoints.
      */
     public BedOfChaos() {
         super("Bed of Chaos\uD83D\uDE08\uD83C\uDF33", 'T', BED_OF_CHAOS_HITPOINTS);
+        this.selector = new OrderedSelector();
         behaviours = new TreeMap<>();
         this.behaviours.put(ATTACK_BEHAVIOUR_PRIORITY, new AttackBehaviour(Condition.ALWAYS));
         this.behaviours.put(GROW_BEHAVIOUR_PRIORITY, new GrowBehaviour(this));
     }
 
     /**
-     * Executes the next action for this Bed of Chaos based on its behaviours.
-     * Behaviours are checked in order of their priority, and the first available action is executed.
-     *
-     * @param actions    the list of possible actions available
-     * @param lastAction the last action performed by this actor
-     * @param map        the map the actor is on
-     * @param display    the display to print messages
-     * @return the chosen {@link Action}, or {@link DoNothingAction} if none available
+     * Constructs a new Bed of Chaos actor with initial behaviours.
+     * The behaviour selection method can be defined.
+     * Sets the name, display character, and hitpoints.
      */
+    public BedOfChaos(BehaviourSelector selector) {
+        super("Bed of Chaos\uD83D\uDE08\uD83C\uDF33", 'T', BED_OF_CHAOS_HITPOINTS);
+        this.selector = selector;
+        behaviours = new TreeMap<>();
+        this.behaviours.put(ATTACK_BEHAVIOUR_PRIORITY, new AttackBehaviour(Condition.ALWAYS));
+        this.behaviours.put(GROW_BEHAVIOUR_PRIORITY, new GrowBehaviour(this));
+    }
+
+    /**
+     * Determines what action the creature will take during its turn.
+     * Iterates through the creature's behaviors in priority order until one returns a valid action.
+     * If no behavior returns an action, the creature does nothing.
+     *
+     * @param actions collection of possible actions
+     * @param lastAction the action performed last turn
+     * @param map the game map the creature is on
+     * @param display the display where the creature is rendered
+     * @return the action to be performed
+     */
+
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if (action != null) {
-                return action;
-            }
+        if (selector == null) {
+            selector = new OrderedSelector();
+        }
+        Action action = selector.selectAction(this, map, behaviours);
+        if (action != null) {
+            return action;
         }
         return new DoNothingAction();
+
     }
 
     /**
