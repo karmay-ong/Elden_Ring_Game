@@ -9,7 +9,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.time.TimeSystem;
+import game.time.EnvironmentalStatusSystem;
 import game.weapons.BareFist;
 
 /**
@@ -145,7 +145,9 @@ public class Player extends Actor {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        TimeSystem.tickAll();
+        EnvironmentalStatusSystem system = EnvironmentalStatusSystem.getInstance();
+        system.timeChanged();
+
         displayAttributes(display);
         displayInventory(display);
         // Handle multi-turn Actions

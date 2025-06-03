@@ -50,8 +50,6 @@ public class EnvironmentalStatusSystem {
         this.map = map;
         this.weatherDuration = 0;
 
-        TimeSystem.register(this);
-
         weatherEffects.add(new SnowEffect());
         weatherEffects.add(new AcidRainEffect());
         weatherEffects.add(new WarmEffect());
