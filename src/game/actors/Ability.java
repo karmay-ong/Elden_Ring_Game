@@ -19,5 +19,21 @@ public enum Ability {
      * Represents the ability to cure or heal other entities.
      * This ability is typically given to items that can be used for healing purposes.
      */
-    CURE
+    CURE,
+
+    /**
+     * Indicates that the object can block the effects of acid rain.
+     */
+    BLOCK_ACID_RAIN,
+
+    /**
+     * Indicates that the object is capable of being warmed or retains heat.
+     */
+    ABLE_WARM,
+
+    /**
+     * Indicates that the object can block sunlight or provide shade.
+     */
+    BLOCK_SUN
+
 }

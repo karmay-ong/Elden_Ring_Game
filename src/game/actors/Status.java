@@ -45,5 +45,10 @@ public enum Status {
      * Indicates an entity that can be followed by other actors.
      * Typically applied on the player.
      */
-    FOLLOWABLE
+    FOLLOWABLE,
+
+    /**
+     * Indicates that the item can catch fire or is combustible.
+     */
+    FLAMMABLE
 }
