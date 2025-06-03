@@ -19,6 +19,8 @@ import game.effects.*;
 import game.grounds.*;
 import game.items.Seed;
 import game.items.Talisman;
+import game.items.Torch;
+import game.items.Umbrella;
 import game.potions.CrazyPotion;
 import game.potions.HealingPotion;
 import game.potions.PoisonPotion;
@@ -108,6 +110,9 @@ public class Application {
         player.addItemToInventory(new PoisonPotion());
         player.addItemToInventory(new HealingPotion());
         player.addItemToInventory(new CrazyPotion());
+
+        player.addItemToInventory(new Torch());
+        player.addItemToInventory(new Umbrella());
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
@@ -122,8 +127,8 @@ public class Application {
         gameMap.addActor(new Guts(), gameMap.at(12, 12));
 
         // Add starting items to player's inventory
-        //player.addItemToInventory(new Seed(new Inheritree()));
-        //player.addItemToInventory(new Seed(new Bloodrose()));
+        player.addItemToInventory(new Seed(new Inheritree()));
+        player.addItemToInventory(new Seed(new Bloodrose()));
         // Add items to the game world
         gameMap.at(24, 11).addItem(new Talisman());
 
