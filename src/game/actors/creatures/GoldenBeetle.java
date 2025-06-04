@@ -9,7 +9,10 @@ import game.actions.EatAction;
 import game.conditions.AdjacentCapabilityCondition;
 import game.actors.Producible;
 import game.actors.Status;
+import game.behaviours.BehaviourSelector;
+import game.behaviours.OrderedSelector;
 import game.behaviours.ProduceBehaviour;
+import game.behaviours.RandomSelector;
 import game.conditions.Condition;
 import game.conditions.TurnBasedCondition;
 import game.effects.Effect;
@@ -56,34 +59,16 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     private List<Effect> consumptionEffects;
 
     /**
-     * Default constructor for the Golden Beetle.
-     * Initializes with empty consumption effects and a turn-based production condition (every 5 turns).
-     * Sets up production and wandering behaviors.
-     */
-    public GoldenBeetle() {
-        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
-        // Initialize consumption effects
-        this.consumptionEffects = new ArrayList<>();
-        // Default to a turn-based production condition
-        this.produceCondition = new TurnBasedCondition(EGG_TIMER_THRESHOLD);
-        behaviours = new TreeMap<>();
-        behaviours.put(1, new ProduceBehaviour(this, produceCondition));
-        behaviours.put(999, new WanderBehaviour());
-
-    }
-
-    /**
-     * Constructor for the Golden Beetle with custom consumption effects and produce condition.
-     * Sets up production and wandering behaviors with the specified parameters.
+     * Constructor for the GoldenBeetle with custom parameters and behavior selector.
      *
      * @param consumptionEffects effects to apply when beetle is consumed
      * @param produceCondition condition that determines when the beetle should produce eggs
+     * @param selector the strategy for selecting behaviors
      */
-    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition) {
-        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS);
-        behaviours = new TreeMap<>();
-        behaviours.put(1, new ProduceBehaviour(this,produceCondition));
-        behaviours.put(999, new WanderBehaviour());
+    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition, BehaviourSelector selector) {
+        super("Golden Beetle\uD83E\uDEB2", 'b', GOLDEN_BEETLE_HITPOINTS, selector);
+        this.behaviours.put(1, new ProduceBehaviour(this, produceCondition));
+        this.behaviours.put(999, new WanderBehaviour());
 
         // Initialize consumption effects
         this.consumptionEffects = new ArrayList<>();
@@ -91,6 +76,33 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
             this.consumptionEffects.addAll(consumptionEffects);
         }
         this.produceCondition = produceCondition;
+    }
+
+    /**
+     * Constructor for the GoldenBeetle with custom parameters and default ordered selector.
+     *
+     * @param consumptionEffects effects to apply when beetle is consumed
+     * @param produceCondition condition that determines when the beetle should produce eggs
+     */
+    public GoldenBeetle(List<Effect> consumptionEffects, Condition produceCondition) {
+        this(consumptionEffects, produceCondition, new OrderedSelector());
+    }
+
+    /**
+     * Default constructor for GoldenBeetle with ordered selector.
+     * Initializes with empty consumption effects and a turn-based production condition.
+     */
+    public GoldenBeetle() {
+        this(new ArrayList<>(), new TurnBasedCondition(EGG_TIMER_THRESHOLD), new OrderedSelector());
+    }
+
+    /**
+     * Creates a GoldenBeetle with random behavior selection.
+     *
+     * @return a new GoldenBeetle instance that uses random behavior selection
+     */
+    public static GoldenBeetle createRandomBehaviorBeetle() {
+        return new GoldenBeetle(new ArrayList<>(), new TurnBasedCondition(EGG_TIMER_THRESHOLD), new RandomSelector());
     }
 
     /**

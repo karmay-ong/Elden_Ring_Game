@@ -11,7 +11,10 @@ import game.actions.CureAction;
 import game.actors.Ability;
 import game.actors.Curable;
 import game.actors.Producible;
+import game.behaviours.BehaviourSelector;
+import game.behaviours.OrderedSelector;
 import game.behaviours.ProduceBehaviour;
+import game.behaviours.RandomSelector;
 import game.behaviours.RottingBehaviour;
 import game.conditions.Condition;
 import game.items.SpiritGoatMeat;
@@ -42,17 +45,36 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     private Condition produceCondition;
 
     /**
-     * Constructor for the SpiritGoat with a custom produce condition.
-     * Sets up rotting, production, and wandering behaviors.
+     * Constructor for the SpiritGoat with a custom produce condition and behavior selector.
      *
      * @param produceCondition the condition that determines when the goat should produce offspring
+     * @param selector the strategy for selecting behaviors
      */
-    public SpiritGoat(Condition produceCondition) {
-        super("Spirit Goat\uD83D\uDC10", 'y', SPIRIT_GOAT_HITPOINTS);
+    public SpiritGoat(Condition produceCondition, BehaviourSelector selector) {
+        super("Spirit Goat\uD83D\uDC10", 'y', SPIRIT_GOAT_HITPOINTS, selector);
         this.produceCondition = produceCondition;
         this.behaviours.put(1, new RottingBehaviour(countdownTimer));
         this.behaviours.put(2, new ProduceBehaviour(this, produceCondition));
         this.behaviours.put(999, new WanderBehaviour());
+    }
+
+    /**
+     * Constructor for the SpiritGoat with a custom produce condition and default ordered selector.
+     *
+     * @param produceCondition the condition that determines when the goat should produce offspring
+     */
+    public SpiritGoat(Condition produceCondition) {
+        this(produceCondition, new OrderedSelector());
+    }
+
+    /**
+     * Creates a SpiritGoat with random behavior selection.
+     *
+     * @param produceCondition the condition that determines when the goat should produce offspring
+     * @return a new SpiritGoat instance that uses random behavior selection
+     */
+    public static SpiritGoat createRandomBehaviorGoat(Condition produceCondition) {
+        return new SpiritGoat(produceCondition, new RandomSelector());
     }
 
     /**
