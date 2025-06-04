@@ -35,7 +35,7 @@ public class Branch implements Growable {
      */
     @Override
     public String grow(Actor actor) {
-        String output = "Branch is growing...\n";
+        String output = actor + " is growing...\n";
         Growable component;
         if (rand.nextBoolean()) {
             component = new Branch();
