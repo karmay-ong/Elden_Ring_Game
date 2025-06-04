@@ -32,11 +32,12 @@ public abstract class WeatherEffect {
     }
 
     /**
-     * Returns true if the rain is considered acid rain, false otherwise.
-     * Acid rain typically has a low pH and results from air pollution
-     * caused by substances like sulfur dioxide and nitrogen oxides.
+     * Returns true if it is a rainy day, can be Acid Rain, Alkaline Rain and Diamond Rain.
+     * This is important to handle logic of extinguish the flame in all flammable items.
      */
-    public abstract boolean isAcidRain();
+    public boolean isRaining(){
+        return false;
+    }
 
     /**
      * Returns the color representation of this object.

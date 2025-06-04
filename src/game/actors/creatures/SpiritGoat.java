@@ -1,5 +1,6 @@
 package game.actors.creatures;
 
+import game.actors.Status;
 import game.behaviours.BehaviourSelector;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -15,7 +16,7 @@ import game.actors.Producible;
 import game.behaviours.ProduceBehaviour;
 import game.behaviours.RottingBehaviour;
 import game.conditions.Condition;
-import game.items.SpiritGoatMeat;
+import game.items.Meat;
 
 /**
  * A special creature that rots over time, can be cured to reset its rotting timer,
@@ -125,7 +126,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Drop meat when killed by another actor
-        map.locationOf(this).addItem(new SpiritGoatMeat());
+        map.locationOf(this).addItem(new Meat("Spirit Goat Meat", Status.BLESSED));
         return super.unconscious(actor, map);
     }
 
@@ -141,7 +142,7 @@ public class SpiritGoat extends Creature implements Producible, Curable {
     @Override
     public String unconscious(GameMap map) {
         // Drop meat when killed by non-combat means
-        map.locationOf(this).addItem(new SpiritGoatMeat());
+        map.locationOf(this).addItem(new Meat("Spirit Goat Meat", Status.BLESSED));
         return super.unconscious(map);
     }
 }

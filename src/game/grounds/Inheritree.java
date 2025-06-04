@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actors.Ability;
 import game.actors.Status;
 
+
 /**
  * A beneficial tree that heals actors in adjacent locations.
  * The Inheritree is represented by 't' on the game map and provides
@@ -20,11 +21,12 @@ import game.actors.Status;
  * Modified by: YOUSSEF HASSANEIN
  */
 public class Inheritree extends Ground implements Plantable {
-
     /**
      * The minimum energy required to plant an Inheritree
      */
-    private final static int MIN_ENERGY_TO_PLANT = 25;
+    public final static int MIN_ENERGY_TO_PLANT = 25;
+
+    private static final int INCREASE_AMOUNT = 5;
 
     /**
      * Constructor for the Inheritree class.
@@ -58,7 +60,7 @@ public class Inheritree extends Ground implements Plantable {
             if(actor != null) {
                 // Heal the actor
                 new Display().println("❤️\u200D\uD83E\uDE79"+ actor + " health is increased by 5❤\uFE0F\u200D\uD83E\uDE79");
-                actor.heal(5);
+                actor.heal(INCREASE_AMOUNT);
 
                 actor.addCapability(Ability.BLOCK_ACID_RAIN);
                 new Display().println(actor + " is hiding near the Inheritree, blocking the acid rain.");
@@ -66,7 +68,7 @@ public class Inheritree extends Ground implements Plantable {
                 // Restore stamina if the actor has stamina attribute
                 if (actor.hasAttribute(BaseActorAttributes.STAMINA)) {
                     new Display().println("\uD83D\uDD0B"+ actor + " stamina is increased by 5\uD83D\uDD0B");
-                    actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 5);
+                    actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, INCREASE_AMOUNT);
                 }
             }
         }

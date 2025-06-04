@@ -3,7 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.bosscomponents.Growable;
+import game.bossComponents.Growable;
 
 /**
  * Action class that allows an actor to trigger growth on a Growable target.

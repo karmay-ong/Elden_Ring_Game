@@ -19,7 +19,10 @@ public class Bloodrose extends Ground implements Plantable {
     /**
      * The minimum energy required to plant a Bloodrose
      */
-    private final static int MIN_ENERGY_TO_PLANT = 25;
+    public final static int MIN_ENERGY_TO_PLANT = 25;
+
+    private static final int DAMAGE_ON_EVENT = 10;
+    private static final int DAMAGE_ON_PLANT = 5;
 
     /**
      * Constructor for the Bloodrose class.
@@ -46,8 +49,8 @@ public class Bloodrose extends Ground implements Plantable {
             Location surroundings = exit.getDestination();
             Actor actor = surroundings.getActor();
             if (actor != null) {
-                new Display().println("\uD83D\uDC94" + actor + " health is deducted by 10\uD83D\uDC94");
-                actor.hurt(10);
+                new Display().println("\uD83D\uDC94" + actor + " health is deducted by " + DAMAGE_ON_EVENT + "\uD83D\uDC94");
+                actor.hurt(DAMAGE_ON_EVENT);
                 //check death of surrounding actors
                 if(!actor.isConscious()){
                     new Display().println(actor.unconscious(location.map()));
@@ -78,7 +81,7 @@ public class Bloodrose extends Ground implements Plantable {
     @Override
     public String plant(Actor actor, Location location, GameMap map) {
         location.setGround(this);
-        actor.hurt(5);
+        actor.hurt(DAMAGE_ON_PLANT);
         //check death of surrounding actors
         if(!actor.isConscious()) {
             new Display().println(actor.unconscious(location.map()));

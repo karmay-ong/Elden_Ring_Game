@@ -16,9 +16,11 @@ import java.util.TreeMap;
  * @author Lim Chi Jian
  */
 public class Guts extends ConversationalActor {
-    private static final int GUTS_HITPOINTS =  500;
-    private static final int MONOLOGUE_WEAK_HEALTH_THRESHOLD = 50;
-
+    public static final int GUTS_HITPOINTS =  500;
+    public static final int MONOLOGUE_WEAK_HEALTH_THRESHOLD = 50;
+    private static final int ATTACK_PRIORITY = 1;
+    private static final int WANDER_PRIORITY = 999;
+    private static final int HEALTH_THRESHOLD = 50;
     /**
      * Constructs a new Guts actor with predefined attributes, intrinsic weapon, and behaviours.
      */
@@ -26,8 +28,8 @@ public class Guts extends ConversationalActor {
         super("Guts\uD83D\uDC7A", 'g',GUTS_HITPOINTS );
         setIntrinsicWeapon(new BareFist());
         behaviours = new TreeMap<>();
-        behaviours.put(1,new AttackBehaviour(new ActorAttributeCondition(BaseActorAttributes.HEALTH,50, Operators.GREATER_THAN)));
-        behaviours.put(999, new WanderBehaviour());
+        behaviours.put(ATTACK_PRIORITY,new AttackBehaviour(new ActorAttributeCondition(BaseActorAttributes.HEALTH,HEALTH_THRESHOLD, Operators.GREATER_THAN)));
+        behaviours.put(WANDER_PRIORITY, new WanderBehaviour());
     }
 
     /**

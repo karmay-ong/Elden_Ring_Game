@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.GrowAction;
-import game.bosscomponents.Growable;
+import game.bossComponents.Growable;
 
 /**
  * Behaviour that enables a Growable object to perform a grow action.

@@ -7,8 +7,11 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.PurchaseAction;
 import game.actors.Status;
 import game.conditions.*;
+import game.effects.Effect;
+import game.effects.HurtEffect;
 import game.effects.IncreaseMaxStaminaEffect;
 import game.effects.RestoreStaminaEffect;
+import game.items.Torch;
 import game.trading.Offer;
 import game.weapons.BroadSword;
 import game.weapons.DragonSlayerGreatSword;
@@ -26,9 +29,16 @@ import java.util.TreeMap;
  * @author Kian Lok Chin
  */
 public class MerchantKale extends ConversationalActor {
-    private static final int MERCHANT_KALE_HITPOINTS = 200;
-    private static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
+    public static final int MERCHANT_KALE_HITPOINTS = 200;
+    public static final int MONOLOGUE_LOW_BALANCE_THRESHOLD = 500;
     private List<Offer> kaleOffers;
+    private static final int WANDER_PRIORITY = 999;
+    private static final int BROAD_SWORD_PRICE = 150;
+    private static final int INCREASE_MAX_STAMINA_AMOUNT = 30;
+    private static final int DRAGON_SLAYER_GREATSWORD_PRICE = 1700;
+    private static final int DRAGON_SLAYER_RESTORE_STAMINA_AMOUNT = 20;
+    private static final int TORCH_PRICE = 2000;
+    private static final int TORCH_HURT_AMOUNT = 10;
 
     /**
      * Constructs a new MerchantKale with predefined hitpoints and wandering behaviour.
@@ -37,7 +47,7 @@ public class MerchantKale extends ConversationalActor {
     public MerchantKale() {
         super("Kale\uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDFED", 'k', MERCHANT_KALE_HITPOINTS);
         behaviours = new TreeMap<>();
-        behaviours.put(999, new WanderBehaviour());
+        behaviours.put(WANDER_PRIORITY, new WanderBehaviour());
         kaleOffers = new ArrayList<>();
     }
 
@@ -78,8 +88,9 @@ public class MerchantKale extends ConversationalActor {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor, direction, map);
         if(kaleOffers.isEmpty()) {
-            kaleOffers.add(new Offer(new BroadSword(), 150, List.of(new IncreaseMaxStaminaEffect(30))));
-            kaleOffers.add(new Offer(new DragonSlayerGreatSword(), 1700, List.of(new RestoreStaminaEffect(20))));
+            kaleOffers.add(new Offer(new BroadSword(), BROAD_SWORD_PRICE, List.of(new IncreaseMaxStaminaEffect(INCREASE_MAX_STAMINA_AMOUNT))));
+            kaleOffers.add(new Offer(new DragonSlayerGreatSword(), DRAGON_SLAYER_GREATSWORD_PRICE, List.of(new RestoreStaminaEffect(DRAGON_SLAYER_RESTORE_STAMINA_AMOUNT))));
+            kaleOffers.add(new Offer(new Torch(), TORCH_PRICE, List.of(new HurtEffect(TORCH_HURT_AMOUNT))));
         }
         for (Offer offer : kaleOffers) {
             actions.add(new PurchaseAction(this, offer));

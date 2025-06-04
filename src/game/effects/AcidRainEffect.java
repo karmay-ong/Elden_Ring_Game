@@ -42,12 +42,13 @@ public class AcidRainEffect extends WeatherEffect {
     }
 
     /**
-     * Indicates whether this rain instance is acid rain.
+     * Indicates whether this a type of rain.
      * Always returns true, as this instance represents acid rain.
      *
-     * @return true, indicating this is acid rain.
+     * @return true, indicating this is a type of rain.
      */
-    public boolean isAcidRain() {
+    @Override
+    public boolean isRaining() {
         return true;
     }
 
@@ -96,3 +97,4 @@ public class AcidRainEffect extends WeatherEffect {
         return "Acid Rain️";
     }
 }
+

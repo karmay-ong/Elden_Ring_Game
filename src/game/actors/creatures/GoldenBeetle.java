@@ -17,7 +17,7 @@ import game.effects.Effect;
 import game.effects.RestoreStaminaEffect;
 import game.items.Eatable;
 import game.items.Egg;
-import game.items.GoldenBeetleMeat;
+import game.items.Meat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +180,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Drop meat when killed by another actor
-        map.locationOf(this).addItem(new GoldenBeetleMeat());
+        map.locationOf(this).addItem(new Meat("Golden Beetle Meat", Status.CURSED));
         return super.unconscious(actor, map);
     }
 
@@ -196,7 +196,7 @@ public class GoldenBeetle extends Creature implements Eatable, Producible {
     @Override
     public String unconscious(GameMap map) {
         // Drop meat when killed by non-combat means
-        map.locationOf(this).addItem(new GoldenBeetleMeat());
+        map.locationOf(this).addItem(new Meat("Golden Beetle Meat", Status.CURSED));
         return super.unconscious(map);
     }
 

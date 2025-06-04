@@ -47,7 +47,7 @@ public class Torch extends Item implements Sellable {
         Display dp = new Display();
         WeatherEffect weather = EnvironmentalStatusSystem.getInstance().getCurrentWeather();
 
-        if (weather.isAcidRain()) {
+        if (weather.isRaining()) {
             if (!isOpen) {
                 dp.println("It's raining! " + actor + " can't light the " + this + ".");
                 return;

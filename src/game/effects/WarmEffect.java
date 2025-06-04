@@ -74,16 +74,6 @@ public class WarmEffect extends WeatherEffect {
     }
 
     /**
-     * Indicates whether this warm effect produces acid rain.
-     * Always returns false, as warm effects do not cause acid rain.
-     *
-     * @return false, indicating this warm effect is not acid rain.
-     */
-    public boolean isAcidRain() {
-        return false;
-    }
-
-    /**
      * Returns the string representation of this object.
      *
      * @return the string "Sunny".

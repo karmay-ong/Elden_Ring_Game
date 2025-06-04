@@ -3,7 +3,9 @@ package game.utils;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.BedOfChaos;
 import game.actors.Player;
 import game.actors.Status;
 import game.actors.conversationalActors.Guts;
@@ -12,6 +14,8 @@ import game.actors.conversationalActors.Sellen;
 import game.actors.creatures.GoldenBeetle;
 import game.actors.creatures.OmenSheep;
 import game.actors.creatures.SpiritGoat;
+import game.behaviours.OrderedSelector;
+import game.behaviours.RandomSelector;
 import game.conditions.AdjacentCapabilityCondition;
 import game.conditions.Condition;
 import game.conditions.TurnBasedCondition;
@@ -76,6 +80,24 @@ public class Application {
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
         world.addGameMap(gameMap);
 
+        List<String> newMap = Arrays.asList(
+                ".............xxxx",
+                "..............xxx",
+                "................x",
+                ".................",
+                "................x",
+                "...............xx",
+                "..............xxx",
+                "..............xxx",
+                "..............xxx",
+                ".............xxxx",
+                ".............xxxx",
+                "....xxx.....xxxxx",
+                "....xxxx...xxxxxx"
+        );
+        GameMap newGameMap = new GameMap("Limveld", groundFactory, newMap);
+        world.addGameMap(newGameMap);
+
         // Display the game title with animation
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -87,11 +109,8 @@ public class Application {
         }
 
         // Create and position the player
-        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
-        world.addPlayer(player, gameMap.at(23, 10));
-        //world.addPlayer(player, gameMap.at(21, 5)); //test sellen
-        //world.addPlayer(player, gameMap.at(11, 12)); //test Guts
-        //world.addPlayer(player, gameMap.at(31, 6)); //test Kale
+        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 5, 200, 36);
+        world.addPlayer(player, gameMap.at(22, 4));
         player.addBalance(100000000);
         EnvironmentalStatusSystem.initialize(player, gameMap);
 
@@ -112,9 +131,9 @@ public class Application {
         player.addItemToInventory(new Umbrella());
         player.addItemToInventory(new WaterBucket());
         // Create and position NPCs
-        SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
-        OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
-        GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition);
+        SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition, new OrderedSelector());
+        OmenSheep omenSheep = new OmenSheep(omenSheepCondition, new RandomSelector());
+        GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new RandomSelector());
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
         //gameMap.addActor(spiritGoat, gameMap.at(26, 5)); //test spirit goat reproduction
 
@@ -130,7 +149,41 @@ public class Application {
         // Add items to the game world
         gameMap.at(24, 11).addItem(new Talisman());
 
+        // Get the locations to place the teleportation circles
+        Location valleyCircleLoc = gameMap.at(22,11);
+        Location limveldCircleLoc = newGameMap.at(3,5);
+        Location limveldCircleLoc2 = newGameMap.at(3,4);
+
+        // Create the teleportation circles
+        TeleportationCircle valleyCircle = new TeleportationCircle();
+        TeleportationCircle limveldCircle = new TeleportationCircle();
+        TeleportationCircle limveldCircle2 = new TeleportationCircle();
+
+        // Set the locations for each circle (this tells each circle where it's placed)
+        valleyCircle.setLocation(valleyCircleLoc);
+        limveldCircle.setLocation(limveldCircleLoc);
+        limveldCircle2.setLocation(limveldCircleLoc2);
+
+        // Add the circles to their respective locations on the maps
+        valleyCircleLoc.setGround(valleyCircle);
+        limveldCircleLoc.setGround(limveldCircle);
+        limveldCircleLoc2.setGround(limveldCircle2);
+
+        // Now connect the circles to each other using bidirectional connections
+        // This automatically creates connections in both directions
+        valleyCircle.addBidirectionalConnection(limveldCircle);
+        valleyCircle.addBidirectionalConnection(limveldCircle2);
+
+        GoldenBeetle limveldGoldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new RandomSelector());
+        GoldenBeetle limveldGoldenBeetle2 = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new OrderedSelector());
+
+        newGameMap.addActor(limveldGoldenBeetle, newGameMap.at(5, 10));
+        newGameMap.addActor(limveldGoldenBeetle2, newGameMap.at(10, 11));
         // Run the game
+
+        BedOfChaos bedOfChaos = new BedOfChaos();
+        newGameMap.addActor(bedOfChaos, newGameMap.at(7, 10));
+
         world.run();
 
         // Display game over screen with animation

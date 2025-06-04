@@ -1,5 +1,6 @@
 package game.actors.creatures;
 
+import game.actors.Status;
 import game.behaviours.BehaviourSelector;
 import game.behaviours.WanderBehaviour;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -19,7 +20,7 @@ import game.effects.Effect;
 import game.effects.IncreaseMaxHealthEffect;
 import game.grounds.Inheritree;
 import game.items.Egg;
-import game.items.OmenSheepMeat;
+import game.items.Meat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,13 +148,13 @@ public class OmenSheep extends Creature implements Producible, Curable {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Drop meat when killed
-        map.locationOf(this).addItem(new OmenSheepMeat());
+        map.locationOf(this).addItem(new Meat("Omen Sheep Meat", Status.BLESSED));
         return super.unconscious(actor, map);
     }
 
     @Override
     public String unconscious(GameMap map) {
-        map.locationOf(this).addItem(new OmenSheepMeat());
+        map.locationOf(this).addItem(new Meat("Omen Sheep Meat", Status.BLESSED));
         return super.unconscious(map);
     }
 }

@@ -36,5 +36,8 @@ public class HurtEffect implements Effect {
     public void apply(Actor target, GameMap map) {
         target.hurt(damage);
         new Display().println(target + "'s health is decreased by " + damage);
+        if (!target.isConscious()) {
+            new Display().println(target.unconscious(map));
+        }
     }
 }

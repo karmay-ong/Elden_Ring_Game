@@ -37,6 +37,9 @@ public class PoisonEffect extends StatusEffect {
     @Override
     public void tick(Location location, Actor actor) {
         actor.hurt(damage);
+        if (!actor.isConscious()) {
+            new Display().println(actor.unconscious(location.map()));
+        }
         new Display().println(actor + "'s health is decreased by " + damage);
         duration--;
 

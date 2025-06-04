@@ -20,7 +20,6 @@ public enum Ability {
      * This ability is typically given to items that can be used for healing purposes.
      */
     CURE,
-
     /**
      * Indicates that the object can block the effects of acid rain.
      */

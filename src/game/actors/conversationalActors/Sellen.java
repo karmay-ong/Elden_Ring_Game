@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.PurchaseAction;
 import game.effects.*;
+import game.items.Umbrella;
 import game.trading.Offer;
 import game.weapons.BroadSword;
 import game.weapons.DragonSlayerGreatSword;
@@ -25,8 +26,18 @@ import java.util.TreeMap;
  * @author Kian Lok Chin
  */
 public class Sellen extends ConversationalActor {
-    private final static int SELLEN_HITPOINTS = 150;
+    public final static int SELLEN_HITPOINTS = 150;
     private List<Offer> sellenOffers;
+    private static final int WANDER_BEHAVIOUR_PRIORITY = 999;
+    private static final int BROAD_SWORD_PRICE = 100;
+    private static final int DRAGON_SLAYER_GREATSWORD_PRICE = 1500;
+    private static final int KATANA_PRICE = 500;
+    private static final int UMBRELLA_PRICE = 700;
+
+    private static final int INCREASE_MAX_HEALTH_AMOUNT = 20;
+    private static final int HEAL_AMOUNT = 10;
+    private static final int INCREASE_MAX_STAMINA_AMOUNT = 20;
+    private static final int HURT_AMOUNT = 10;
 
     /**
      * Constructs a new Sellen with predefined hitpoints and wandering behaviour.
@@ -35,7 +46,7 @@ public class Sellen extends ConversationalActor {
     public Sellen() {
         super("Sellen\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDE92", 's', SELLEN_HITPOINTS);
         behaviours = new TreeMap<>();
-        behaviours.put(999, new WanderBehaviour());
+        behaviours.put(WANDER_BEHAVIOUR_PRIORITY, new WanderBehaviour());
         sellenOffers = new ArrayList<>();
     }
 
@@ -66,11 +77,12 @@ public class Sellen extends ConversationalActor {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = super.allowableActions(otherActor ,direction, map);
         if(sellenOffers.isEmpty()) {
-            sellenOffers.add(new Offer(new BroadSword(), 100, List.of(new IncreaseMaxHealthEffect(20))));
-            sellenOffers.add(new Offer(new DragonSlayerGreatSword(), 1500, List.of(new SpawnGoldenBeetleEffect(otherActor))));
-            sellenOffers.add(new Offer(new Katana(), 500, Arrays.asList(new SpawnOmenSheepEffect(this),
-                    new HealEffect(10),
-                    new IncreaseMaxStaminaEffect(20))));
+            sellenOffers.add(new Offer(new BroadSword(), BROAD_SWORD_PRICE, List.of(new IncreaseMaxHealthEffect(INCREASE_MAX_HEALTH_AMOUNT))));
+            sellenOffers.add(new Offer(new DragonSlayerGreatSword(), DRAGON_SLAYER_GREATSWORD_PRICE, List.of(new SpawnGoldenBeetleEffect(otherActor))));
+            sellenOffers.add(new Offer(new Katana(), KATANA_PRICE, Arrays.asList(new SpawnOmenSheepEffect(this),
+                    new HealEffect(HEAL_AMOUNT),
+                    new IncreaseMaxStaminaEffect(INCREASE_MAX_STAMINA_AMOUNT))));
+            sellenOffers.add(new Offer(new Umbrella(), UMBRELLA_PRICE, List.of(new HurtEffect(HURT_AMOUNT))));
         }
         for (Offer offer : sellenOffers) {
             actions.add(new PurchaseAction(this, offer));

@@ -6,30 +6,30 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.EatAction;
+import game.actors.Status;
 
 /**
- * Abstract base class for all meat items in the game.
- * Provides common functionality for edible meat items.
+ * Meat class that can be created with a name and status.
+ * All meat items are portable and use 'M' as display character.
  *
  * @author Kian Lok Chin
  */
-public abstract class Meat extends Item implements Eatable {
+public class Meat extends Item implements Eatable {
 
     /**
      * Constructor for Meat items.
      *
      * @param name the name of the meat item
-     * @param displayChar the character to display on the map
-     * @param portable true if the item can be picked up
+     * @param status the status capability to add to this meat
      */
-    public Meat(String name, char displayChar, boolean portable) {
-        super(name, displayChar, portable);
+    public Meat(String name, Status status) {
+        super(name, 'M', true);
+        addCapability(status);
     }
 
     /**
      * Default implementation for eating meat.
      * Removes this item from the actor's inventory when eaten.
-     * Subclasses can override this method to add specific effects.
      *
      * @param actor the actor consuming the item
      * @param map the game map where the actor is located
@@ -42,7 +42,6 @@ public abstract class Meat extends Item implements Eatable {
     /**
      * Returns the list of actions that other actors can perform on this meat item.
      * By default, adds an EatAction allowing the item to be consumed.
-     * Subclasses can override this method to add additional actions.
      *
      * @param otherActor the actor interacting with the item
      * @param location the location of the item
