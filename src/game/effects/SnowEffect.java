@@ -67,6 +67,7 @@ public class SnowEffect extends WeatherEffect {
 
         if (player.getTemperature() <= MIN_SAFE_TEMPERATURE || player.getTemperature() >= MAX_SAFE_TEMPERATURE) {
             display.println(player.unconscious(map));
+            player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE,0);
         }
     }
 

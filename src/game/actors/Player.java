@@ -2,6 +2,7 @@ package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
@@ -154,6 +155,10 @@ public class Player extends Actor {
         EnvironmentalStatusSystem system = EnvironmentalStatusSystem.getInstance();
         system.timeChanged();
 
+        if (!this.isConscious()) {
+            return new DoNothingAction();
+        }
+
         List<Action> brewingActions = potionPouch.getBrewingActions(this);
         for (Action action : brewingActions) {
             actions.add(action);
@@ -161,7 +166,7 @@ public class Player extends Actor {
         displayAttributes(display);
         displayInventory(display);
         // Handle multi-turn Actions
-        if (lastAction.getNextAction() != null && lastAction.getNextAction() != null)
+        if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();
 
         // return/print the console menu
