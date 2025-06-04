@@ -175,15 +175,8 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 🧪 Witch Mayhem of Potions is a chaotic, strategic alchemy system where every brew holds power—and danger. As a battle-ready alchemist, you gather rare ingredients like 🐐 blessed goat meat or 🪲 cursed beetle flesh to craft potions that can change the tide of battle. Drink them for personal boosts or 🎯 throw them for devastating area control. Behind the scenes, smart abstractions like Potion and Meat handle interactions, while 💜 Healing, 🖤 Poison, and ❤️ Crazy potions unleash turn-based effects that heal, harm, or trigger unpredictable chaos. With ⚗️ limited resources, a 💼 brewing pouch, and a 🌊 dynamic world full of tactical choices, every drop you brew could mean survival—or spectacular mayhem.
 
 
-
-
-
-
-
-
-
-
-
+## UML Diagram
+![Weather Madness UML](docs/design/assignment3/Req4/diagram_readme_req4.png)
 
 ### 1. Base Classes & Abstractions
 
