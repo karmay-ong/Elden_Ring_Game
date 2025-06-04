@@ -1,121 +1,49 @@
 package game.grounds;
 
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.TeleportAction;
-import game.actors.Status;
-
-import java.util.ArrayList;
-import java.util.List;
+import edu.monash.fit2099.engine.positions.Exit;
 
 /**
- * Represents a teleportation circle ground tile that allows an actor to teleport to other teleportation circles.
- *
- * Actors stepping on this ground can choose to teleport to any of the connected teleportation circles.
- *
- * @author YOUSSEF HASSANEIN
+ * A special ground that allows actors to teleport between different maps.
  */
 public class TeleportationCircle extends Ground {
-    private final List<TeleportationCircle> destinations = new ArrayList<>();
-    private Location currentLocation;
+    private Location destination;
 
     /**
-     * Constructs a TeleportationCircle with a specific display character and name.
+     * Constructor for TeleportationCircle
      */
     public TeleportationCircle() {
-        super('A', "Teleportation Circle🌀");
+        super('A', "Teleportation Circle");
     }
 
     /**
-     * Sets the current location of this teleportation circle.
-     * This should be called when the circle is placed on the map.
+     * Sets the destination for this teleportation circle
      *
-     * @param location the location where this teleportation circle is placed
+     * @param destination the location to teleport to
      */
-    public void setLocation(Location location) {
-        this.currentLocation = location;
+    public void setDestination(Location destination) {
+        this.destination = destination;
     }
 
     /**
-     * Gets the current location of this teleportation circle.
-     *
-     * @return the location where this teleportation circle is placed
-     */
-    public Location getLocation() {
-        return currentLocation;
-    }
-
-    /**
-     * Adds a destination teleportation circle that this circle can teleport to.
-     * This creates a one-way connection.
-     *
-     * @param destinationCircle the teleportation circle to be added as a destination
-     */
-    public void addDestination(TeleportationCircle destinationCircle) {
-        if (!destinations.contains(destinationCircle)) {
-            destinations.add(destinationCircle);
-        }
-    }
-
-    /**
-     * Adds a bidirectional connection between this circle and another circle.
-     * Both circles will be able to teleport to each other.
-     *
-     * @param otherCircle the teleportation circle to create a bidirectional connection with
-     */
-    public void addBidirectionalConnection(TeleportationCircle otherCircle) {
-        // Add the other circle as a destination for this circle
-        this.addDestination(otherCircle);
-        // Add this circle as a destination for the other circle
-        otherCircle.addDestination(this);
-    }
-
-    /**
-     * Removes a destination teleportation circle from this circle's destinations.
-     * This only removes a one-way connection.
-     *
-     * @param destinationCircle the teleportation circle to be removed from destinations
-     */
-    public void removeDestination(TeleportationCircle destinationCircle) {
-        destinations.remove(destinationCircle);
-    }
-
-    /**
-     * Removes a bidirectional connection between this circle and another circle.
-     * Neither circle will be able to teleport to the other after this.
-     *
-     * @param otherCircle the teleportation circle to remove bidirectional connection with
-     */
-    public void removeBidirectionalConnection(TeleportationCircle otherCircle) {
-        this.removeDestination(otherCircle);
-        otherCircle.removeDestination(this);
-    }
-
-    /**
-     * Gets the list of destination teleportation circles.
-     *
-     * @return a list of teleportation circles this circle can teleport to
-     */
-    public List<TeleportationCircle> getDestinations() {
-        return new ArrayList<>(destinations);
-    }
-
-    /**
-     * Returns a list of allowable actions, including teleportation actions for each connected teleportation circle.
-     *
-     * @param actor the actor interacting with the ground
-     * @param currentLocation the current location of the actor
-     * @param direction the direction of the ground relative to the actor
-     * @return a list of allowable actions
+     * Returns a list of allowable actions for this ground, including teleportation if a destination is set.
+     * The actor will be teleported to an available adjacent tile next to the destination circle.
      */
     @Override
-    public ActionList allowableActions(Actor actor, Location currentLocation, String direction) {
-        ActionList actions = super.allowableActions(actor, currentLocation, direction);
-        for (TeleportationCircle destinationCircle : destinations) {
-            if (destinationCircle.getLocation() != null) {
-                actions.add(new TeleportAction(destinationCircle));
+    public ActionList allowableActions(Actor actor, Location location, String direction) {
+        ActionList actions = super.allowableActions(actor, location, direction);
+        if (destination != null) {
+            // Look for an available adjacent tile near the destination circle
+            for (Exit exit : destination.getExits()) {
+                Location targetLocation = exit.getDestination();
+                if (targetLocation.canActorEnter(actor)) {
+                    actions.add(new MoveActorAction(targetLocation, "to " + destination.map().toString()));
+                    return actions; // Return as soon as we find a valid spot
+                }
             }
         }
         return actions;
