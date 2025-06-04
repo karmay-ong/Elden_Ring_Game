@@ -109,7 +109,7 @@ public class Application {
         }
 
         // Create and position the player
-        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 5, 200, 36);
+        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
         world.addPlayer(player, gameMap.at(22, 4));
         player.addBalance(100000000);
         EnvironmentalStatusSystem.initialize(player, gameMap);
