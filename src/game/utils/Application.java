@@ -110,7 +110,7 @@ public class Application {
 
         // Create and position the player
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
-        world.addPlayer(player, gameMap.at(24, 11));
+        world.addPlayer(player, gameMap.at(23, 10));
         player.addBalance(100000000);
         EnvironmentalStatusSystem.initialize(player, gameMap);
 
@@ -132,8 +132,8 @@ public class Application {
         player.addItemToInventory(new WaterBucket());
         // Create and position NPCs
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition, new OrderedSelector());
-        OmenSheep omenSheep = new OmenSheep(omenSheepCondition, new RandomSelector());
-        GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new RandomSelector());
+        OmenSheep omenSheep = new OmenSheep(omenSheepCondition, new OrderedSelector());
+        GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new OrderedSelector());
         gameMap.addActor(spiritGoat, gameMap.at(24, 10));
         //gameMap.addActor(spiritGoat, gameMap.at(26, 5)); //test spirit goat reproduction
 
@@ -174,16 +174,25 @@ public class Application {
         valleyCircle.addBidirectionalConnection(limveldCircle);
         valleyCircle.addBidirectionalConnection(limveldCircle2);
 
+        // Create and add creatures in Limveld
+        SpiritGoat limveldSpiritGoat = new SpiritGoat(spiritGoatCondition, new RandomSelector());
+        SpiritGoat limveldSpiritGoat2 = new SpiritGoat(spiritGoatCondition, new OrderedSelector());
+        OmenSheep limveldOmenSheep = new OmenSheep(omenSheepCondition, new RandomSelector());
+        OmenSheep limveldOmenSheep2 = new OmenSheep(omenSheepCondition, new OrderedSelector());
         GoldenBeetle limveldGoldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new RandomSelector());
         GoldenBeetle limveldGoldenBeetle2 = new GoldenBeetle(beetleEffects, goldenBeetleCondition, new OrderedSelector());
 
+        newGameMap.addActor(limveldSpiritGoat, newGameMap.at(10,12));
+        newGameMap.addActor(limveldSpiritGoat2, newGameMap.at(10,10));
+        newGameMap.addActor(limveldOmenSheep, newGameMap.at(8,5));
+        newGameMap.addActor(limveldOmenSheep2, newGameMap.at(8,4));
         newGameMap.addActor(limveldGoldenBeetle, newGameMap.at(5, 10));
         newGameMap.addActor(limveldGoldenBeetle2, newGameMap.at(10, 11));
-        // Run the game
 
         BedOfChaos bedOfChaos = new BedOfChaos();
         newGameMap.addActor(bedOfChaos, newGameMap.at(7, 10));
 
+        // Run the game
         world.run();
 
         // Display game over screen with animation
