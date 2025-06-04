@@ -1,4 +1,4 @@
-package game.bossComponents;
+package game.bosscomponents;
 
 import edu.monash.fit2099.engine.actors.Actor;
 

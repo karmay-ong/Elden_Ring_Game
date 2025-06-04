@@ -13,9 +13,9 @@ import game.behaviours.AttackBehaviour;
 import game.behaviours.BehaviourSelector;
 import game.behaviours.GrowBehaviour;
 import game.behaviours.OrderedSelector;
-import game.bossComponents.Branch;
-import game.bossComponents.Growable;
-import game.bossComponents.Leaf;
+import game.bosscomponents.Branch;
+import game.bosscomponents.Growable;
+import game.bosscomponents.Leaf;
 import game.conditions.Condition;
 import game.weapons.Claw;
 
