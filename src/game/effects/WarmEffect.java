@@ -24,6 +24,7 @@ public class WarmEffect extends WeatherEffect {
     private static final int TEMP_RESTORATION_PER_TICK = 1;
     private static final int MIN_SAFE_TEMPERATURE = 12;
     private static final int MAX_SAFE_TEMPERATURE = 50;
+    private static final int HEALTH_UPDATE = 0;
 
     /**
      * Returns the color associated with this object.
@@ -70,7 +71,7 @@ public class WarmEffect extends WeatherEffect {
 
         if (player.getTemperature() <= MIN_SAFE_TEMPERATURE || player.getTemperature() >= MAX_SAFE_TEMPERATURE) {
             display.println(player.unconscious(map));
-            player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE,0);
+            player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE,HEALTH_UPDATE);
         }
     }
 
