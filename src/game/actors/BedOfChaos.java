@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.AttackAction;
+import game.actions.UseTorchAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.GrowBehaviour;
 import game.bossComponents.Branch;
@@ -138,5 +140,20 @@ public class BedOfChaos extends Actor implements Growable {
         return result;
     }
 
+
+    /**
+     * Returns a new collection of the Actions that the otherActor can do to the current Actor.
+     *
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return A collection of Actions.
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        actions.add(new AttackAction(this, otherActor.getIntrinsicWeapon()));
+        return actions;
+    }
 }
 
