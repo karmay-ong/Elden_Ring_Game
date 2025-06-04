@@ -18,7 +18,7 @@ public class WaterBucket extends Item {
      * Constructor for WaterBucket
      */
     public WaterBucket() {
-        super("Bucket of Water", 'W', true);
+        super("Bucket of Water 🪣", 'W', true);
         addCapability(Status.DRINKABLE);
     }
 
