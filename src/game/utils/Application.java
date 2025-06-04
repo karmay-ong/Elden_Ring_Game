@@ -51,7 +51,7 @@ public class Application {
 
         // Create a factory with all ground types used in the game
         FancyGroundFactory groundFactory = new FancyGroundFactory(new Blight(),
-                new Wall(), new Floor(), new Soil());
+                new Wall(), new Floor(), new Soil(), new TeleportationCircle());
 
         // Define the game map layout
         List<String> map = Arrays.asList(
@@ -71,10 +71,39 @@ public class Application {
                 "xxxxx..xxxxxxxxxxx.........xxxxx......xx",
                 "xxxxx..xxxxxxxxxxxx.......xxxxxx......xx");
 
+        // Define the Limveld map layout
+        List<String> limveldMapLayout = Arrays.asList(
+                ".............xxxx",
+                "..............xxx",
+                "................x",
+                ".................",
+                "................x",
+                "...............xx",
+                "..............xxx",
+                "..............xxx",
+                "..............xxx",
+                ".............xxxx",
+                ".............xxxx",
+                "....xxx.....xxxxx",
+                "....xxxx...xxxxxx");
 
-        // Create the game map
-        GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, map);
-        world.addGameMap(gameMap);
+        // Create the game maps
+        GameMap valleyMap = new GameMap("Valley of the Inheritree", groundFactory, map);
+        GameMap limveldMap = new GameMap("Limveld", groundFactory, limveldMapLayout);
+        world.addGameMap(valleyMap);
+        world.addGameMap(limveldMap);
+
+        // Create and set up teleportation circles
+        TeleportationCircle valleyCircle = new TeleportationCircle();
+        TeleportationCircle limveldCircle = new TeleportationCircle();
+
+        // Place teleportation circles in more open areas
+        valleyMap.at(7, 3).setGround(valleyCircle);  // More open area in the valley
+        limveldMap.at(7, 3).setGround(limveldCircle); // Keep same position in Limveld
+
+        // Link the circles
+        valleyCircle.setDestination(limveldMap.at(7, 3));
+        limveldCircle.setDestination(valleyMap.at(7, 3));
 
         // Display the game title with animation
         for (String line : FancyMessage.TITLE.split("\n")) {
@@ -86,14 +115,14 @@ public class Application {
             }
         }
 
-        // Create and position the player
+        // Create and position the player in an open area next to the teleportation circle
         Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
-        world.addPlayer(player, gameMap.at(23, 10));
+        world.addPlayer(player, valleyMap.at(8, 3));  // Position player next to the teleportation circle
         //world.addPlayer(player, gameMap.at(21, 5)); //test sellen
         //world.addPlayer(player, gameMap.at(11, 12)); //test Guts
         //world.addPlayer(player, gameMap.at(31, 6)); //test Kale
         player.addBalance(100000000);
-        EnvironmentalStatusSystem.initialize(player, gameMap);
+        EnvironmentalStatusSystem.initialize(player, valleyMap);
 
         // Create conditions and effects for all NPCs
         Condition spiritGoatCondition = new AdjacentCapabilityCondition(Status.BLESSED);
@@ -115,20 +144,41 @@ public class Application {
         SpiritGoat spiritGoat = new SpiritGoat(spiritGoatCondition);
         OmenSheep omenSheep = new OmenSheep(omenSheepCondition);
         GoldenBeetle goldenBeetle = new GoldenBeetle(beetleEffects, goldenBeetleCondition);
-        gameMap.addActor(spiritGoat, gameMap.at(24, 10));
+        valleyMap.addActor(spiritGoat, valleyMap.at(24, 10));
         //gameMap.addActor(spiritGoat, gameMap.at(26, 5)); //test spirit goat reproduction
 
-        gameMap.addActor(goldenBeetle, gameMap.at(22, 10));
-        gameMap.addActor(omenSheep, gameMap.at(23, 11));
-        gameMap.addActor(new Sellen(), gameMap.at(21, 4));
-        gameMap.addActor(new MerchantKale(), gameMap.at(30, 6));
-        gameMap.addActor(new Guts(), gameMap.at(12, 12));
+        valleyMap.addActor(goldenBeetle, valleyMap.at(22, 10));
+        valleyMap.addActor(omenSheep, valleyMap.at(23, 11));
+        valleyMap.addActor(new Sellen(), valleyMap.at(21, 4));
+        valleyMap.addActor(new MerchantKale(), valleyMap.at(30, 6));
+        valleyMap.addActor(new Guts(), valleyMap.at(12, 12));
 
         // Add starting items to player's inventory
         player.addItemToInventory(new Seed(new Inheritree()));
         player.addItemToInventory(new Seed(new Bloodrose()));
         // Add items to the game world
-        gameMap.at(24, 11).addItem(new Talisman());
+        valleyMap.at(24, 11).addItem(new Talisman());
+
+        // Create test instances of creatures with different behavior selection strategies
+        // Ordered behavior (standard) creatures
+        OmenSheep orderedSheep = new OmenSheep();
+        SpiritGoat orderedGoat = new SpiritGoat(new TurnBasedCondition(5));
+        GoldenBeetle orderedBeetle = new GoldenBeetle();
+
+        // Random behavior creatures
+        OmenSheep randomSheep = OmenSheep.createRandomBehaviorSheep();
+        SpiritGoat randomGoat = SpiritGoat.createRandomBehaviorGoat(new TurnBasedCondition(5));
+        GoldenBeetle randomBeetle = GoldenBeetle.createRandomBehaviorBeetle();
+
+        // Place ordered behavior creatures in Valley
+        valleyMap.at(10, 10).addActor(orderedSheep);
+        valleyMap.at(12, 10).addActor(orderedGoat);
+        valleyMap.at(14, 10).addActor(orderedBeetle);
+
+        // Place random behavior creatures in Limveld
+        limveldMap.at(5, 5).addActor(randomSheep);
+        limveldMap.at(7, 5).addActor(randomGoat);
+        limveldMap.at(9, 5).addActor(randomBeetle);
 
         // Run the game
         world.run();
