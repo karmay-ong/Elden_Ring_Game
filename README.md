@@ -176,7 +176,7 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 
 ## UML Diagram
-![Weather Madness UML](docs/design/assignment3/Req4/diagram_readme_req4.png)
+![Witch Mayhem of Potions UML](docs/design/assignment3/Req4/diagram_readme_req4.png)
 
 ### 1. Base Classes & Abstractions
 
