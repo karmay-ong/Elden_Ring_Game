@@ -19,38 +19,48 @@ import java.util.TreeMap;
  * Creatures are actors that follow a set of behaviors and can be cured.
  *
  * @author Kian Lok Chin
- * Eddited by: Youssef Hassanein
+ * Edited by: Youssef Hassanein
  */
-public abstract class Creature extends Actor{
+public abstract class Creature extends Actor {
     /**
      * Map of behaviors that determine the creature's actions during its turn
      * The integer key represents the priority of the behavior
      */
     protected Map<Integer, Behaviour> behaviours;
+
+    /**
+     * The strategy for selecting behaviors
+     */
     protected BehaviourSelector selector;
 
     /**
-     * Constructor for the Creature class.
+     * Constructor for the Creature class with default ordered selector.
      *
      * @param name the name of the creature
      * @param displayChar the character that will represent the creature in the display
      * @param hitPoints the creature's starting hit points
      */
     public Creature(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints);
-        behaviours = new TreeMap<>();
+        this(name, displayChar, hitPoints, new OrderedSelector());
     }
 
+    /**
+     * Constructor for the Creature class with custom behavior selector.
+     *
+     * @param name the name of the creature
+     * @param displayChar the character that will represent the creature in the display
+     * @param hitPoints the creature's starting hit points
+     * @param selector the strategy for selecting behaviors
+     */
     public Creature(String name, char displayChar, int hitPoints, BehaviourSelector selector) {
         super(name, displayChar, hitPoints);
-        behaviours = new TreeMap<>();
+        this.behaviours = new TreeMap<>();
         this.selector = selector;
     }
 
     /**
      * Determines what action the creature will take during its turn.
-     * Iterates through the creature's behaviors in priority order until one returns a valid action.
-     * If no behavior returns an action, the creature does nothing.
+     * Uses the behavior selector to choose an action from available behaviors.
      *
      * @param actions collection of possible actions
      * @param lastAction the action performed last turn
@@ -60,9 +70,6 @@ public abstract class Creature extends Actor{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        if (selector == null) {
-            selector = new OrderedSelector();
-        }
         Action action = selector.selectAction(this, map, behaviours);
         if (action != null) {
             return action;
@@ -72,8 +79,7 @@ public abstract class Creature extends Actor{
 
     /**
      * Returns a list of allowable actions that can be performed on this creature by another actor.
-     * All creatures can be attacked. If the other actor has items with the CURE ability,
-     * they can also cure this creature.
+     * All creatures can be attacked.
      *
      * @param otherActor the actor performing actions on this creature
      * @param direction the direction in which the other actor is located
