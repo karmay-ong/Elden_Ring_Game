@@ -53,7 +53,7 @@ public class TeleportAction extends Action {
         // Perform the teleportation
         map.removeActor(actor);
         destination.map().addActor(actor, destination);
-        return actor + " teleports to " + destination.map().toString() + "!";
+        return actor + " teleports to " + destination + "!";
     }
 
     /**
@@ -66,7 +66,7 @@ public class TeleportAction extends Action {
     public String menuDescription(Actor actor) {
         Location destination = destinationCircle.getLocation();
         if (destination != null) {
-            return actor + " teleports to " + destination.map().toString() + " at " + destination;
+            return actor + " teleports to " + destination;
         }
         return actor + " teleports to teleportation circle";
     }
