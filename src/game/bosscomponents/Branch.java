@@ -42,8 +42,13 @@ public class Branch implements Growable {
         } else {
             component = new Leaf();
         }
-        child.add(component);
         output += " it grows a " + component + "\n" + component.grow(actor);
+
+        for (Growable c: child) {
+            output += "\n" + c.grow(actor);
+        }
+
+        child.add(component);
         return output;
     }
 

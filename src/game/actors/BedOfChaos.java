@@ -146,8 +146,13 @@ public class BedOfChaos extends Actor implements Growable {
         } else {
             newComponent = new Leaf();
         }
-        components.add(newComponent);
         result += " it grows a " + newComponent + "\n" + newComponent.grow(actor);
+
+        for (Growable component: components) {
+            result += "\n" + component.grow(actor);
+        }
+
+        components.add(newComponent);
         return result;
     }
 
