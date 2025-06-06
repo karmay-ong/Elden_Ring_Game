@@ -73,36 +73,6 @@ public class TeleportationCircle extends Ground {
     }
 
     /**
-     * Removes a destination teleportation circle from this circle's destinations.
-     * This only removes a one-way connection.
-     *
-     * @param destinationCircle the teleportation circle to be removed from destinations
-     */
-    public void removeDestination(TeleportationCircle destinationCircle) {
-        destinations.remove(destinationCircle);
-    }
-
-    /**
-     * Removes a bidirectional connection between this circle and another circle.
-     * Neither circle will be able to teleport to the other after this.
-     *
-     * @param otherCircle the teleportation circle to remove bidirectional connection with
-     */
-    public void removeBidirectionalConnection(TeleportationCircle otherCircle) {
-        this.removeDestination(otherCircle);
-        otherCircle.removeDestination(this);
-    }
-
-    /**
-     * Gets the list of destination teleportation circles.
-     *
-     * @return a list of teleportation circles this circle can teleport to
-     */
-    public List<TeleportationCircle> getDestinations() {
-        return new ArrayList<>(destinations);
-    }
-
-    /**
      * Returns a list of allowable actions, including teleportation actions for each connected teleportation circle.
      *
      * @param actor the actor interacting with the ground
