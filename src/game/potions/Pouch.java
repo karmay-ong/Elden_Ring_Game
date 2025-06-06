@@ -29,7 +29,7 @@ public class Pouch {
      * @param requiredCapabilities The list of capabilities needed
      * @return true if the actor has all ingredients, false otherwise
      */
-    public boolean hasRequiredIngredients(Actor actor, List<Status> requiredCapabilities) {
+    private boolean hasRequiredIngredients(Actor actor, List<Status> requiredCapabilities) {
         // Get a copy of the required capabilities
         List<Status> remainingRequirements = new ArrayList<>(requiredCapabilities);
 
