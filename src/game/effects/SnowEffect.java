@@ -22,7 +22,7 @@ public class SnowEffect extends WeatherEffect {
     private static final int TEMP_REDUCTION_PER_TICK = 1;
     private static final int MIN_SAFE_TEMPERATURE = 12;
     private static final int MAX_SAFE_TEMPERATURE = 50;
-    public static final int HEALTH_UPDATE = 0;
+    private static final int HEALTH_UPDATE = 0;
 
 
     /**

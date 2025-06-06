@@ -24,7 +24,7 @@ public class Inheritree extends Ground implements Plantable {
     /**
      * The minimum energy required to plant an Inheritree
      */
-    public final static int MIN_ENERGY_TO_PLANT = 25;
+    private final static int MIN_ENERGY_TO_PLANT = 25;
 
     private static final int INCREASE_AMOUNT = 5;
 
