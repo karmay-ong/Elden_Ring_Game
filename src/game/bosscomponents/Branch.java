@@ -17,7 +17,7 @@ public class Branch implements Growable {
     /**
      * Childs (growable parts) attached to this Branch.
      */
-    private List<Growable> child = new ArrayList<>();
+    private List<Growable> components = new ArrayList<>();
 
     /**
      * Branch's default damage point.
@@ -36,19 +36,20 @@ public class Branch implements Growable {
     @Override
     public String grow(Actor actor) {
         String output = this + " is growing...\n";
-        Growable component;
+
+        Growable newComponent;
         if (rand.nextBoolean()) {
-            component = new Branch();
+            newComponent = new Branch();
         } else {
-            component = new Leaf();
+            newComponent = new Leaf();
         }
-        output += " it grows a " + component + "\n" + component.grow(actor);
+        output += " it grows a " + newComponent + "\n" + newComponent.grow(actor);
 
-        for (Growable c: child) {
-            output += "\n" + c.grow(actor);
+        for (Growable component: components) {
+            output += "\n" + component.grow(actor);
         }
 
-        child.add(component);
+        components.add(newComponent);
         return output;
     }
 
@@ -60,7 +61,7 @@ public class Branch implements Growable {
     @Override
     public int getDamagePoint() {
         int result = BASE_DAMAGE_POINT;
-        for (Growable component : child) {
+        for (Growable component : components) {
             result += component.getDamagePoint();
         }
         return result;
