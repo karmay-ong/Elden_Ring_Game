@@ -1,20 +1,26 @@
 package game.potions;
 
-import java.util.*;
-import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.actors.Actor;
-import game.actions.BrewCrazyPotionAction;
-import game.actions.BrewHealingPotionAction;
-import game.actions.BrewPoisonPotionAction;
-import game.actors.Status;
+import java.util.ArrayList;
+import java.util.List;
 import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
+import game.actors.Status;
 
 /**
- * A pouch that can brew potions when given the right ingredients.
- *
- * @author Kian Lok Chin
+ * A pouch for brewing potions.
  */
 public class Pouch {
+    private List<Potion> registeredPotions = new ArrayList<>();
+
+    /**
+     * Register a potion with this pouch.
+     *
+     * @param potion The potion to register
+     */
+    public void registerPotion(Potion potion) {
+        registeredPotions.add(potion);
+    }
 
     /**
      * Check if the actor has all required ingredients for a potion with specific requirements.
@@ -23,7 +29,7 @@ public class Pouch {
      * @param requiredCapabilities The list of capabilities needed
      * @return true if the actor has all ingredients, false otherwise
      */
-    private boolean hasRequiredIngredients(Actor actor, List<Status> requiredCapabilities) {
+    public boolean hasRequiredIngredients(Actor actor, List<Status> requiredCapabilities) {
         // Get a copy of the required capabilities
         List<Status> remainingRequirements = new ArrayList<>(requiredCapabilities);
 
@@ -93,23 +99,11 @@ public class Pouch {
     public List<Action> getBrewingActions(Actor actor) {
         List<Action> actions = new ArrayList<>();
 
-        // Check for Poison Potion
-        List<Status> poisonReq = Arrays.asList(Status.CURSED, Status.DRINKABLE);
-        if (hasRequiredIngredients(actor, poisonReq)) {
-            actions.add(new BrewPoisonPotionAction(this, poisonReq));
-        }
-
-        // Check for Healing Potion
-        List<Status> healingReq = Arrays.asList(Status.BLESSED, Status.DRINKABLE);
-        if (hasRequiredIngredients(actor, healingReq)) {
-            actions.add(new BrewHealingPotionAction(this, healingReq));
-        }
-
-        // Check for Crazy Potion
-        List<Status> crazyReq = Arrays.asList(Status.BLESSED, Status.BLESSED, Status.BLESSED,
-                Status.DRINKABLE, Status.DRINKABLE);
-        if (hasRequiredIngredients(actor, crazyReq)) {
-            actions.add(new BrewCrazyPotionAction(this, crazyReq));
+        // Check each registered potion
+        for (Potion potion : registeredPotions) {
+            if (hasRequiredIngredients(actor, potion.getRequiredIngredients())) {
+                actions.add(potion.getBrewingAction(this));
+            }
         }
 
         return actions;

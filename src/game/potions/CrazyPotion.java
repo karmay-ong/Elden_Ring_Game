@@ -1,18 +1,25 @@
 package game.potions;
 
+import java.util.Arrays;
+import java.util.List;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;
-import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Status;
 import game.effects.CrazyEffect;
 
 /**
  * A crazy potion that drastically increases max health and damage.
- *
- * @author Kian Lok Chin
  */
 public class CrazyPotion extends Potion {
     private static final int EFFECT_DURATION = 10;
+
+    /**
+     * The required ingredients to brew this potion
+     */
+    private static final List<Status> REQUIRED_INGREDIENTS = Arrays.asList(
+            Status.BLESSED, Status.BLESSED, Status.BLESSED,
+            Status.DRINKABLE, Status.DRINKABLE
+    );
 
     /**
      * Constructor for CrazyPotion
@@ -41,5 +48,24 @@ public class CrazyPotion extends Potion {
     @Override
     protected StatusEffect createEffect(Actor target) {
         return new CrazyEffect(EFFECT_DURATION); // Lasts for 10 ticks
+    }
+
+    /**
+     * Get the required ingredients to brew this potion.
+     *
+     * @return A list of required Status capabilities
+     */
+    @Override
+    public List<Status> getRequiredIngredients() {
+        return REQUIRED_INGREDIENTS;
+    }
+
+    /**
+     * Creates a new instance of this potion type
+     * @return A new potion instance
+     */
+    @Override
+    public Potion createNewInstance() {
+        return new CrazyPotion();
     }
 }

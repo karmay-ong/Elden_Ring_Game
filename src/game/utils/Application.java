@@ -25,6 +25,7 @@ import game.items.*;
 import game.potions.CrazyPotion;
 import game.potions.HealingPotion;
 import game.potions.PoisonPotion;
+import game.potions.Pouch;
 import game.time.EnvironmentalStatusSystem;
 
 import java.util.ArrayList;
@@ -108,8 +109,13 @@ public class Application {
             }
         }
 
+        Pouch pouch = new Pouch();
+        pouch.registerPotion(new HealingPotion());
+        pouch.registerPotion(new PoisonPotion());
+        pouch.registerPotion(new CrazyPotion());
+
         // Create and position the player
-        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36);
+        Player player = new Player("\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF3EFarmer", '@', 100, 200, 36, pouch);
         world.addPlayer(player, gameMap.at(23, 10));
         player.addBalance(100000000);
         EnvironmentalStatusSystem.initialize(player, gameMap);
@@ -122,6 +128,18 @@ public class Application {
         beetleEffects.add(new HealEffect(15));
         beetleEffects.add(new IncreaseBalanceEffect(1000));
 
+//        player.addItemToInventory(new Meat("Meat1", Status.BLESSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.CURSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.BLESSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.CURSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.CURSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.BLESSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.BLESSED));
+//        player.addItemToInventory(new Meat("Meat1", Status.BLESSED));
+//        player.addItemToInventory(new WaterBucket());
+//        player.addItemToInventory(new WaterBucket());
+//        player.addItemToInventory(new WaterBucket());
+//        player.addItemToInventory(new WaterBucket());
 
         player.addItemToInventory(new PoisonPotion());
         player.addItemToInventory(new HealingPotion());
@@ -144,8 +162,8 @@ public class Application {
         gameMap.addActor(new Guts(), gameMap.at(12, 12));
 
         // Add starting items to player's inventory
-        player.addItemToInventory(new Seed(new Inheritree()));
-        player.addItemToInventory(new Seed(new Bloodrose()));
+//        player.addItemToInventory(new Seed(new Inheritree()));
+//        player.addItemToInventory(new Seed(new Bloodrose()));
         // Add items to the game world
         gameMap.at(24, 11).addItem(new Talisman());
 

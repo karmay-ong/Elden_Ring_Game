@@ -36,14 +36,14 @@ public class Player extends Actor {
      * @param hitPoints   Player's starting number of hitpoints
      * @param stamina     Player's starting stamina points
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina, int temperature) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, int temperature, Pouch potionPouch) {
         super(name, displayChar, hitPoints);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.FOLLOWABLE);
         this.setIntrinsicWeapon(new BareFist());
         this.temperature = temperature;
-        this.potionPouch = new Pouch();
+        this.potionPouch =potionPouch;
     }
 
     /**

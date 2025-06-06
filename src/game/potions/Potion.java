@@ -1,5 +1,7 @@
 package game.potions;
 
+import java.util.List;
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
@@ -7,13 +9,13 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actors.StatusEffect;
+import game.actions.BrewPotionAction;
 import game.actions.DrinkPotionAction;
 import game.actions.ThrowPotionAction;
+import game.actors.Status;
 
 /**
  * Abstract class representing potions that can be drunk or thrown.
- *
- * @author Kian Lok Chin
  */
 public abstract class Potion extends Item {
 
@@ -45,6 +47,24 @@ public abstract class Potion extends Item {
     protected abstract StatusEffect createEffect(Actor target);
 
     /**
+     * Get the required ingredients to brew this potion.
+     * Each potion type will implement this to specify its recipe.
+     *
+     * @return A list of required Status capabilities
+     */
+    public abstract List<Status> getRequiredIngredients();
+
+    /**
+     * Create a brewing action for this potion.
+     *
+     * @param pouch The pouch used for brewing
+     * @return The brewing action
+     */
+    public Action getBrewingAction(Pouch pouch){
+        return new BrewPotionAction(pouch,this);
+    };
+
+    /**
      * Throw/drop the potion, applying its effect to surrounding actors.
      *
      * @param location The location where the potion is thrown
@@ -53,6 +73,13 @@ public abstract class Potion extends Item {
     public void throwPotion(Location location, GameMap map) {
         applyToSurroundingActors(location, map);
     }
+
+    /**
+     * Creates a new instance of this potion type
+     * @return A new potion instance
+     */
+    public abstract Potion createNewInstance();
+
 
     /**
      * Apply an effect to all actors in adjacent tiles.
@@ -92,5 +119,4 @@ public abstract class Potion extends Item {
         actions.add(new ThrowPotionAction(this));
         return actions;
     }
-
 }

@@ -1,21 +1,28 @@
 package game.potions;
 
+import java.util.Arrays;
+import java.util.List;
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;
-import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Status;
 import game.effects.HealingEffect;
+import game.actions.BrewPotionAction;
 
 /**
  * A healing potion that restores health.
- *
- * @author Kian Lok Chin
  */
 public class HealingPotion extends Potion {
-
     private static final int DRINK_HEAL_AMOUNT = 20;
     private static final int THROW_HEAL_AMOUNT = 10;
     private static final int HEAL_EFFECT_DURATION = 5;
+
+    /**
+     * The required ingredients to brew this potion
+     */
+    private static final List<Status> REQUIRED_INGREDIENTS = Arrays.asList(
+            Status.BLESSED, Status.DRINKABLE
+    );
 
     /**
      * Constructor for HealingPotion
@@ -44,5 +51,24 @@ public class HealingPotion extends Potion {
     @Override
     protected StatusEffect createEffect(Actor target) {
         return new HealingEffect(THROW_HEAL_AMOUNT, HEAL_EFFECT_DURATION);
+    }
+
+    /**
+     * Get the required ingredients to brew this potion.
+     *
+     * @return A list of required Status capabilities
+     */
+    @Override
+    public List<Status> getRequiredIngredients() {
+        return REQUIRED_INGREDIENTS;
+    }
+
+    /**
+     * Creates a new instance of this potion type
+     * @return A new potion instance
+     */
+    @Override
+    public Potion createNewInstance() {
+        return new HealingPotion();
     }
 }

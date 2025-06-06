@@ -51,8 +51,8 @@ public class EnvironmentalStatusSystem {
         this.weatherDuration = 0;
 
         weatherEffects.add(new SnowEffect());
-//        weatherEffects.add(new AcidRainEffect());
-//        weatherEffects.add(new WarmEffect());
+        weatherEffects.add(new AcidRainEffect());
+        weatherEffects.add(new WarmEffect());
         currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
     }
 
@@ -99,6 +99,7 @@ public class EnvironmentalStatusSystem {
                 currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
                 WeatherEffect newWeather;
                 do {
+                    System.out.println("LOOP");
                     newWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
 
                 } while (newWeather == currentWeather);
