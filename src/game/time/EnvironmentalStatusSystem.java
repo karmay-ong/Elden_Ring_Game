@@ -99,7 +99,6 @@ public class EnvironmentalStatusSystem {
                 currentWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
                 WeatherEffect newWeather;
                 do {
-                    System.out.println("LOOP");
                     newWeather = weatherEffects.get(random.nextInt(weatherEffects.size()));
 
                 } while (newWeather == currentWeather);
@@ -113,4 +112,3 @@ public class EnvironmentalStatusSystem {
         return currentWeather;
     }
 }
-
