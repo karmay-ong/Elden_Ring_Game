@@ -408,3 +408,5 @@ The party of adventurers—Lyria the Ranger, Torvik the Warrior, and Nyssa the M
 - **Resource Trade-Off:** Nyssa sacrificed a single-use Poison Potion to neutralize multiple threats, preventing a more dangerous melee.
 - **Strategic Positioning:** By throwing from a safe distance, the party avoided direct engagement with all three enemies at once.
 - **Follow-Up Actions:** Torvik capitalized on the lizard’s stagger to eliminate the last foe before it could bite again.
+
+[Approved by TAs.]
