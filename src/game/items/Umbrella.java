@@ -67,8 +67,6 @@ public class Umbrella extends Item implements Sellable {
      * @param actor the actor using the umbrella
      */
     public void use(Actor actor) {
-        Display display = new Display();
-
         if (!isOpen) {
             isOpen = true;
             actor.addCapability(Ability.BLOCK_ACID_RAIN);
