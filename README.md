@@ -229,7 +229,7 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 - Deals damage over time
 
-### 🌟 CrazyEffect
+### 🤪 CrazyEffect
 
 - Alters actor behavior or stats for a duration
 
