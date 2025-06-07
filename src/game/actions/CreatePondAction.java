@@ -48,6 +48,6 @@ public class CreatePondAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " creates a pond";
+        return actor + " creates a pond\uD83C\uDFDE\uFE0F";
     }
 }

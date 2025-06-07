@@ -39,7 +39,7 @@ public class BrewPotionAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         if (pouch.consumeIngredients(actor, potionType.getRequiredIngredients())) {
-            Potion newPotion = potionType.createNewInstance();
+            Potion newPotion = potionType.getPotion();
             actor.addItemToInventory(newPotion);
             return actor + " brewed a " + newPotion;
         } else {

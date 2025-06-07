@@ -11,6 +11,8 @@ import game.actions.BrewPotionAction;
 
 /**
  * A healing potion that restores health.
+ *
+ * @author Kian Lok Chin
  */
 public class HealingPotion extends Potion {
     private static final int DRINK_HEAL_AMOUNT = 20;
@@ -68,7 +70,7 @@ public class HealingPotion extends Potion {
      * @return A new potion instance
      */
     @Override
-    public Potion createNewInstance() {
+    public Potion getPotion() {
         return new HealingPotion();
     }
 }

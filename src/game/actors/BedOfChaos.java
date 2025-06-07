@@ -34,7 +34,7 @@ public class BedOfChaos extends Actor implements Growable {
     /**
      * Priority-ordered behaviours for this actor.
      */
-    protected Map<Integer, Behaviour> behaviours;
+    private Map<Integer, Behaviour> behaviours;
 
     /**
      * Components (growable parts) attached to the Bed of Chaos.
@@ -44,7 +44,7 @@ public class BedOfChaos extends Actor implements Growable {
     /**
      * Initial hitpoints for the Bed of Chaos.
      */
-    public static int BED_OF_CHAOS_HITPOINTS = 1000;
+    private static int BED_OF_CHAOS_HITPOINTS = 1000;
 
     /**
      * Priority key for the AttackBehaviour in the behaviours map.

@@ -11,6 +11,8 @@ import game.actions.BrewPotionAction;
 
 /**
  * A poison potion that damages actors.
+ *
+ * @author Kian Lok Chin
  */
 public class PoisonPotion extends Potion {
     private static final int DRINK_DAMAGE_AMOUNT = 15;
@@ -68,7 +70,7 @@ public class PoisonPotion extends Potion {
      * @return A new potion instance
      */
     @Override
-    public Potion createNewInstance() {
+    public Potion getPotion() {
         return new PoisonPotion();
     }
 }

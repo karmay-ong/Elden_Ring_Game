@@ -9,6 +9,8 @@ import game.actors.Status;
 
 /**
  * A pouch for brewing potions.
+ *
+ * @author Kian Lok Chin
  */
 public class Pouch {
     private List<Potion> registeredPotions = new ArrayList<>();

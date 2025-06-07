@@ -16,6 +16,8 @@ import game.actors.Status;
 
 /**
  * Abstract class representing potions that can be drunk or thrown.
+ *
+ * @author Kian Lok Chin
  */
 public abstract class Potion extends Item {
 
@@ -78,7 +80,7 @@ public abstract class Potion extends Item {
      * Creates a new instance of this potion type
      * @return A new potion instance
      */
-    public abstract Potion createNewInstance();
+    public abstract Potion getPotion();
 
 
     /**

@@ -9,6 +9,8 @@ import game.effects.CrazyEffect;
 
 /**
  * A crazy potion that drastically increases max health and damage.
+ *
+ * @author Kian Lok Chin
  */
 public class CrazyPotion extends Potion {
     private static final int EFFECT_DURATION = 10;
@@ -65,7 +67,7 @@ public class CrazyPotion extends Potion {
      * @return A new potion instance
      */
     @Override
-    public Potion createNewInstance() {
+    public Potion getPotion() {
         return new CrazyPotion();
     }
 }
