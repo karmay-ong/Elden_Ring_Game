@@ -100,13 +100,11 @@ Designed with scalability in mind (and more than a few sneaky surprises for futu
 🔥 **UseTorchAction**
 
 - Handles torch lighting/extinguishing
-- Manages torch use count
 - Provides warmth effect
 
 ☔ **UseUmbrellaAction**
 
 - Controls umbrella opening/closing
-- Manages umbrella use count
 - Provides rain protection
 
 ---
