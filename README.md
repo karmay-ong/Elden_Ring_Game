@@ -46,7 +46,7 @@ Designed with scalability in mind (and more than a few sneaky surprises for futu
 - Controls weather transitions and effects
 - Manages weather duration and change probability
 - Notifies player of weather changes
-- Applies weather effects each turn
+- Applies weather effects each turn (effects only apply to the Player)
 
 ---
 
@@ -73,8 +73,9 @@ Designed with scalability in mind (and more than a few sneaky surprises for futu
 
 ☀️ **WarmEffect**
 
-- Normal weather conditions
-- No negative effects on player
+- Reduces the player's stamina while increasing their body temperature during warm weather.
+
+- If the player's temperature rises too high (beyond safe limits), the player becomes unconscious (effectively “dies” in-game).
 
 ---
 
@@ -85,14 +86,12 @@ Designed with scalability in mind (and more than a few sneaky surprises for futu
 🔥 **Torch**
 
 - Provides warmth during snow
-- Limited to 3 uses
 - Can be extinguished by acid rain
 
 ☂️ **Umbrella**
 
 - Protects against acid rain
 - Can be opened/closed
-- Limited to 3 uses
 
 ---
 
@@ -161,8 +160,8 @@ The player enters a cold biome while the **SnowEffect** is active.
 
 - **Turn 1:** Weather message displays: “heavy snow rages...” Player’s temperature drops.
 - **Turn 4:** Player can use the **Torch** to restore temperature.
-- **Turn 5–6:** Snow continues. Player stays warm with the Torch, but Torch’uses decrease.
-- **Turn 7:** Torch is depleted. If not protected, the player becomes unconscious due to hypothermia.
+- **Turn 5–6:** Snow continues. Player stays warm with the Torch.
+- **Turn 7:** If not protected, the player becomes unconscious due to hypothermia.
 
 **Outcome:**
 
@@ -231,7 +230,13 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 ### 🤪 CrazyEffect
 
-- Alters actor behavior or stats for a duration
+- Temporarily doubles the actor's maximum health and heals to full.
+
+- Lasts for a fixed duration (default 10 ticks).
+
+- On expiry, resets maximum health to the original value.
+
+- Displays a message on activation.
 
 ---
 
@@ -319,6 +324,7 @@ Each potion provides **two tactical usage options**:
 - **Throw** *(area effect on multiple targets)*:
   - **Healing Potion**: Restores **10 HP per turn** to all in area
   - **Poison Potion**: Deals **5 damage per turn** to all in area
+  - **Crazy Potion**: Grants **double max HP** to all in area
   - Affects the **center tile** and all **adjacent tiles**
 
 #### 4. Effect Resolution
@@ -340,81 +346,38 @@ Each potion provides **two tactical usage options**:
 
 ---
 
-### 🎯 Scenario: Poison Cloud Ambush
+## 🎯 Scenario: Bed of Chaos Encounter
 
 **Context:**
 
-The party of adventurers—Lyria the Ranger, Torvik the Warrior, and Nyssa the Mage—enters a narrow canyon known as the Serpent’s Gorge. Rumor has it that a band of venomous rattler-lizards nests here, ready to strike. The party’s last vial is a **Poison Potion**, intended for area denial rather than single-target use.
+Player faces the **Bed of Chaos** boss (1000 HP) in Limveld with limited potions. The stationary tree boss either attacks nearby players or grows when alone.
 
-- **Player Inventory:**
-    - 1× Poison Potion
-    - 1× Healing Potion
-    - Basic weapons and light armor
-- **Map Setup:**
-    - A winding corridor, 3 tiles wide, lined with rocky outcrops.
-    - Enemy rattler-lizards patrol in a cluster near the midpoint.
+**Inventory:** 1× Poison Potion, 1× Healing Potion, 1× Crazy Potion
 
----
+## **🎮 Turn 1: Poison Zone**
 
-## 🎮 Turn 1: The Tactical Setup
+- **Action:** Throw Poison Potion at boss
+- **Effect:** 3x3 toxic area, boss takes 5 damage/turn
+- **Boss Response:** Attacks player (player nearby)
 
-**Player Action:**
-- Throws **Poison Potion** into the narrow corridor
-- Creates a **3x3 toxic barrier** between the party and enemies
+## **🎮 Turn 2: Strategic Retreat**
 
-**Environment Effect:**
-- **Purple mist** spreads across the corridor
-- Covers the **choke point** where rattler-lizards are clustered
+- **Poison:** Boss takes second tick (10 total damage)
+- **Player:** Moves away from boss
+- **Boss Response:** Grows new branches (player distant)
 
-**Enemy Status:**
-- **Three rattler-lizards** caught in the initial poison cloud
-- Each affected enemy takes **5 damage**
-- **Two enemies** begin showing signs of poisoning
+## **🎮 Turn 3: Recovery Strategy**
 
----
+- **Action:** Drink Crazy Potion (double max HP), throw Healing Potion
+- **Effect:** Enhanced survivability + healing zone
+- **Boss Response:** Grows leaves for self-healing (player distant)
 
-## 🎮 Turn 2: The Poison Spreads
 
-**Poison Effect:**
-- Poison cloud **remains active** in the corridor
-- Affected enemies take a **second wave of damage** (**10 total**)
-- **Visible weakening** of poisoned rattler-lizards
+**🔍 Outcome**
 
-**Enemy Response:**
-- **Two unaffected** rattler-lizards attempt to **circle around**
-- Poisoned enemies **struggle to maintain formation**
-- **One rattler-lizard retreats** from the poison area
-
-**Party Position:**
-- Maintains **defensive formation** behind the poison cloud
-- Prepares for **potential flanking maneuvers**
+Strategic positioning controlled boss behavior: close proximity triggered attacks, distance allowed growth. Poison provided consistent damage while healing zones enabled sustained combat positioning.
 
 ---
 
-## 🎮 Turn 3: The Counter Attack
-
-**Combat Situation:**
-- **Flanking rattler-lizards** reach the party’s position
-- **One party member** takes **significant damage**
-- Poison continues affecting trapped enemies (**15 total damage**)
-
-**Player Response:**
-- Uses **Healing Potion** for emergency recovery
-- Gains **20 HP** instantly
-- Repositions for a **stronger defensive stance**
-
-**Battlefield State:**
-- Poison cloud continues to **deny the central corridor**
-- Weakened enemies **split between retreat and advance**
-- Party gains a **healing advantage** for upcoming rounds
-
----
-
-### 🔍 Outcome
-
-- **Optimal Use of AoE:** Throwing the **Poison Potion** at the clustered rattler-lizards inflicted area damage, rapidly thinning their numbers.
-- **Resource Trade-Off:** Nyssa sacrificed a single-use Poison Potion to neutralize multiple threats, preventing a more dangerous melee.
-- **Strategic Positioning:** By throwing from a safe distance, the party avoided direct engagement with all three enemies at once.
-- **Follow-Up Actions:** Torvik capitalized on the lizard’s stagger to eliminate the last foe before it could bite again.
 
 [Approved by TAs.]

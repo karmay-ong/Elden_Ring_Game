@@ -18,7 +18,7 @@ import java.util.List;
  *
  * When opened, it grants protection against acid rain and sun by adding
  * the capabilities BLOCK_ACID_RAIN and BLOCK_SUN to the actor.
- * The umbrella can be opened a limited number of times before it breaks and is removed.
+ * The umbrella can be toggled infinitely without breaking.
  *
  * When sold, the umbrella grants a small healing effect.
  *
@@ -27,7 +27,6 @@ import java.util.List;
 public class Umbrella extends Item implements Sellable {
 
     private boolean isOpen = false;
-    private int openCount = 0;
     private static final int HEAL_AMOUNT = 5;
 
     /**
@@ -62,9 +61,7 @@ public class Umbrella extends Item implements Sellable {
     /**
      * Toggles the umbrella's open/closed state.
      *
-     * If currently closed, opens the umbrella, adds protection capabilities,
-     * and increments the open count. If open count exceeds 3, the umbrella breaks.
-     *
+     * If currently closed, opens the umbrella and adds protection capabilities.
      * If currently open, closes the umbrella and removes protection capabilities.
      *
      * @param actor the actor using the umbrella
@@ -72,15 +69,8 @@ public class Umbrella extends Item implements Sellable {
     public void use(Actor actor) {
         Display display = new Display();
 
-        if (openCount >= 3) {
-            actor.removeItemFromInventory(this);
-            display.println(actor + "'s Umbrella broke and is discarded.");
-            return;
-        }
-
         if (!isOpen) {
             isOpen = true;
-            openCount++;
             actor.addCapability(Ability.BLOCK_ACID_RAIN);
             actor.addCapability(Ability.BLOCK_SUN);
         } else {
