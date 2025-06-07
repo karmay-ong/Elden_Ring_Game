@@ -62,7 +62,7 @@ Designed with scalability in mind (and more than a few sneaky surprises for futu
 🌨️ **SnowEffect**
 
 - Reduces player temperature each turn
-- Causes unconsciousness if temperature is unsafe
+- Causes unconsciousness if temperature is unsafe(If player's temperature is <= 12 or >= 50)
 - Can be countered by Torch item
 
 ☔ **AcidRainEffect**
@@ -186,11 +186,17 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 - Manages drinking/throwing mechanics
 - Handles action creation
 
-### 🥩 Meat (Abstract)
+### 🥩 Meat
 
-- Base for all meat items
-- Implements eating mechanics
-- Manages inventory interactions
+- Base class for creature materials
+- Can have BLESSED or CURSED capabilities
+- Specific meat types from different creatures
+
+
+### 💧 WaterBucket
+
+- Ingredient with the **DRINKABLE** capability
+- Allows for collecting and using water
 
 ---
 
@@ -210,27 +216,6 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 - Temporarily increases max health or induces unpredictable behavior
 - Applies a timed effect
-
----
-
-### 3. Ingredients
-
-### 🐑 OmenSheepMeat
-
-- Ingredient with the **BLESSED** capability
-
-### 🐐 SpiritGoatMeat
-
-- Ingredient with the **BLESSED** capability
-
-### 🪲 GoldenBeetleMeat
-
-- Ingredient with the **CURSED** capability
-
-### 💧 WaterBucket
-
-- Ingredient with the **DRINKABLE** capability
-- Allows for collecting and using water
 
 ---
 
@@ -262,17 +247,26 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 - Enables potion throwing
 - Affects area or target with potion effect
 
-### 🧪 BrewHealingPotionAction
+### 🧪 BrewPotionAction
 
-- Brews a healing potion using specific ingredients
+- Unified brewing action managed through Pouch system
 
-### ☠️ BrewPoisonPotionAction
+- Pouch validates ingredient combinations
 
-- Brews a poison potion using specific ingredients
+- Creates appropriate potion based on available ingredients
 
-### 🌪️ BrewCrazyPotionAction
+- Consumes ingredients upon successful brewing
 
-- Brews a crazy potion using specific ingredients
+- Determines potion type based on ingredient capabilities:
+
+  - BLESSED + DRINKABLE → Healing Potion
+
+  - CURSED + DRINKABLE → Poison Potion
+
+  - 3x BLESSED + 2x DRINKABLE → Crazy Potion
+
+
+
 
 ### 🪣 CollectWaterAction
 
@@ -299,25 +293,39 @@ Demonstrates the dynamic interaction between **SnowEffect** and the **Torch**, h
 
 ---
 
-## 🔄 System Flow
+### 🔄 System Flow
 
-### 1. 📥 Ingredient Collection
+#### 1. Ingredient Management
+- Players collect **blessed meats** from creatures.
+- **Water** can be gathered from ponds using the `WaterBucket`.
+- Items are stored in the player's inventory with appropriate **Status** tags:
+  - `BLESSED`
+  - `CURSED`
+  - `DRINKABLE`
 
-- Players gather components tagged with relevant capabilities (Blessed, Cursed, Drinkable)
+#### 2. Brewing Process
+- The **Pouch** checks the inventory for required `Status` combinations.
+- Valid brewing actions become available when all requirements are met.
+- Ingredients are **consumed** upon successful brewing.
 
-### 2. 🧪 Potion Brewing
+#### 3. Potion Usage
+Each potion provides **two tactical usage options**:
 
-- The player uses a Pouch to create brewing actions
-- Valid actions become available depending on ingredients
+- **Drink** *(stronger effect on single target - self)*:
+  - **Healing Potion**: Restores **20 HP per turn**
+  - **Poison Potion**: Deals **15 damage per turn**
+  - **Crazy Potion**: Grants **double max HP**
 
-### 3. 🎯 Potion Usage
+- **Throw** *(area effect on multiple targets)*:
+  - **Healing Potion**: Restores **10 HP per turn** to all in area
+  - **Poison Potion**: Deals **5 damage per turn** to all in area
+  - Affects the **center tile** and all **adjacent tiles**
 
-- Players can **drink** for strong effects or **throw** for AoE (area-of-effect) utility
-
-### 4. ✨ Effect Application
-
-- Effects are instantiated via the potion and applied to the actor
-- Effects run each turn using the `tick()` method
+#### 4. Effect Resolution
+- Effects are applied via the **StatusEffect system**.
+- Each effect **ticks independently** every turn.
+- Effects **automatically expire** when their duration ends.
+- **Multiple effects can stack** on a single target.
 
 
 ---
